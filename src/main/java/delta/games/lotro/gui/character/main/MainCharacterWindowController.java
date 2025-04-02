@@ -47,6 +47,7 @@ import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.LayoutUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.events.EventsManager;
@@ -221,8 +222,8 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     panel.add(_importDate,c);
     // Tabs
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
-    tabs.add("Summary",buildTab1());
-    tabs.add("Gear",buildTab2());
+    tabs.add(Labels.getLabel("main.character.window.tab.summary.name"),buildTab1());
+    tabs.add(Labels.getLabel("main.character.window.tab.gear.name"),buildTab2());
     c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tabs,c);
     return panel;
@@ -250,12 +251,12 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
-    summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
+    summaryPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.summary.name")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
     // XP
     JPanel xpPanel=_xp.getPanel();
-    xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
+    xpPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.xp.name")));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(xpPanel,c);
     // Wealth
@@ -270,12 +271,12 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Storage
     JPanel storagePanel=_storage.getPanel();
-    storagePanel.setBorder(GuiFactory.buildTitledBorder("Storage"));
+    storagePanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.storage.name")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(storagePanel,c);
     // Money
     JPanel moneyPanel=_money.getPanel();
-    moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
+    moneyPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.money.name")));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(moneyPanel,c);
     // Buttons
@@ -285,7 +286,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel buttonsPanel=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
     c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
-    ret.setBorder(GuiFactory.buildTitledBorder("Wealth"));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.wealth.name")));
     return ret;
   }
 
@@ -307,7 +308,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     panel.add(column1,c);
     // Hobbies & Crafting
     JPanel hobbiesStatusPanel=_hobbies.getPanel();
-    hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
+    hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.hobbies.name")));
     JPanel craftingStatusPanel=buildCraftingPanel();
     List<JComponent> componentsColumn2=new ArrayList<JComponent>();
     componentsColumn2.add(hobbiesStatusPanel);
@@ -346,7 +347,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel buttonsPanel=LayoutUtils.buildHorizontalPanel(buttons,buttons.size());
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
-    ret.setBorder(GuiFactory.buildTitledBorder("Crafting"));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.crafting.name")));
     return ret;
   }
 
@@ -366,7 +367,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel buttonsPanel=buildAchievementsButtonsPanel();
     c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
-    ret.setBorder(GuiFactory.buildTitledBorder("Achievements"));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.achievements.name")));
     return ret;
   }
 
@@ -405,7 +406,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.REPUTATION_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.ALLEGIANCES_COMMAND));
     JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
-    ret.setBorder(GuiFactory.buildTitledBorder("Reputation"));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.reputation.name")));
     return ret;
   }
 
@@ -435,7 +436,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel line4=LayoutUtils.buildHorizontalPanel(buttonsLine4,buttonsLine4.size());
     verticalList.add(line4);
     JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());
-    ret.setBorder(GuiFactory.buildTitledBorder("Capabilities & Collections"));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.capaCollecs.name")));
     return ret;
   }
 
@@ -447,7 +448,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));
     JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
-    ret.setBorder(GuiFactory.buildTitledBorder("Misc."));
+    ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.misc.name")));
     return ret;
   }
 
@@ -480,19 +481,14 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Equipment
     JPanel gearPanel=_gear.getPanel();
-    gearPanel.setBorder(GuiFactory.buildTitledBorder("Gear"));
+    gearPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.gear.name")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(gearPanel,c);
     // Virtues
     JPanel virtuesPanel=_virtues.getPanel();
-    virtuesPanel.setBorder(GuiFactory.buildTitledBorder("Virtues"));
+    virtuesPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.virtues.name")));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(virtuesPanel,c);
-    // Racial traits
-    JPanel racialTraitPanel=_racialTraits.getPanel();
-    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
-    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(racialTraitPanel,c);
     return panel;
   }
 
@@ -501,7 +497,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Racial traits
     JPanel racialTraitPanel=_racialTraits.getPanel();
-    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
+    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.racialTraits.name")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(racialTraitPanel,c);
     // Buttons
@@ -525,7 +521,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Stats
     JPanel statsPanel=_stats.getPanel();
-    statsPanel.setBorder(GuiFactory.buildTitledBorder("Stats"));
+    statsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.stats.name")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
     return panel;
