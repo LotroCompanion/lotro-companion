@@ -53,7 +53,7 @@ public class ClientImportHowToPanelController
   private String getHowToText()
   {
     StringBuilder sb=new StringBuilder(); // I18n
-    sb.append("1) Start your 32-bit or 64-bit LOTRO client for Windows.");
+    sb.append("1) Start your 64-bit LOTRO client for Windows (no more 32-bit support).");
     sb.append(EndOfLine.UNIX);
     sb.append("2) Click on the Start Button when:");
     sb.append(EndOfLine.UNIX);
@@ -73,7 +73,12 @@ public class ClientImportHowToPanelController
     sb.append("Option b) is slower but it will get all the possible data for the chosen character.");
     sb.append(EndOfLine.UNIX);
     sb.append(EndOfLine.UNIX);
-    sb.append("Note that vault data is available only if the corresponding vault has been opened during the session.");
+    sb.append("Vaults: data is available only if the vault has been opened just before import. For full import:");
+    sb.append(EndOfLine.UNIX);
+    sb.append("Go to a storage NPC. Open the shared vault, the own vault and the wardrobe. Then perform import..");
+    sb.append(EndOfLine.UNIX);
+    sb.append(EndOfLine.UNIX);
+    sb.append("Housing: 2 imports are needed for full data. One inside the house and one in the garden.");
     sb.append(EndOfLine.UNIX);
     return sb.toString();
   }
