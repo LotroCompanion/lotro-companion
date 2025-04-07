@@ -111,7 +111,10 @@ public class CarryAllFilterController extends ObjectFilterPanelController
     if (textField==_nameContains)
     {
       String text=textField.getText();
-      if (text.length()==0) text=null;
+      if (text.isEmpty())
+      {
+        text=null;
+      }
       _filter.getNameFilter().setPattern(text);
     }
     filterUpdated();

@@ -33,9 +33,8 @@ public class MainDumpHtml
   /**
    * Main method for this tool.
    * @param args Not used.
-   * @throws Exception if an error occurs.
    */
-  public static void main(String[] args) throws Exception
+  public static void main(String[] args)
   {
     dumpQuests();
     dumpDeedsAsText();
@@ -85,7 +84,6 @@ public class MainDumpHtml
     {
       AchievableProxiesResolver.resolve(deed);
       sb.append(deed.getIdentifier()+" - "+deed.getName()).append(EndOfLine.NATIVE_EOL);
-      //sb.append("Description: ").append(deed.getDescription()).append(EndOfLine.NATIVE_EOL);
       ObjectivesManager objectivesMgr=deed.getObjectives();
       List<Objective> objectives=objectivesMgr.getObjectives();
       for(Objective objective : objectives)
@@ -94,7 +92,7 @@ public class MainDumpHtml
         sb.append("Objective #").append(index).append(": ");
         String text=objective.getDescription();
         text=ContextRendering.render((AreaController)null,text);
-        if (text.length()>0)
+        if (!text.isEmpty())
         {
           sb.append(TextSanitizer.removeColorHints(text));
         }

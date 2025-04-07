@@ -54,37 +54,13 @@
 	<!-- ********************** COTS ****************** -->
 	<!-- logback himself -->
 	<logger name="ch.qos.logback" level="WARN"/>
-	<!-- Java -->
-	<!--
-	<logger name="java" level="OFF"/>
-	<logger name="sun" level="OFF"/>
-	-->
-	<!-- AWT... -->
-	<!--
-	<logger name="java.awt" level="OFF"/>
-	<logger name="sun.awt" level="OFF"/>
-	-->
-	<!-- Swing, activation... -->
-	<!--
-	<logger name="javax" level="OFF"/>
-	<logger name="javax.swing" level="INHERITED"/>
-	<logger name="javax.activation" level="INHERITED"/>
-	-->
 	<!-- JAXB -->
 	<logger name="com.sun.xml" level="INHERITED"/>
 
 	<!-- root logger level: TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF-->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
-
 		<!-- Use only one at a time: ASYNC-FILE or TIME_BASED_FILE -->
-		<!-- 
-		<appender-ref ref="ASYNC-FILE" />
-		-->
 		<appender-ref ref="TIME_BASED_FILE" />
-
-		<!--
-		<appender-ref ref="SOCKET" />
-		-->
 	</root>
 </configuration>

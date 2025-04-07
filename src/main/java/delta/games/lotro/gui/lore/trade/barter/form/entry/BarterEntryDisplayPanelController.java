@@ -66,7 +66,7 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
     BarterProfile profile=_entry.getBarterProfile();
     // Profile
     String profileName=profile.getName();
-    if (profileName.length()>0)
+    if (!profileName.isEmpty())
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       JLabel profileLabel=GuiFactory.buildLabel("Profile: "+profileName);
@@ -75,7 +75,7 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
     }
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,profile.getRequirements());
-    if (requirements.length()>0)
+    if (!requirements.isEmpty())
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       JLabel requirementsLabel=GuiFactory.buildLabel("Requirements: "+requirements);

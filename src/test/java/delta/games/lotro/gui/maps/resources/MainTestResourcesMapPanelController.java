@@ -43,7 +43,6 @@ public class MainTestResourcesMapPanelController
   {
     CraftingLevel level=map.getLevel();
     if (!"PROSPECTOR".equals(level.getProfession().getKey())) return false;
-    //if (level.getTier()!=6) return false;
     return true;
   }
 

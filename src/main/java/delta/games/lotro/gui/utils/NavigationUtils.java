@@ -34,7 +34,7 @@ public class NavigationUtils
   {
     if (pageId!=null)
     {
-      LOGGER.info("Display page: "+pageId);
+      LOGGER.info("Display page: {}",pageId);
       NavigatorWindowController navigator=null;
       if (parent instanceof NavigatorWindowController)
       {

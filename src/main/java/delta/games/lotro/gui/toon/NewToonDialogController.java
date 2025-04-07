@@ -232,12 +232,12 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   {
     String errorMsg=null;
     String toonName=_toonName.getText();
-    if ((toonName==null) || (toonName.trim().length()==0))
+    if ((toonName==null) || (toonName.trim().isEmpty()))
     {
       errorMsg="Invalid toon name!"; // I18n
     }
     String server=_server.getSelectedItem();
-    if ((server==null) || (server.trim().length()==0))
+    if ((server==null) || (server.trim().isEmpty()))
     {
       errorMsg="Invalid server name!"; // I18n
     }

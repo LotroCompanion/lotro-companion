@@ -22,18 +22,16 @@ public class MainTestBartererFormWindow
   {
     BarterersManager barterersMgr=BarterersManager.getInstance();
     List<BarterNpc> barterers=barterersMgr.getAll();
-    int index=0;
     for(BarterNpc barterer : barterers)
     {
-      if (useBarterer(barterer,index))
+      if (useBarterer(barterer))
       {
         showBartererWindow(barterer);
       }
-      index++;
     }
   }
 
-  private boolean useBarterer(BarterNpc barterer, int index)
+  private boolean useBarterer(BarterNpc barterer)
   {
     List<BarterProfile> profiles=barterer.getBarterProfiles();
     for(BarterProfile profile : profiles)
@@ -46,24 +44,6 @@ public class MainTestBartererFormWindow
         {
           return true;
         }
-        /*
-        BarterEntryElement toReceive=entry.getElementToReceive();
-        if (toReceive instanceof ReputationBarterEntryElement)
-        {
-          return true;
-        }
-        */
-        /*
-        BarterEntryElement toReceive=entry.getElementToReceive();
-        if (toReceive instanceof ItemBarterEntryElement)
-        {
-          ItemBarterEntryElement itemToReceive=(ItemBarterEntryElement)toReceive;
-          if (itemToReceive.getQuantity()>1)
-          {
-            return true;
-          }
-        }
-        */
       }
     }
     return false;

@@ -27,6 +27,8 @@ import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
  */
 public class DetailedCharacterStatsPanelController
 {
+  private static final String RATING="Rating";
+
   // Controllers
   private HashMap<StatDescription,SingleStatWidgetsController> _ctrls;
   // Data
@@ -200,7 +202,7 @@ public class DetailedCharacterStatsPanelController
     StatDescription[] stats={WellKnownStat.RESISTANCE, WellKnownStat.BLOCK, WellKnownStat.PARRY, WellKnownStat.EVADE};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
-    String[] labelsH=new String[]{"Rating", "Full %", "Partial %", "Mitigation %"};
+    String[] labelsH=new String[]{RATING, "Full %", "Partial %", "Mitigation %"};
     addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;
@@ -243,7 +245,7 @@ public class DetailedCharacterStatsPanelController
         null,null,null,null,null};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
-    String[] labelsH=new String[]{"Rating", "Mitigation %"};
+    String[] labelsH=new String[]{RATING, "Mitigation %"};
     addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;
@@ -294,7 +296,7 @@ public class DetailedCharacterStatsPanelController
     StatDescription[] stats={WellKnownStat.INCOMING_HEALING, WellKnownStat.OUTGOING_HEALING};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
-    String[] labelsH=new String[]{"Rating", "Healing %"};
+    String[] labelsH=new String[]{RATING, "Healing %"};
     addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;

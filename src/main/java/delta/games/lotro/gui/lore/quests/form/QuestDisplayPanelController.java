@@ -491,7 +491,10 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_quest.getUsageRequirement());
-    if (requirements.length()==0) requirements="-";
+    if (requirements.isEmpty())
+    {
+      requirements="-";
+    }
     _requirements.setText(requirements);
     // Attributes
     String attributes=buildAttributesString();

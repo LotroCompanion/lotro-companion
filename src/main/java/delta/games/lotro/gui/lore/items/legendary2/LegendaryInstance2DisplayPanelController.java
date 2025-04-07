@@ -75,7 +75,7 @@ public class LegendaryInstance2DisplayPanelController
     // Name
     String name=attrs.getLegendaryName();
     _name.setText(name);
-    _name.setVisible(name.length()>0);
+    _name.setVisible(!name.isEmpty());
     // Traceries
     _traceries.update();
   }

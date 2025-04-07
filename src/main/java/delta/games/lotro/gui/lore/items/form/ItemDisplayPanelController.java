@@ -403,7 +403,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     }
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_item.getUsageRequirements());
-    if (requirements.length()>0)
+    if (!requirements.isEmpty())
     {
       ret.add("Requirements: "+requirements);
     }
@@ -421,7 +421,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private void handleItemCategory(List<String> ret)
   {
     String category=_item.getSubCategory();
-    if ((category!=null) && (category.length()>0))
+    if ((category!=null) && (!category.isEmpty()))
     {
       String label=category;
       if (_item instanceof Essence)
@@ -546,7 +546,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   {
     JEditorPane editor=null;
     String description=_item.getDescription();
-    if (description.length()>0)
+    if (!description.isEmpty())
     {
       editor=GuiFactory.buildHtmlPanel();
       StringBuilder sb=new StringBuilder();

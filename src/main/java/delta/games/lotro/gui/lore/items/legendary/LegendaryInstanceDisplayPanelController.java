@@ -124,7 +124,7 @@ public class LegendaryInstanceDisplayPanelController
     // Name
     String name=attrs.getLegendaryName();
     _name.setText(name);
-    _name.setVisible(name.length()>0);
+    _name.setVisible(!name.isEmpty());
     // Default legacy stats
     BasicStatsSet defaultLegacyStats=getDefaultStats(attrs);
     _defaultLegacyStats.setText(StatUtils.getStatsForDisplay(defaultLegacyStats));

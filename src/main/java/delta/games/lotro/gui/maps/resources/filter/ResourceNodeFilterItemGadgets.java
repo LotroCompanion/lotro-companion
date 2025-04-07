@@ -49,7 +49,7 @@ public class ResourceNodeFilterItemGadgets
     {
       _sourceItemLink=ItemUiTools.buildItemLink(_parent,sourceItem);
       String icon=sourceItem.getIcon();
-      if ((icon!=null) && (icon.length()>0))
+      if ((icon!=null) && (!icon.isEmpty()))
       {
         _sourceItemIcon=IconControllerFactory.buildItemIcon(_parent,sourceItem,1);
       }

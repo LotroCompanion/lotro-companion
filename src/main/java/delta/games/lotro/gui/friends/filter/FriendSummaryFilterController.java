@@ -141,7 +141,10 @@ public class FriendSummaryFilterController
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           CharacterNameFilter<Friend> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();

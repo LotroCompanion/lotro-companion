@@ -291,7 +291,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
   private JEditorPane buildEditorPane(String input)
   {
     JEditorPane editor=null;
-    if ((input!=null) && (input.length()>0))
+    if ((input!=null) && (!input.isEmpty()))
     {
       editor=GuiFactory.buildHtmlPanel();
       StringBuilder sb=new StringBuilder();

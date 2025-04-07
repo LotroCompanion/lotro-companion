@@ -142,7 +142,10 @@ public class SkillFilterController implements ActionListener
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           SkillNameFilter nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();

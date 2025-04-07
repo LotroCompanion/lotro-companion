@@ -190,7 +190,7 @@ public class SkillDisplayPanelController implements NavigablePanelController
   {
     JEditorPane editor=null;
     String description=_skill.getDescription();
-    if (description.length()>0)
+    if (!description.isEmpty())
     {
       editor=GuiFactory.buildHtmlPanel();
       StringBuilder sb=new StringBuilder();

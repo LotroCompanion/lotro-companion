@@ -110,7 +110,7 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
   {
     String errorMsg=null;
     String accountName=_accountName.getText();
-    if ((accountName==null) || (accountName.trim().length()==0))
+    if ((accountName==null) || (accountName.trim().isEmpty()))
     {
       errorMsg=Labels.getLabel("account.new.validation.error.invalidAccountName");
     }

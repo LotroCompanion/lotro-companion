@@ -142,7 +142,10 @@ public class VendorFilterController implements ActionListener
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           VendorNameFilter nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();

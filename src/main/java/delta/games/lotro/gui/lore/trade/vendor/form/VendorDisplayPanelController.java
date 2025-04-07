@@ -165,7 +165,7 @@ public class VendorDisplayPanelController implements NavigablePanelController
     // Name & title
     String fullName=npc.getName();
     String title=npc.getTitle();
-    if (title.length()>0)
+    if (!title.isEmpty())
     {
       fullName=fullName+" ("+title+")";
     }

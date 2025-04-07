@@ -438,7 +438,7 @@ public class ItemReferencesDisplayController
     String name=npc.getName();
     String label=name;
     String title=npc.getTitle();
-    if (title.length()>0)
+    if (!title.isEmpty())
     {
       label=label+" ("+title+")";
     }

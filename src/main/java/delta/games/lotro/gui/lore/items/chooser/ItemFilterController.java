@@ -515,7 +515,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           _filter.getNameFilter().setPattern(newText);
           filterUpdated();
         }

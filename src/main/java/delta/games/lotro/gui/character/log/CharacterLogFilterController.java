@@ -175,7 +175,10 @@ public class CharacterLogFilterController implements ItemListener
         private void doIt()
         {
           String text=_contains.getText();
-          if (text.length()==0) text=null;
+          if (text.isEmpty())
+          {
+            text=null;
+          }
           _filter.setLabelFilter(text);
           updateFilter();
         }

@@ -149,7 +149,7 @@ public class RelicDisplayPanelController extends AbstractNavigablePanelControlle
     }
     // Type(s)
     String types=_relic.getTypesForDisplay();
-    if ((types!=null) && (types.length()>0))
+    if ((types!=null) && (!types.isEmpty()))
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -158,7 +158,7 @@ public class RelicDisplayPanelController extends AbstractNavigablePanelControlle
     }
     // Allowed slot(s)
     String slots=_relic.getAllowedSlotsForUI();
-    if ((slots!=null) && (slots.length()>0))
+    if ((slots!=null) && (!slots.isEmpty()))
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -167,7 +167,7 @@ public class RelicDisplayPanelController extends AbstractNavigablePanelControlle
     }
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_relic.getUsageRequirement());
-    if (requirements.length()>0)
+    if (!requirements.isEmpty())
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);

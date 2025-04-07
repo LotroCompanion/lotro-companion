@@ -187,7 +187,10 @@ public class LegendaryTitlesFilterController extends ObjectFilterPanelController
   private void textFieldUpdated(JTextField textField)
   {
     String text=textField.getText();
-    if (text.length()==0) text=null;
+    if (text.isEmpty())
+    {
+      text=null;
+    }
     if (textField==_nameContains)
     {
       _filter.setNameFilter(text);

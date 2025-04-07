@@ -149,14 +149,17 @@ public class BarterDisplayPanelController extends AbstractNavigablePanelControll
     // Name & title
     String fullName=npc.getName();
     String title=npc.getTitle();
-    if (title.length()>0)
+    if (!title.isEmpty())
     {
       fullName=fullName+" ("+title+")";
     }
     _name.setText(fullName);
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_barterer.getRequirements());
-    if (requirements.length()==0) requirements="-";
+    if (requirements.isEmpty())
+    {
+      requirements="-";
+    }
     _requirements.setText(requirements);
   }
 

@@ -43,7 +43,7 @@ public class MainDumpDeedsDisplay
     for(Objective objective : objectivesMgr.getObjectives())
     {
       String objectiveOverride=objective.getProgressOverride();
-      if (objectiveOverride.length()>0)
+      if (!objectiveOverride.isEmpty())
       {
         System.out.println("\t"+objectiveOverride);
       }
@@ -54,7 +54,7 @@ public class MainDumpDeedsDisplay
         boolean showProgress=condition.isShowProgressText();
         boolean showBillboard=condition.isShowBillboardText();
         String progressOverride=condition.getProgressOverride();
-        boolean hasProgressOverride=((progressOverride!=null) && (progressOverride.length()>0));
+        boolean hasProgressOverride=((progressOverride!=null) && (!progressOverride.isEmpty()));
         boolean visible=((showProgress&&showBillboard)||hasProgressOverride);
         if (visible)
         {

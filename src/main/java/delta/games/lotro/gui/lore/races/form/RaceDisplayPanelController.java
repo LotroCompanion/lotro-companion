@@ -340,7 +340,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
       GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
       ret.add(gadgets.getIcon().getIcon(),c);
       // Text
-      boolean hasComplements=(gadgets.getComplement().getText().length()>0);
+      boolean hasComplements=(!gadgets.getComplement().getText().isEmpty());
       int height=(hasComplements?1:2);
       c=new GridBagConstraints(1,y,1,height,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
       ret.add(gadgets.getLink().getLabel(),c);
@@ -360,7 +360,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
   private JEditorPane buildEditorPane(String input)
   {
     JEditorPane editor=null;
-    if ((input!=null) && (input.length()>0))
+    if ((input!=null) && (!input.isEmpty()))
     {
       editor=GuiFactory.buildHtmlPanel();
       StringBuilder sb=new StringBuilder();
