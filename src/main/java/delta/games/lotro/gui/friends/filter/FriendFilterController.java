@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.account.friends.filter;
+package delta.games.lotro.gui.friends.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;

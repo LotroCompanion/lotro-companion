@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.account.friends;
+package delta.games.lotro.gui.friends;
 
 import java.util.ArrayList;
 import java.util.List;
