@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.storage.account;
+package delta.games.lotro.gui.account.storage;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

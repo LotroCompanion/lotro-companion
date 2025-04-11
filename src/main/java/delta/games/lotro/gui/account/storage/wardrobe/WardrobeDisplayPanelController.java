@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.storage.wardrobe;
+package delta.games.lotro.gui.account.storage.wardrobe;
 
 import java.util.ArrayList;
 import java.util.List;

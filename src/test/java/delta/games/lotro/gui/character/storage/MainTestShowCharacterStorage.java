@@ -7,7 +7,7 @@ import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.account.storage.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 
 /**

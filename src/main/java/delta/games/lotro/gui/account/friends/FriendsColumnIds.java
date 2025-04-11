@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.friends;
+package delta.games.lotro.gui.account.friends;
 
 /**
  * Some column identifiers for the friends tables.

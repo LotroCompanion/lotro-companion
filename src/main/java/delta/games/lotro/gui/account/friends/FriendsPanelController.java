@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.friends;
+package delta.games.lotro.gui.account.friends;
 
 import java.awt.BorderLayout;
 import java.io.File;
@@ -18,7 +18,7 @@ import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.account.status.friends.FriendsManager;
 import delta.games.lotro.account.status.friends.filters.FriendFilter;
 import delta.games.lotro.account.status.friends.io.xml.FriendsIO;
-import delta.games.lotro.gui.friends.filter.FriendFilterController;
+import delta.games.lotro.gui.account.friends.filter.FriendFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;

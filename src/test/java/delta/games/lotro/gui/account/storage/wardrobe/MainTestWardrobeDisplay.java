@@ -1,8 +1,9 @@
-package delta.games.lotro.gui.character.storage.wardrobe;
+package delta.games.lotro.gui.account.storage.wardrobe;
 
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.gui.account.storage.wardrobe.WardrobeDisplayWindowController;
 
 /**
  * Test class for the wardrobe display.
