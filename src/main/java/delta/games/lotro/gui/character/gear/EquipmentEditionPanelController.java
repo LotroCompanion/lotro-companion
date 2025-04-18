@@ -14,6 +14,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
@@ -26,6 +29,7 @@ import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
 import delta.games.lotro.character.gear.GearSlotUtils;
+import delta.games.lotro.character.gear.PreclusionUtils;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
@@ -53,6 +57,8 @@ import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
  */
 public class EquipmentEditionPanelController implements ActionListener
 {
+  private static final Logger LOGGER=LoggerFactory.getLogger(EquipmentEditionPanelController.class);
+
   private static final String UPDATE_COMMAND="update";
   private static final String EDIT_COMMAND="edit";
   private static final String CHOOSE_COMMAND="choose";
@@ -293,7 +299,15 @@ public class EquipmentEditionPanelController implements ActionListener
 
   private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, GearSlot slot, String propsId)
   {
+    CharacterGear equipment=_toonData.getEquipment();
+    boolean precluded=PreclusionUtils.slotIsPrecluded(equipment,slot);
+    if (precluded)
+    {
+      LOGGER.info("Cannot use this precluded slot: {}",slot);
+      return null;
+    }
     List<ItemInstance<? extends Item>> selectedInstances=filter(itemInstances,slot);
+    selectedInstances=PreclusionUtils.filterItemInstances(selectedInstances,equipment.getEquippedSlots());
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
 
@@ -350,7 +364,15 @@ public class EquipmentEditionPanelController implements ActionListener
 
   private Item chooseItem(GearSlot slot)
   {
+    CharacterGear equipment=_toonData.getEquipment();
+    boolean precluded=PreclusionUtils.slotIsPrecluded(equipment,slot);
+    if (precluded)
+    {
+      LOGGER.info("Cannot use this precluded slot: {}",slot);
+      return null;
+    }
     List<Item> selectedItems=ItemsManager.getInstance().getItems(slot);
+    selectedItems=PreclusionUtils.filterItems(selectedItems,equipment.getEquippedSlots());
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
     cfg.forItemFilter();
