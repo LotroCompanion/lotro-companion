@@ -18,7 +18,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.memory.extraction.MemoryExtractionSession;
-import delta.games.lotro.memory.extraction.extractors.CharExtractor;
+import delta.games.lotro.memory.extraction.extractors.MainExtractor;
 import delta.games.lotro.memory.extraction.session.ImportConfiguration;
 import delta.games.lotro.memory.extraction.session.ImportSession;
 import delta.games.lotro.memory.extraction.session.status.ImportStatus;
@@ -144,7 +144,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     MemoryExtractionSession session=new MemoryExtractionSession(memoryAccess,dataFacade);
     ImportSession importSession=new ImportSession(config);
     importSession.getStatus().setListener(this);
-    final CharExtractor extractor=new CharExtractor(session,importSession);
+    final MainExtractor extractor=new MainExtractor(session,importSession);
     Runnable r=new Runnable()
     {
       @Override
