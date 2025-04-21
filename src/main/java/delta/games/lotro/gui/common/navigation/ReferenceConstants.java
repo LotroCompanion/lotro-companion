@@ -115,6 +115,10 @@ public class ReferenceConstants
    * House page identifier.
    */
   public static final String HOUSE_PAGE="house";
+  /**
+   * Bird page identifier.
+   */
+  public static final String BIRD_PAGE="bird";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -385,5 +389,15 @@ public class ReferenceConstants
     PageIdentifier pageId=new PageIdentifier(HOUSE_PAGE,houseID);
     pageId.setParameter(NavigationParameters.NEIGHBORHOOD_ID_PARAMETER,String.valueOf(neighborhoodID));
     return pageId;
+  }
+
+  /**
+   * Get a page identifier for the given bird.
+   * @param birdId Identifier of the bird to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getBirdReference(int birdId)
+  {
+    return new PageIdentifier(BIRD_PAGE,birdId);
   }
 }

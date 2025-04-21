@@ -433,6 +433,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     // Line 4
     List<JButton> buttonsLine4=new ArrayList<JButton>();
     buttonsLine4.add(_buttonsMgr.getButton(MainCharacterWindowCommands.BAUBLES_COMMAND));
+    buttonsLine4.add(_buttonsMgr.getButton(MainCharacterWindowCommands.BIRDS_COMMAND));
     JPanel line4=LayoutUtils.buildHorizontalPanel(buttonsLine4,buttonsLine4.size());
     verticalList.add(line4);
     JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());

@@ -30,6 +30,7 @@ import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
 import delta.games.lotro.gui.character.status.baubles.BaublesStatusWindowController;
+import delta.games.lotro.gui.character.status.birding.BirdingStatusWindowController;
 import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController;
 import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController.STATUS_TYPE;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
@@ -195,6 +196,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.BAUBLES_COMMAND.equals(command))
     {
       showBaublesStatus();
+    }
+    else if (MainCharacterWindowCommands.BIRDS_COMMAND.equals(command))
+    {
+      showBirdsStatus();
     }
     else if (MainCharacterWindowCommands.HOBBIES_COMMAND.equals(command))
     {
@@ -440,6 +445,19 @@ public class MainCharacterWindowCommandsManager
     if (windowCtrl==null)
     {
       windowCtrl=new BaublesStatusWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showBirdsStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    String id=BirdingStatusWindowController.WINDOW_IDENTIFIER;
+    BirdingStatusWindowController windowCtrl=(BirdingStatusWindowController)windowsManager.getWindow(id);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new BirdingStatusWindowController(_parent,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

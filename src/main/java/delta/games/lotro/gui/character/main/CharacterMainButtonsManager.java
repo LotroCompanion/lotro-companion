@@ -84,6 +84,8 @@ public class CharacterMainButtonsManager implements ActionListener
     buildCommandButton("Pets",MainCharacterWindowCommands.PETS_COMMAND);
     // Baubles status
     buildCommandButton("Baubles",MainCharacterWindowCommands.BAUBLES_COMMAND);
+    // Birds status
+    buildCommandButton("Birds",MainCharacterWindowCommands.BIRDS_COMMAND);
     // Notes
     buildCommandButton("Notes",MainCharacterWindowCommands.NOTES_COMMAND);
     // Log
