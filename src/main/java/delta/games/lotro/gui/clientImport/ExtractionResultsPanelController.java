@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.clientImport;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -86,8 +87,32 @@ public class ExtractionResultsPanelController implements Disposable
     for(ExtractableElement element : ExtractableElement.values())
     {
       ExtractableElementStatus status=data.getExtractableElementStatus(element);
-      _gadgets.get(element).setText(status.getLabel());
+      JLabel label=_gadgets.get(element);
+      label.setText(status.getLabel());
+      Color color=getColorFromStatus(status);
+      label.setForeground(color);
     }
+  }
+
+  private Color getColorFromStatus(ExtractableElementStatus status)
+  {
+    if (status==ExtractableElementStatus.FAILED)
+    {
+      return Color.RED;
+    }
+    if (status==ExtractableElementStatus.IGNORED)
+    {
+      return Color.GRAY;
+    }
+    if (status==ExtractableElementStatus.NOT_FOUND)
+    {
+      return new Color(0xF7,0x82,0x00);
+    }
+    if (status==ExtractableElementStatus.DONE)
+    {
+      return new Color(0x5E,0xBD,0x3E);
+    }
+    return Color.BLACK;
   }
 
   @Override
