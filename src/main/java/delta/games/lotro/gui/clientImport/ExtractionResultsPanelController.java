@@ -23,6 +23,9 @@ import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
  */
 public class ExtractionResultsPanelController implements Disposable
 {
+  private static final Color ORANGE=new Color(0xF7,0x82,0x00);
+  private static final Color GREEN=new Color(0x5E,0xBD,0x3E);
+
   private JPanel _panel;
   private Map<ExtractableElement,JLabel> _gadgets;
 
@@ -106,11 +109,15 @@ public class ExtractionResultsPanelController implements Disposable
     }
     if (status==ExtractableElementStatus.NOT_FOUND)
     {
-      return new Color(0xF7,0x82,0x00);
+      return ORANGE;
+    }
+    if (status==ExtractableElementStatus.IN_PROGRESS)
+    {
+      return Color.LIGHT_GRAY;
     }
     if (status==ExtractableElementStatus.DONE)
     {
-      return new Color(0x5E,0xBD,0x3E);
+      return GREEN;
     }
     return Color.BLACK;
   }
