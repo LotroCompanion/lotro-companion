@@ -6,6 +6,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.common.effects.form.EffectPanelsFactory;
 import delta.games.lotro.gui.lore.agents.mobs.MobPanelFactory;
 import delta.games.lotro.gui.lore.billingGroups.BillingGroupPanelFactory;
+import delta.games.lotro.gui.lore.birds.BirdsPanelFactory;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipePanelsFactory;
 import delta.games.lotro.gui.lore.deeds.DeedPanelsFactory;
 import delta.games.lotro.gui.lore.emotes.EmotePanelFactory;
@@ -56,6 +57,7 @@ public class NavigatorFactory
     resolver.addFactory(new MobPanelFactory(window));
     resolver.addFactory(new EffectPanelsFactory(window));
     resolver.addFactory(new HousingPanelsFactory(window));
+    resolver.addFactory(new BirdsPanelFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }
