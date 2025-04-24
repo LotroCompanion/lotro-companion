@@ -32,7 +32,7 @@ import delta.games.lotro.common.enums.TraitSubCategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
-import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for a trait display panel.
@@ -101,7 +101,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
 
     int y=0;
     // Description
-    JEditorPane description=buildEditorPane(_trait.getDescription());
+    JEditorPane description=HtmlUiUtils.buildEditorPane(_trait.getDescription());
     if (description!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -109,7 +109,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
       y++;
     }
     // Tooltip
-    JEditorPane tooltip=buildEditorPane(_trait.getTooltip());
+    JEditorPane tooltip=HtmlUiUtils.buildEditorPane(_trait.getTooltip());
     if (tooltip!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -286,21 +286,6 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
       y++;
     }
     return ret;
-  }
-
-  private JEditorPane buildEditorPane(String input)
-  {
-    JEditorPane editor=null;
-    if ((input!=null) && (!input.isEmpty()))
-    {
-      editor=GuiFactory.buildHtmlPanel();
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(input));
-      sb.append("</body></html>");
-      editor.setText(sb.toString());
-    }
-    return editor;
   }
 
   @Override

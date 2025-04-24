@@ -25,7 +25,7 @@ import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
-import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for a nationality display panel.
@@ -95,7 +95,7 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
     String maleNamingGuidelines=cleanupText(_nationality.getNamingGuidelineMale());
     String femaleNamingGuidelines=cleanupText(_nationality.getNamingGuidelineFemale());
     String fullText=description+"<p>"+maleNamingGuidelines+"<p>"+femaleNamingGuidelines;
-    JEditorPane display=buildEditorPane(fullText);
+    JEditorPane display=HtmlUiUtils.buildEditorPane(fullText);
     JScrollPane displayPane=GuiFactory.buildScrollPane(display);
     displayPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,0),0,0);
@@ -159,21 +159,6 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
     panel.add(paddingPanel,c);
 
     return panel;
-  }
-
-  private JEditorPane buildEditorPane(String input)
-  {
-    JEditorPane editor=null;
-    if ((input!=null) && (!input.isEmpty()))
-    {
-      editor=GuiFactory.buildHtmlPanel();
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(input));
-      sb.append("</body></html>");
-      editor.setText(sb.toString());
-    }
-    return editor;
   }
 
   private RaceDescription findRace(NationalityDescription nationality)

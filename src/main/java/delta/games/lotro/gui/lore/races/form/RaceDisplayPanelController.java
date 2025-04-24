@@ -40,7 +40,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
 import delta.games.lotro.gui.utils.SharedLinks;
-import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for a race display panel.
@@ -109,7 +109,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
 
     int y=0;
     // Description
-    JEditorPane description=buildEditorPane(_race.getDescription());
+    JEditorPane description=HtmlUiUtils.buildEditorPane(_race.getDescription());
     if (description!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -354,22 +354,6 @@ public class RaceDisplayPanelController implements NavigablePanelController
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createVerticalGlue(),c);
     return ret;
-  }
-
-
-  private JEditorPane buildEditorPane(String input)
-  {
-    JEditorPane editor=null;
-    if ((input!=null) && (!input.isEmpty()))
-    {
-      editor=GuiFactory.buildHtmlPanel();
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(input));
-      sb.append("</body></html>");
-      editor.setText(sb.toString());
-    }
-    return editor;
   }
 
   @Override

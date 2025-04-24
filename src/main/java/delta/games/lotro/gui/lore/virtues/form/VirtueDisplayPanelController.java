@@ -24,7 +24,7 @@ import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for a virtue display panel.
@@ -89,7 +89,7 @@ public class VirtueDisplayPanelController implements NavigablePanelController
 
     int y=0;
     // Description
-    JEditorPane description=buildEditorPane(_virtue.getDescription());
+    JEditorPane description=HtmlUiUtils.buildEditorPane(_virtue.getDescription());
     if (description!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -97,7 +97,7 @@ public class VirtueDisplayPanelController implements NavigablePanelController
       y++;
     }
     // Tooltip
-    JEditorPane tooltip=buildEditorPane(_virtue.getTooltip());
+    JEditorPane tooltip=HtmlUiUtils.buildEditorPane(_virtue.getTooltip());
     if (tooltip!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -181,21 +181,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
       ret.add("Tiers: "+tiers);
     }
     return ret;
-  }
-
-  private JEditorPane buildEditorPane(String input)
-  {
-    JEditorPane editor=null;
-    if ((input!=null) && (!input.isEmpty()))
-    {
-      editor=GuiFactory.buildHtmlPanel();
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(input));
-      sb.append("</body></html>");
-      editor.setText(sb.toString());
-    }
-    return editor;
   }
 
   @Override
