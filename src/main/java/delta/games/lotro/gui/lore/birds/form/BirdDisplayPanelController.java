@@ -2,7 +2,6 @@ package delta.games.lotro.gui.lore.birds.form;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +17,7 @@ import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.collections.birds.BirdDescription;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for a bird display panel.
@@ -28,11 +28,10 @@ public class BirdDisplayPanelController extends AbstractNavigablePanelController
   // Data
   private BirdDescription _bird;
   // GUI
-  private JPanel _panel;
-
-  private JLabel _icon;
+  private JLabel _largeIcon;
   private JLabel _name;
   private JLabel _elvishName;
+  private JEditorPane _description;
   // Controllers
   private BirdReferencesDisplayController _references;
 
@@ -46,22 +45,13 @@ public class BirdDisplayPanelController extends AbstractNavigablePanelController
     super(parent);
     _bird=bird;
     _references=new BirdReferencesDisplayController(parent,bird.getIdentifier());
+    setPanel(build());
   }
 
   @Override
   public String getTitle()
   {
     return "Bird: "+_bird.getName();
-  }
-
-  @Override
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
   }
 
   private JPanel build()
@@ -99,52 +89,41 @@ public class BirdDisplayPanelController extends AbstractNavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    // Main data line
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      // Icon
-      _icon=GuiFactory.buildIconLabel(null);
-      panelLine.add(_icon);
-      // Name
-      _name=GuiFactory.buildLabel("");
-      _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-      panelLine.add(_name);
-    }
-
-    // Line 2
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      // Elvish name
-      panelLine.add(GuiFactory.buildLabel("Elvish name: "));
-      _elvishName=GuiFactory.buildLabel("");
-      panelLine.add(_elvishName);
-    }
-
-    _panel=panel;
-    setTitle();
-    return _panel;
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+    JPanel summaryPanel=buildTopSummaryPanel();
+    panel.add(summaryPanel,c);
+    // Description
+    String description=_bird.getItem().getDescription();
+    _description=HtmlUiUtils.buildEditorPane(description);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,5,5,5),0,0);
+    panel.add(_description,c);
+    return panel;
   }
 
-  /**
-   * Set the title to display.
-   */
-  private void setTitle()
+  private JPanel buildTopSummaryPanel()
   {
-    String name=_bird.getName();
-    // Name
-    _name.setText(name);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
     // Icon
-    
-    ImageIcon icon=LotroIconsManager.getItemIcon(_bird.getItem().getIcon());
-    _icon.setIcon(icon);
+    _largeIcon=GuiFactory.buildIconLabel(null);
+    ImageIcon icon=LotroIconsManager.getBirdIcon(_bird.getLargeIconID());
+    _largeIcon.setIcon(icon);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,3,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
+    panel.add(_largeIcon,c);
+    // Name
+    _name=GuiFactory.buildLabel("");
+    _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+    String name=_bird.getName();
+    _name.setText(name);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(_name,c);
     // Elvish name
+    _elvishName=GuiFactory.buildLabel("");
     String elvishName=_bird.getElvishName();
     _elvishName.setText((elvishName!=null)?elvishName:"");
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(_elvishName,c);
+    return panel;
   }
 
   @Override
@@ -159,14 +138,9 @@ public class BirdDisplayPanelController extends AbstractNavigablePanelController
       _references.dispose();
       _references=null;
     }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
-    _icon=null;
+    _largeIcon=null;
     _name=null;
     _elvishName=null;
+    _description=null;
   }
 }

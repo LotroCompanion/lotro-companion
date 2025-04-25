@@ -410,6 +410,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a bird.
+   * @param birdIconId Bird icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getBirdIcon(int birdIconId)
+  {
+    String path="/birds/"+birdIconId+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()
