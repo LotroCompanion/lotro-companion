@@ -47,15 +47,22 @@ public class RewardsTracksStatusSummaryPanelController
   private JPanel buildPanel(RewardsTracksStatusManager statusMgr)
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    int y=0;
     RewardsTracksManager mgr=RewardsTracksManager.getInstance();
     List<RewardsTrack> rewardsTracks=mgr.getRewardsTracks(false);
+    int nbColumns=2;
+    int x=0;
+    int y=0;
     for(RewardsTrack rewardsTrack : rewardsTracks)
     {
       JPanel panel=buildRewardsTrackPanel(rewardsTrack,statusMgr);
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
       ret.add(panel,c);
-      y++;
+      x++;
+      if (x==nbColumns)
+      {
+        x=0;
+        y++;
+      }
     }
     return ret;
   }
