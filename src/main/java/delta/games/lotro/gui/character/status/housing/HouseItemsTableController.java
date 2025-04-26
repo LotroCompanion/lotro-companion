@@ -254,7 +254,7 @@ public class HouseItemsTableController
       }
     };
     DefaultTableColumnController<HousingItem,InternalGameId> column=new DefaultTableColumnController<HousingItem,InternalGameId>(BOUND_TO_COLUMN,"Bound to",InternalGameId.class,cell); // I18n
-    column.setWidthSpecs(150,150,150);
+    column.setWidthSpecs(150,-1,150);
     column.setCellRenderer(new InternalGameIdRenderer(toon));
     return column;
   }
