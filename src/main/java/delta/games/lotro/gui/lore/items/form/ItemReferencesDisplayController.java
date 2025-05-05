@@ -12,6 +12,8 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.html.HtmlConstants;
 import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.initialGear.InitialGearElement;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
@@ -135,9 +137,9 @@ public class ItemReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T extends Identifiable> List<Reference<T,ItemRole>> getReferences(List<Reference<?,ItemRole>> references, Class<T> clazz, ItemRole role)
+  private <T> List<Reference<T,ItemRole>> getReferences(List<Reference<?,ItemRole>> references, Class<T> clazz, ItemRole role)
   {
-    List<Reference<T,ItemRole>> recipes=new ArrayList<Reference<T,ItemRole>>();
+    List<Reference<T,ItemRole>> ret=new ArrayList<Reference<T,ItemRole>>();
     for(Reference<?,ItemRole> reference : references)
     {
       if ((role==null) || (reference.getRoles().contains(role)))
@@ -145,11 +147,11 @@ public class ItemReferencesDisplayController
         Object source=reference.getSource();
         if (clazz.isAssignableFrom(source.getClass()))
         {
-          recipes.add((Reference<T,ItemRole>)reference);
+          ret.add((Reference<T,ItemRole>)reference);
         }
       }
     }
-    return recipes;
+    return ret;
   }
 
   private void buildHtmlForCrafting(StringBuilder sb, List<Reference<?,ItemRole>> references)
@@ -481,16 +483,26 @@ public class ItemReferencesDisplayController
 
   private void buildHtmlForInitialGearReference(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<Reference<ClassDescription,ItemRole>> webStoreReferences=getReferences(references,ClassDescription.class,ItemRole.INITIAL_GEAR_FOR_CLASS);
-    for(Reference<ClassDescription,ItemRole> reference : webStoreReferences)
+    List<Reference<InitialGearElement,ItemRole>> webStoreReferences=getReferences(references,InitialGearElement.class,ItemRole.INITIAL_GEAR_FOR_CLASS);
+    for(Reference<InitialGearElement,ItemRole> reference : webStoreReferences)
     {
       sb.append(HtmlConstants.START_PARAGRAPH);
       sb.append("Found in initial gear for class ");
       sb.append(HtmlConstants.START_BOLD);
-      ClassDescription c=reference.getSource();
+      InitialGearElement element=reference.getSource();
+      ClassDescription c=element.getClassDescription();
       PageIdentifier to=ReferenceConstants.getClassReference(c);
       HtmlUtils.printLink(sb,to.getFullAddress(),c.getName());
       sb.append(HtmlConstants.END_BOLD);
+      RaceDescription race=element.getRequiredRace();
+      if (race!=null)
+      {
+        sb.append(" and race ");
+        sb.append(HtmlConstants.START_BOLD);
+        PageIdentifier racePageId=ReferenceConstants.getRaceReference(race);
+        HtmlUtils.printLink(sb,racePageId.getFullAddress(),race.getName());
+        sb.append(HtmlConstants.END_BOLD);
+      }
       sb.append(HtmlConstants.END_PARAGRAPH);
     }
   }
