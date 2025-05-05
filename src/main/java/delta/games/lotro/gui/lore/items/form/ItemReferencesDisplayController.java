@@ -11,6 +11,7 @@ import javax.swing.event.HyperlinkListener;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.html.HtmlConstants;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
@@ -123,6 +124,7 @@ public class ItemReferencesDisplayController
     buildHtmlForMeldingRecipes(sb,references);
     buildHtmlForSameCosmetics(sb,references);
     buildHtmlForWebStoreItems(sb,references);
+    buildHtmlForInitialGearReference(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -474,6 +476,22 @@ public class ItemReferencesDisplayController
     if (!webStoreReferences.isEmpty())
     {
       sb.append("<h1>Can be bought in the Lotro Store</h1>");
+    }
+  }
+
+  private void buildHtmlForInitialGearReference(StringBuilder sb, List<Reference<?,ItemRole>> references)
+  {
+    List<Reference<ClassDescription,ItemRole>> webStoreReferences=getReferences(references,ClassDescription.class,ItemRole.INITIAL_GEAR_FOR_CLASS);
+    for(Reference<ClassDescription,ItemRole> reference : webStoreReferences)
+    {
+      sb.append(HtmlConstants.START_PARAGRAPH);
+      sb.append("Found in initial gear for class ");
+      sb.append(HtmlConstants.START_BOLD);
+      ClassDescription c=reference.getSource();
+      PageIdentifier to=ReferenceConstants.getClassReference(c);
+      HtmlUtils.printLink(sb,to.getFullAddress(),c.getName());
+      sb.append(HtmlConstants.END_BOLD);
+      sb.append(HtmlConstants.END_PARAGRAPH);
     }
   }
 
