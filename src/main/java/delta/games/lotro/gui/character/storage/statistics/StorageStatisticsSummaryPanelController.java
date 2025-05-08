@@ -96,7 +96,13 @@ public class StorageStatisticsSummaryPanelController
     _totalItemXP.setText(L10n.getString(totalItemXP));
     // Virtue XP
     long totalVirtueXP=_statistics.getTotalVirtueXP();
-    _totalVirtueXP.setText(L10n.getString(totalVirtueXP));
+    long totalBonusVirtueXP=_statistics.getTotalBonusVirtueXP();
+    String virtueXP=L10n.getString(totalVirtueXP+totalBonusVirtueXP);
+    if (totalBonusVirtueXP!=0)
+    {
+      virtueXP+=" (including "+totalBonusVirtueXP+" bonus XP)";
+    }
+    _totalVirtueXP.setText(virtueXP);
   }
 
   /**

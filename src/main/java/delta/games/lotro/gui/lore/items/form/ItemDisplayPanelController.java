@@ -606,7 +606,9 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       for(VirtueXP virtueXP : virtueXPs)
       {
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-        String label="Gives "+virtueXP.getAmount()+" virtue XP.";
+        int amount=virtueXP.getAmount();
+        boolean bonus=virtueXP.isBonus();
+        String label="Gives "+amount+(bonus?" bonus":"")+" virtue XP.";
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
