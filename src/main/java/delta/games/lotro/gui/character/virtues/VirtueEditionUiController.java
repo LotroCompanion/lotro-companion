@@ -27,6 +27,7 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.stats.virtues.VirtueUtils;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.gui.lore.virtues.VirtueUiTools;
 
@@ -101,7 +102,7 @@ public class VirtueEditionUiController implements ActionListener
     // Tier editor
     JTextField tierEditTextField=GuiFactory.buildTextField("");
     _tierEdit=new IntegerEditionController(tierEditTextField,3);
-    int maxRank=virtue.getMaxRank(_characterLevel);
+    int maxRank=VirtueUtils.getMaxRank(_virtue,_characterLevel);
     _tierEdit.setValueRange(Integer.valueOf(0),Integer.valueOf(maxRank));
     NumberListener<Integer> valueListener=new NumberListener<Integer>()
     {
@@ -216,7 +217,7 @@ public class VirtueEditionUiController implements ActionListener
     Object source=e.getSource();
     if (_plus==source)
     {
-      int maxRank=_virtue.getMaxRank(_characterLevel);
+      int maxRank=VirtueUtils.getMaxRank(_virtue,_characterLevel);
       if (_tier<maxRank)
       {
         _tier++;
@@ -287,7 +288,7 @@ public class VirtueEditionUiController implements ActionListener
     _iconController.setBonus(_bonus);
     _tierEdit.setValue(Integer.valueOf(_tier));
     _minus.setEnabled(_tier>0);
-    int maxRank=_virtue.getMaxRank(_characterLevel);
+    int maxRank=VirtueUtils.getMaxRank(_virtue,_characterLevel);
     _plus.setEnabled(_tier<maxRank);
   }
 

@@ -29,12 +29,12 @@ import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.stats.virtues.VirtueUtils;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
-import delta.games.lotro.lore.parameters.Game;
 
 /**
  * Controller for a virtues edition panel.
@@ -338,15 +338,13 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
 
   private void maxAll()
   {
-    int globalMaxRank=Game.getParameters().getMaxVirtueRank();
     for(Map.Entry<VirtueDescription,VirtueEditionUiController> entry : _virtues.entrySet())
     {
       VirtueEditionUiController controller=entry.getValue();
       VirtueDescription virtue=entry.getKey();
-      int maxRank=virtue.getMaxRank(_characterLevel);
-      int rankToUse=Math.min(maxRank,globalMaxRank);
-      controller.setTier(rankToUse);
-      _selectedVirtues.updateVirtue(virtue,rankToUse);
+      int maxRank=VirtueUtils.getMaxRank(virtue,_characterLevel);
+      controller.setTier(maxRank);
+      _selectedVirtues.updateVirtue(virtue,maxRank);
     }
   }
 
@@ -354,17 +352,15 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   {
     VirtuesSet selectedVirtues=new VirtuesSet();
     _selectedVirtues.getSelectedVirtues(selectedVirtues);
-    int globalMaxRank=Game.getParameters().getMaxVirtueRank();
     for(int i=0;i<VirtuesSet.MAX_VIRTUES;i++)
     {
       VirtueDescription virtue=selectedVirtues.getSelectedVirtue(i);
       if (virtue!=null)
       {
-        int maxRank=virtue.getMaxRank(_characterLevel);
-        int rankToUse=Math.min(maxRank,globalMaxRank);
         VirtueEditionUiController controller=_virtues.get(virtue);
-        controller.setTier(rankToUse);
-        _selectedVirtues.updateVirtue(virtue,rankToUse);
+        int maxRank=VirtueUtils.getMaxRank(virtue,_characterLevel);
+        controller.setTier(maxRank);
+        _selectedVirtues.updateVirtue(virtue,maxRank);
       }
     }
   }
