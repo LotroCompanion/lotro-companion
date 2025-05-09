@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.lore.quests.form;
 
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
+import delta.games.lotro.character.status.requirements.QuestRequirementStateComputer;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.common.requirements.CompoundQuestRequirement;
 import delta.games.lotro.common.requirements.QuestRequirement;

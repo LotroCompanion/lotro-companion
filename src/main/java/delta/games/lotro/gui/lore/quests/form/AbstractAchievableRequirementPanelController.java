@@ -2,7 +2,7 @@ package delta.games.lotro.gui.lore.quests.form;
 
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
+import delta.games.lotro.character.status.requirements.QuestRequirementStateComputer;
 
 /**
  * Base class for achievable requirement panel controllers.

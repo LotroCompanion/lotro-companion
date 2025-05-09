@@ -16,7 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Operator;
-import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
+import delta.games.lotro.character.status.requirements.QuestRequirementStateComputer;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.common.requirements.CompoundQuestRequirement;
 

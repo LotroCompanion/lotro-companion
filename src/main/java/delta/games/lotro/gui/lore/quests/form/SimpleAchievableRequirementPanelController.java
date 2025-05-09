@@ -21,7 +21,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.text.StringTools;
-import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
+import delta.games.lotro.character.status.requirements.QuestRequirementStateComputer;
 import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.QuestStatus;
 import delta.games.lotro.common.utils.ComparisonOperator;
