@@ -24,6 +24,14 @@ public class MainTestTraitTreeDisplay
   {
     TraitTreeStatus status=data.getTraits().getTraitTreeStatus();
     int level=data.getLevel();
+    TraitTreeWindowController window=new TraitTreeWindowController(null,level,status);
+    window.show();
+  }
+
+  private void editTree(CharacterData data)
+  {
+    TraitTreeStatus status=data.getTraits().getTraitTreeStatus();
+    int level=data.getLevel();
     TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,level,status);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
@@ -36,6 +44,7 @@ public class MainTestTraitTreeDisplay
   {
     CharacterData data=getData();
     showTree(data);
+    editTree(data);
   }
 
   /**

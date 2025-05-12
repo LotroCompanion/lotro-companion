@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -31,6 +32,7 @@ import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupAttrsDialogController;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupChooser;
+import delta.games.lotro.utils.gui.HtmlUiUtils;
 
 /**
  * Controller for trait tree panel.
@@ -44,6 +46,7 @@ public class TraitTreePanelController
   // Controllers
   private WindowController _parent;
   private TraitTreeSidePanelController _side;
+  private JEditorPane _branchDescription;
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
   // Data
@@ -169,6 +172,13 @@ public class TraitTreePanelController
 
   private void selectBranch(TraitTreeBranch branch)
   {
+    String description="";
+    if (branch!=null)
+    {
+      description=branch.getDescription();
+    }
+    description=description.replace("${NUM}","?");
+    HtmlUiUtils.setText(_branchDescription,description);
     _status.setSelectedBranch(branch);
     _side.setSelectedBranch(branch);
     _side.updateUi();
@@ -239,6 +249,33 @@ public class TraitTreePanelController
   private JPanel buildTopPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Summary
+    JPanel summaryPanel=buildSummaryPanel();
+    summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
+    ret.add(summaryPanel,c);
+    // Glue
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
+    ret.add(Box.createGlue(),c);
+    // Templates
+    if (_edition)
+    {
+      JPanel templatePanel=buildTemplatePanel();
+      templatePanel.setBorder(GuiFactory.buildTitledBorder("Templates"));
+      c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      ret.add(templatePanel,c);
+    }
+    // Description
+    _branchDescription=GuiFactory.buildHtmlPanel();
+    _branchDescription.setBorder(GuiFactory.buildTitledBorder("Description"));
+    c=new GridBagConstraints(0,1,3,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_branchDescription,c);
+    return ret;
+  }
+
+  private JPanel buildSummaryPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Branch chooser
     JLabel label=GuiFactory.buildLabel("Main branch:"); // I18n
@@ -253,44 +290,40 @@ public class TraitTreePanelController
     c.gridx++;
     ret.add(_points,c);
     c.gridx++;
-    // Glue to push everything on left and right
-    c.weightx=1.0;
-    c.fill=GridBagConstraints.HORIZONTAL;
-    c.gridx++;
-    ret.add(Box.createGlue(),c);
-    c.gridx++;
-    c.weightx=0.0;
-    c.fill=GridBagConstraints.NONE;
-    if (_edition)
+    return ret;
+  }
+
+  private JPanel buildTemplatePanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Buttons
+    // - load
+    JButton load=GuiFactory.buildButton("Load from template..."); // I18n
+    ActionListener alLoad=new ActionListener()
     {
-      // Buttons
-      // - load
-      JButton load=GuiFactory.buildButton("Load from template..."); // I18n
-      ActionListener alLoad=new ActionListener()
+      @Override
+      public void actionPerformed(ActionEvent e)
       {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          loadFromTemplate();
-        }
-      };
-      load.addActionListener(alLoad);
-      ret.add(load,c);
-      c.gridx++;
-      // - save
-      JButton save=GuiFactory.buildButton("Save as template..."); // I18n
-      ActionListener alSave=new ActionListener()
+        loadFromTemplate();
+      }
+    };
+    load.addActionListener(alLoad);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(load,c);
+    c.gridx++;
+    // - save
+    JButton save=GuiFactory.buildButton("Save as template..."); // I18n
+    ActionListener alSave=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
       {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          saveAsTemplate();
-        }
-      };
-      save.addActionListener(alSave);
-      ret.add(save,c);
-      c.gridx++;
-    }
+        saveAsTemplate();
+      }
+    };
+    save.addActionListener(alSave);
+    ret.add(save,c);
+    c.gridx++;
     return ret;
   }
 
@@ -353,6 +386,7 @@ public class TraitTreePanelController
       panel.add(branchPanel,c);
       x++;
     }
+    panel.setBorder(GuiFactory.buildTitledBorder("Branches"));
     return panel;
   }
 
@@ -372,6 +406,7 @@ public class TraitTreePanelController
       _side.dispose();
       _side=null;
     }
+    _branchDescription=null;
     if (_branches!=null)
     {
       for(TraitTreeBranchPanelController branchController : _branches)

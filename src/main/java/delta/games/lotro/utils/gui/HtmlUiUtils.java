@@ -22,12 +22,22 @@ public class HtmlUiUtils
     if ((input!=null) && (!input.isEmpty()))
     {
       editor=GuiFactory.buildHtmlPanel();
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(input));
-      sb.append("</body></html>");
-      editor.setText(sb.toString());
+      setText(editor,input);
     }
     return editor;
+  }
+
+  /**
+   * Set the text of an HTML display.
+   * @param display Targeted component.
+   * @param text Text to set.
+   */
+  public static void setText(JEditorPane display, String text)
+  {
+    StringBuilder sb=new StringBuilder();
+    sb.append("<html><body>");
+    sb.append(HtmlUtils.toHtml(text));
+    sb.append("</body></html>");
+    display.setText(sb.toString());
   }
 }
