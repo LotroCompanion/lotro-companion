@@ -172,17 +172,24 @@ public class TraitTreePanelController
 
   private void selectBranch(TraitTreeBranch branch)
   {
+    _status.setSelectedBranch(branch);
+    updateBranchDescription();
+    _side.setSelectedBranch(branch);
+    _side.updateUi();
+    updatePoints();
+  }
+
+  private void updateBranchDescription()
+  {
+    TraitTreeBranch branch=_status.getSelectedBranch();
     String description="";
     if (branch!=null)
     {
       description=branch.getDescription();
     }
-    description=description.replace("${NUM}","?");
+    int ranks=_status.getRanksForBranch(branch);
+    description=description.replace("${NUM}",String.valueOf(ranks));
     HtmlUiUtils.setText(_branchDescription,description);
-    _status.setSelectedBranch(branch);
-    _side.setSelectedBranch(branch);
-    _side.updateUi();
-    updatePoints();
   }
 
   private void updateUi()
@@ -193,6 +200,7 @@ public class TraitTreePanelController
       ctrl.updateUi();
     }
     updatePoints();
+    updateBranchDescription();
   }
 
   private void updatePoints()
