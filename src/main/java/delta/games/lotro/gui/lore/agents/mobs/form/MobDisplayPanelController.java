@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.lore.agents.mobs.form;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -203,7 +201,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
       links.add(link);
     }
     _links.addAll(links);
-    return buildPanel(links);
+    return NavigationUtils.buildPanel(links);
   }
 
   private JPanel buildStartupEffectsPanel()
@@ -223,22 +221,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
       links.add(link);
     }
     _links.addAll(links);
-    return buildPanel(links);
-  }
-
-  private JPanel buildPanel(List<NavigationHyperLink> links)
-  {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    int y=0;
-    for(NavigationHyperLink link : links)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,5,0,0),5,5);
-      ret.add(link.getLabel(),c);
-      y++;
-    }
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
-    ret.add(Box.createVerticalGlue(),c);
-    return ret;
+    return NavigationUtils.buildPanel(links);
   }
 
   private List<SkillDescription> getSkills()
@@ -273,6 +256,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     super.dispose();
     // Data
     _mob=null;
+    // Controllers
     if (_links!=null)
     {
       for(NavigationHyperLink links : _links)

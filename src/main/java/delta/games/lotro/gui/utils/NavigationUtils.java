@@ -1,8 +1,17 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.JPanel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
@@ -86,5 +95,25 @@ public class NavigationUtils
   public static NavigationHyperLink buildNavigationLink(final WindowController parent, String text, final PageIdentifier pageId)
   {
     return new NavigationHyperLink(parent,text,pageId);
+  }
+
+  /**
+   * Build a panel to show navigation links.
+   * @param links Links to show.
+   * @return A panel.
+   */
+  public static JPanel buildPanel(List<NavigationHyperLink> links)
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    for(NavigationHyperLink link : links)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,5,0,0),5,5);
+      ret.add(link.getLabel(),c);
+      y++;
+    }
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createVerticalGlue(),c);
+    return ret;
   }
 }

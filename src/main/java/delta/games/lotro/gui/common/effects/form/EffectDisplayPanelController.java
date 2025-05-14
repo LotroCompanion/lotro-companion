@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -25,9 +26,15 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.common.effects.ParentEffect;
 import delta.games.lotro.gui.common.effects.EffectIconUtils;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.items.effects.DisplayEffectsUtils;
 import delta.games.lotro.utils.html.HtmlUtils;
 
@@ -42,6 +49,7 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
   private int _level;
   // Controllers
   private EffectReferencesDisplayController _references;
+  private List<NavigationHyperLink> _links;
 
   /**
    * Constructor.
@@ -55,6 +63,7 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
     _effect=effect;
     _level=level;
     _references=new EffectReferencesDisplayController(parent,effect.getIdentifier());
+    _links=new ArrayList<NavigationHyperLink>();
     setPanel(build());
   }
 
@@ -181,6 +190,15 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
       panel.add(description,c);
       y++;
     }
+    // Child effects
+    JPanel childEffectsPanel=buildChildEffectsPanel();
+    if (childEffectsPanel!=null)
+    {
+      childEffectsPanel.setBorder(GuiFactory.buildTitledBorder("Sub-effects"));
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(childEffectsPanel,c);
+      y++;
+    }
     // Stats
     MultilineLabel2 effectLines=buildEffectDisplay();
     if (effectLines!=null)
@@ -227,6 +245,31 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
     return editor;
   }
 
+  private JPanel buildChildEffectsPanel()
+  {
+    if (!(_effect instanceof ParentEffect))
+    {
+      return null;
+    }
+    ParentEffect parentEffect=(ParentEffect)_effect;
+    List<Effect> childEffects=new ArrayList<Effect>(parentEffect.getChildEffects());
+    if (childEffects.isEmpty())
+    {
+      return null;
+    }
+    Collections.sort(childEffects,new NamedComparator());
+    List<NavigationHyperLink> links=new ArrayList<NavigationHyperLink>();
+    for(Effect childEffect : childEffects)
+    {
+      PageIdentifier pageId=ReferenceConstants.getEffectReference(childEffect);
+      String text=childEffect.getName();
+      NavigationHyperLink link=NavigationUtils.buildNavigationLink(getParent(),text,pageId);
+      links.add(link);
+    }
+    _links.addAll(links);
+    return NavigationUtils.buildPanel(links);
+  }
+
   @Override
   public void dispose()
   {
@@ -238,6 +281,14 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
     {
       _references.dispose();
       _references=null;
+    }
+    if (_links!=null)
+    {
+      for(NavigationHyperLink links : _links)
+      {
+        links.dispose();
+      }
+      _links=null;
     }
   }
 }
