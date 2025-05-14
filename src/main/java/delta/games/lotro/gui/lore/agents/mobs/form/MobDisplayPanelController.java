@@ -28,6 +28,8 @@ import delta.games.lotro.common.action.ActionTableEntry;
 import delta.games.lotro.common.action.ActionTables;
 import delta.games.lotro.common.action.ActionTablesEntry;
 import delta.games.lotro.common.comparators.NamedComparator;
+import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.common.effects.EffectGenerator;
 import delta.games.lotro.common.enums.AgentClass;
 import delta.games.lotro.common.enums.Alignment;
 import delta.games.lotro.common.enums.Genus;
@@ -60,6 +62,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
   {
     super(parent);
     _mob=mob;
+    _links=new ArrayList<NavigationHyperLink>();
     setPanel(build());
   }
 
@@ -75,22 +78,28 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
 
     // Top panel
     JPanel topPanel=buildTopPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    int y=0;
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
-    // Center
-    Component center=buildCenter();
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(center,c);
+    y++;
+    // Startup effects
+    JPanel startupEffectsPanel=buildStartupEffectsPanel();
+    if (startupEffectsPanel!=null)
+    {
+      startupEffectsPanel.setBorder(GuiFactory.buildTitledBorder("Effects"));
+      c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(startupEffectsPanel,c);
+      y++;
+    }
+    // Skills
+    JPanel skillsPanel=buildSkillsPanel();
+    JScrollPane sp=GuiFactory.buildScrollPane(skillsPanel);
+    sp.setBorder(GuiFactory.buildTitledBorder("Skills"));
+    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(sp,c);
+
     panel.setPreferredSize(new Dimension(500,500));
     return panel;
-  }
-
-  private Component buildCenter()
-  {
-    JPanel panel=buildSkillsPanel();
-    JScrollPane sp=GuiFactory.buildScrollPane(panel);
-    sp.setBorder(GuiFactory.buildTitledBorder("Skills"));
-    return sp;
   }
 
   private JPanel buildTopPanel()
@@ -165,7 +174,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     {
       ret.add("Subspecies: "+subSpecies.getLabel());
     }
-    // Geo division??
+    // Geo division: no! Not displayable AS IS.
     return ret;
   }
 
@@ -185,17 +194,36 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
 
   private JPanel buildSkillsPanel()
   {
-    // Build traits gadgets controllers
-    _links=new ArrayList<NavigationHyperLink>();
-
+    List<NavigationHyperLink> links=new ArrayList<NavigationHyperLink>();
     for(SkillDescription skill : getSkills())
     {
       PageIdentifier pageId=ReferenceConstants.getSkillReference(skill.getIdentifier());
       String text=skill.getName();
       NavigationHyperLink link=NavigationUtils.buildNavigationLink(getParent(),text,pageId);
-      _links.add(link);
+      links.add(link);
     }
-    return buildPanel(_links);
+    _links.addAll(links);
+    return buildPanel(links);
+  }
+
+  private JPanel buildStartupEffectsPanel()
+  {
+    List<EffectGenerator> effectGenerators=_mob.getStartupEffects();
+    if (effectGenerators.isEmpty())
+    {
+      return null;
+    }
+    List<NavigationHyperLink> links=new ArrayList<NavigationHyperLink>();
+    for(EffectGenerator effectGenerator : effectGenerators)
+    {
+      Effect effect=effectGenerator.getEffect();
+      PageIdentifier pageId=ReferenceConstants.getEffectReference(effect);
+      String text=effect.getName();
+      NavigationHyperLink link=NavigationUtils.buildNavigationLink(getParent(),text,pageId);
+      links.add(link);
+    }
+    _links.addAll(links);
+    return buildPanel(links);
   }
 
   private JPanel buildPanel(List<NavigationHyperLink> links)
