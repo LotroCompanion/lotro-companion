@@ -211,6 +211,9 @@ public class DatedCurvesChartController
     {
       valueAxis.setNumberFormatOverride(null);
     }
+    // Label
+    String valueAxisLabel=_configuration.getValueAxisLabel();
+    valueAxis.setLabel(valueAxisLabel);
   }
 
   private NumberFormat buildValueNumberFormat(ValueRenderer renderer)
