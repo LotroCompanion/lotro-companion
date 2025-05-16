@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +16,6 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,6 +33,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.l10n.LocalizedFormats;
@@ -174,7 +175,7 @@ public class DatedCurvesChartController
           valueDisplay=String.valueOf((int)value);
         }
         double timestamp=dataset.getXValue(series,item);
-        String date=Formats.getDateString(Long.valueOf((long)timestamp));
+        String date=Formats.getDateTimeString(new Date((long)timestamp));
         return name+" - "+valueDisplay+" ("+date+")";
       }
     };
