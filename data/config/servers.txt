@@ -38,3 +38,5 @@ Glamdring
 Peregrin
 Orcrist
 Meriadoc
+Grond
+Sting
