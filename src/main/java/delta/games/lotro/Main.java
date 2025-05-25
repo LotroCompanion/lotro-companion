@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.utils.exceptions.UIExceptionsLogger;
 import delta.common.utils.l10n.L10nConfiguration;
 import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.config.LotroCoreConfig;
@@ -26,6 +27,7 @@ public class Main
   public static void main(String[] args)
   {
     // Init UI
+    UIExceptionsLogger.init();
     GuiFactory.init();
     // Init preferences
     GuiFactory.setPreferences(Config.getInstance().getPreferences());
