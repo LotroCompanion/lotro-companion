@@ -2,9 +2,9 @@
 default.server=Landroval
 
 # Current version
-current.version.id=2301
-current.version.name=23.1.0 Update 41.2
-current.version.date=31/08/2024
+current.version.id=24200
+current.version.name=24.2.0 Update 44.2
+current.version.date=25/05/2025
 
 # User data
 user.data.root.dir=${user.home}/.lotrocompanion/data
