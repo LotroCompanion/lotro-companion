@@ -12,6 +12,7 @@ import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.ThreeStateBooleanTableCellRenderer;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
@@ -410,6 +411,7 @@ public class CharacterFileColumnsBuilder
     };
     DefaultTableColumnController<CharacterFile,Boolean> column=new DefaultTableColumnController<CharacterFile,Boolean>(ToonsTableColumnIds.NO_PURCHASE_REQUIRED.name(),"VIP Goodies",Boolean.class,cell); // I18n
     column.setWidthSpecs(30,30,30);
+    column.setCellRenderer(new ThreeStateBooleanTableCellRenderer());
     return column;
   }
 }
