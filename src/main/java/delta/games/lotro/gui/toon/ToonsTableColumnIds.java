@@ -63,6 +63,10 @@ public enum ToonsTableColumnIds
    */
   LAST_LOGOUT_DATE,
   /**
+   * No purchase required.
+   */
+  NO_PURCHASE_REQUIRED,
+  /**
    * Title.
    */
   TITLE,

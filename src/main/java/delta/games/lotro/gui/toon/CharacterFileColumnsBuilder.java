@@ -164,6 +164,8 @@ public class CharacterFileColumnsBuilder
       ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
+    // 'No purchase required'
+    ret.add(getNoPurchaseRequiredColumn());
     // Title column
     {
       CellDataProvider<CharacterFile,String> titleCell=new CellDataProvider<CharacterFile,String>()
@@ -392,6 +394,22 @@ public class CharacterFileColumnsBuilder
     DefaultTableColumnController<CharacterFile,Integer> column=new DefaultTableColumnController<CharacterFile,Integer>(columnId,columnName,Integer.class,cell);
     ColumnsUtils.configureIntegerColumn(column);
     column.setEditable(false);
+    return column;
+  }
+
+  private static TableColumnController<CharacterFile,Boolean> getNoPurchaseRequiredColumn()
+  {
+    CellDataProvider<CharacterFile,Boolean> cell=new CellDataProvider<CharacterFile,Boolean>()
+    {
+      @Override
+      public Boolean getData(CharacterFile file)
+      {
+        CharacterDetails data=file.getDetails();
+        return data.getNoPurchaseRequired();
+      }
+    };
+    DefaultTableColumnController<CharacterFile,Boolean> column=new DefaultTableColumnController<CharacterFile,Boolean>(ToonsTableColumnIds.NO_PURCHASE_REQUIRED.name(),"VIP Goodies",Boolean.class,cell); // I18n
+    column.setWidthSpecs(30,30,30);
     return column;
   }
 }
