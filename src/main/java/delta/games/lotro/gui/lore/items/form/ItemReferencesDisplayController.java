@@ -16,6 +16,7 @@ import delta.games.lotro.character.classes.initialGear.InitialGearElement;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
@@ -123,6 +124,7 @@ public class ItemReferencesDisplayController
     buildHtmlForVendors(sb,references);
     buildHtmlForSets(sb,references);
     buildHtmlForContainers(sb,references);
+    buildHtmlForMobs(sb,references);
     buildHtmlForMeldingRecipes(sb,references);
     buildHtmlForSameCosmetics(sb,references);
     buildHtmlForWebStoreItems(sb,references);
@@ -396,6 +398,31 @@ public class ItemReferencesDisplayController
     Item item=ItemsManager.getInstance().getItem(itemId);
     String itemName=item.getName();
     HtmlUtils.printLink(sb,to.getFullAddress(),itemName);
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private void buildHtmlForMobs(StringBuilder sb, List<Reference<?,ItemRole>> references)
+  {
+    List<Reference<MobDescription,ItemRole>> mobReferences=getReferences(references,MobDescription.class);
+    if (!mobReferences.isEmpty())
+    {
+      sb.append("<h1>Mob drops</h1>");
+      for(Reference<MobDescription,ItemRole> mobReference : mobReferences)
+      {
+        buildHtmlForMobReference(sb,mobReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForMobReference(StringBuilder sb, MobDescription mob)
+  {
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Drops from ");
+    sb.append(HtmlConstants.START_BOLD);
+    PageIdentifier to=ReferenceConstants.getMobReference(mob);
+    String mobName=mob.getName();
+    HtmlUtils.printLink(sb,to.getFullAddress(),mobName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
