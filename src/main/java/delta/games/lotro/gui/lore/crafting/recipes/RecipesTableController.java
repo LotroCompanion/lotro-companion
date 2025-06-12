@@ -206,6 +206,8 @@ public class RecipesTableController
       guildColumn.setWidthSpecs(30,30,30);
       ret.add(guildColumn);
     }
+    // 'Use Ingredient Pack' column
+    ret.add(buildUseIngredientPackColumn());
     // Ingredients
     {
       CellDataProvider<Recipe,List> ingredientsCell=new CellDataProvider<Recipe,List>()
@@ -241,6 +243,21 @@ public class RecipesTableController
       ret.add(resultsColumn);
     }
     return ret;
+  }
+
+  private static DefaultTableColumnController<Recipe,?> buildUseIngredientPackColumn()
+  {
+    CellDataProvider<Recipe,Boolean> cell=new CellDataProvider<Recipe,Boolean>()
+    {
+      @Override
+      public Boolean getData(Recipe recipe)
+      {
+        return Boolean.valueOf(recipe.getIngredientPack()!=null);
+      }
+    };
+    DefaultTableColumnController<Recipe,Boolean> column=new DefaultTableColumnController<Recipe,Boolean>(RecipeColumnIds.USE_INGREDIENT_PACK.name(),"Use Ingredient Pack",Boolean.class,cell); // 18n
+    column.setWidthSpecs(30,30,30);
+    return column;
   }
 
   private List<String> getColumnIds()

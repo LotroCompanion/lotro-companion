@@ -43,6 +43,10 @@ public enum RecipeColumnIds
    */
   GUILD,
   /**
+   * Use ingredient pack.
+   */
+  USE_INGREDIENT_PACK,
+  /**
    * Ingredients.
    */
   INGREDIENTS,
