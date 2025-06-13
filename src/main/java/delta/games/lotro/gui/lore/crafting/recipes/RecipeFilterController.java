@@ -39,6 +39,7 @@ import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeResultFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeSingleUseFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeUseIngredientPackFilter;
 
 /**
  * Controller for a recipe filter edition panel.
@@ -62,6 +63,7 @@ public class RecipeFilterController implements ActionListener
   private ComboBoxController<Boolean> _singleUse;
   private ComboBoxController<Boolean> _cooldown;
   private ComboBoxController<Boolean> _guild;
+  private ComboBoxController<Boolean> _useIngredientPack;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -125,6 +127,7 @@ public class RecipeFilterController implements ActionListener
       _singleUse.selectItem(null);
       _cooldown.selectItem(null);
       _guild.selectItem(null);
+      _useIngredientPack.selectItem(null);
     }
   }
 
@@ -162,6 +165,9 @@ public class RecipeFilterController implements ActionListener
     // Guild
     RecipeIsGuildFilter guildFilter=_filter.getGuildFilter();
     _guild.selectItem(guildFilter.getGuildFlag());
+    // Use ingredient pack
+    RecipeUseIngredientPackFilter useIngredientPackFilter=_filter.getUseIngredientPackFilter();
+    _useIngredientPack.selectItem(useIngredientPackFilter.getUseIngredientPackFlag());
   }
 
   private JPanel build()
@@ -197,6 +203,7 @@ public class RecipeFilterController implements ActionListener
     _singleUse=buildSingleUseCombobox();
     _cooldown=buildCooldownCombobox();
     _guild=buildGuildCombobox();
+    _useIngredientPack=buildUseIngredientPackCombobox();
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -237,11 +244,19 @@ public class RecipeFilterController implements ActionListener
     // Guild
     line3Panel.add(GuiFactory.buildLabel("Guild:")); // 18n
     line3Panel.add(_guild.getComboBox());
-    // Result
-    line3Panel.add(GuiFactory.buildLabel("Result:")); // 18n
-    line3Panel.add(_result.getComboBox());
+    // Use Ingredient Pack
+    line3Panel.add(GuiFactory.buildLabel("Use Ingredient Pack:")); // 18n
+    line3Panel.add(_useIngredientPack.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line3Panel,c);
+    y++;
+
+    JPanel line4Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    // Result
+    line4Panel.add(GuiFactory.buildLabel("Result:")); // 18n
+    line4Panel.add(_result.getComboBox());
+    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
+    panel.add(line4Panel,c);
 
     return panel;
   }
@@ -410,6 +425,23 @@ public class RecipeFilterController implements ActionListener
     return combo;
   }
 
+  private ComboBoxController<Boolean> buildUseIngredientPackCombobox()
+  {
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        RecipeUseIngredientPackFilter filter=_filter.getUseIngredientPackFilter();
+        filter.setUseIngredientPackFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -468,6 +500,11 @@ public class RecipeFilterController implements ActionListener
     {
       _guild.dispose();
       _guild=null;
+    }
+    if (_useIngredientPack!=null)
+    {
+      _useIngredientPack.dispose();
+      _useIngredientPack=null;
     }
     _contains=null;
     _reset=null;
