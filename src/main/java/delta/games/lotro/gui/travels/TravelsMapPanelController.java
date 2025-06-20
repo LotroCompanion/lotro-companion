@@ -9,11 +9,13 @@ import delta.games.lotro.character.status.travels.DiscoveredDestinations;
 import delta.games.lotro.character.status.travels.io.DiscoveredDestinationsIo;
 import delta.games.lotro.lore.travels.map.TravelsMap;
 import delta.games.lotro.lore.travels.map.io.TravelsMapIO;
+import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.GeoReference;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
+import delta.games.lotro.maps.ui.MapUiUtils;
 import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.Layer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
@@ -54,7 +56,9 @@ public class TravelsMapPanelController extends AbstractPanelController
     // Basemap
     BasemapLayer basemapLayer=buildMapLayer();
     MapCanvas canvas=ret.getCanvas();
-    GeoReference reference=new GeoReference(new GeoPoint(0,0),1);
+    GeoPoint origin=new GeoPoint(0,0);
+    GeoPoint bounds=new GeoPoint(_mapImage.getWidth(),-_mapImage.getHeight());
+    GeoReference reference=new GeoReference(origin,1);
     canvas.setViewReference(reference);
     canvas.addLayer(basemapLayer);
     // Labels
@@ -65,6 +69,8 @@ public class TravelsMapPanelController extends AbstractPanelController
     TravelNodesLayerBuilder b=new TravelNodesLayerBuilder(_map,destinations);
     MarkersLayer nodesLayer=b.build();
     canvas.addLayer(nodesLayer);
+    GeoBox box=new GeoBox(origin,bounds);
+    MapUiUtils.configureConstraints(canvas,box,0.5f);
     return ret;
   }
 

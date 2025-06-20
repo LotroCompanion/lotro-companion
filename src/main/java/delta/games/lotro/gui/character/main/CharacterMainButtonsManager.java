@@ -80,6 +80,8 @@ public class CharacterMainButtonsManager implements ActionListener
     buildCommandButton("Mounted Cosmetics",MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND);
     // Travels status
     buildCommandButton("Travels",MainCharacterWindowCommands.TRAVELS_COMMAND);
+    // Travels maps
+    buildCommandButton("Travels Map",MainCharacterWindowCommands.TRAVELS_MAP_COMMAND);
     // Pets status
     buildCommandButton("Pets",MainCharacterWindowCommands.PETS_COMMAND);
     // Baubles status

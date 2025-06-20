@@ -75,6 +75,10 @@ public class MainCharacterWindowCommands
    */
   public static final String TRAVELS_COMMAND="travels";
   /**
+   * Command: show travels map.
+   */
+  public static final String TRAVELS_MAP_COMMAND="travelsMap";
+  /**
    * Command: show currencies status.
    */
   public static final String CURRENCIES_COMMAND="currencies";

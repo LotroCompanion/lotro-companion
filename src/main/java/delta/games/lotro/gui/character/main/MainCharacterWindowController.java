@@ -436,6 +436,11 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     buttonsLine4.add(_buttonsMgr.getButton(MainCharacterWindowCommands.BIRDS_COMMAND));
     JPanel line4=LayoutUtils.buildHorizontalPanel(buttonsLine4,buttonsLine4.size());
     verticalList.add(line4);
+    // Line 5
+    List<JButton> buttonsLine5=new ArrayList<JButton>();
+    buttonsLine5.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_MAP_COMMAND));
+    JPanel line5=LayoutUtils.buildHorizontalPanel(buttonsLine5,buttonsLine5.size());
+    verticalList.add(line5);
     JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());
     ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.capaCollecs.name")));
     return ret;
@@ -443,12 +448,18 @@ public class MainCharacterWindowController extends DefaultWindowController imple
 
   private JPanel buildMiscButtonsPanel()
   {
-    List<JButton> buttons=new ArrayList<JButton>();
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.HOUSING_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));
-    JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
+    List<JComponent> verticalList=new ArrayList<JComponent>();
+    List<JButton> buttonsLine1=new ArrayList<JButton>();
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.HOUSING_COMMAND));
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));
+    JPanel line1=LayoutUtils.buildHorizontalPanel(buttonsLine1,buttonsLine1.size());
+    verticalList.add(line1);
+    List<JButton> buttonsLine2=new ArrayList<JButton>();
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));
+    JPanel line2=LayoutUtils.buildHorizontalPanel(buttonsLine2,buttonsLine2.size());
+    verticalList.add(line2);
+    JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());
     ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.misc.name")));
     return ret;
   }

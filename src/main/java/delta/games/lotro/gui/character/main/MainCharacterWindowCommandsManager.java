@@ -54,6 +54,7 @@ import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStat
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 import delta.games.lotro.gui.character.traitTree.TraitTreeWindowController;
+import delta.games.lotro.gui.travels.TravelsMapWindowController;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -172,6 +173,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.TRAVELS_COMMAND.equals(command))
     {
       showTravelsStatus();
+    }
+    else if (MainCharacterWindowCommands.TRAVELS_MAP_COMMAND.equals(command))
+    {
+      showTravelsMap();
     }
     else if (MainCharacterWindowCommands.CURRENCIES_COMMAND.equals(command))
     {
@@ -548,6 +553,18 @@ public class MainCharacterWindowCommandsManager
       windowCtrl.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
     windowCtrl.show();
+  }
+
+  private void showTravelsMap()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    TravelsMapWindowController windowCtrl=(TravelsMapWindowController)windowsManager.getWindow(TravelsMapWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new TravelsMapWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   
