@@ -3,6 +3,8 @@ package delta.games.lotro.gui.travels;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,11 +63,23 @@ public class TravelsMapLabelsLayer extends BaseVectorLayer
 
   private void paintLabel(MapView view, TravelsMapLabel label, Graphics g)
   {
-    Dimension position=label.getUIPosition();
+    Rectangle position=label.getUIPosition();
     GeoReference viewReference=view.getViewReference();
-    Dimension uiPosition=viewReference.geo2pixel(new GeoPoint(position.width,-position.height));
-    char[] chars=label.getText().toCharArray();
+    String text=label.getText().toUpperCase();
+    int x=position.x+(position.width/2);
+    int y=-position.y-(position.height/2);
+    Dimension uiPosition=viewReference.geo2pixel(new GeoPoint(x,y));
+    char[] chars=text.toCharArray();
     g.setColor(Color.GREEN);
-    g.drawChars(chars,0,chars.length,uiPosition.width,uiPosition.height);
+    Rectangle2D bounds=getTextBounds(g,text);
+    int ascent=g.getFontMetrics().getAscent();
+    int xDraw=uiPosition.width-(int)(bounds.getWidth()/2);
+    int yDraw=uiPosition.height-(int)(bounds.getHeight()/2)+ascent;
+    g.drawChars(chars,0,chars.length,xDraw,yDraw);
+  }
+
+  private Rectangle2D getTextBounds(Graphics g, String text)
+  {
+    return g.getFontMetrics().getStringBounds(text,g);
   }
 }
