@@ -1,10 +1,10 @@
 # Default server to use in the new toon window (OPTIONAL)
-default.server=Landroval
+default.server=Peregrin
 
 # Current version
-current.version.id=24200
-current.version.name=24.2.0 Update 44.2
-current.version.date=25/05/2025
+current.version.id=24300
+current.version.name=24.3.0 Update 44.3
+current.version.date=21/06/2025
 
 # User data
 user.data.root.dir=${user.home}/.lotrocompanion/data
