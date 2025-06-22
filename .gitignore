@@ -31,3 +31,5 @@
 /old
 /new
 /logs/*.log
+/*-props.txt
+/*-wsl.txt
