@@ -6,6 +6,7 @@ import delta.common.utils.ListenersManager;
 import delta.common.utils.l10n.L10nConfiguration;
 import delta.common.utils.l10n.dates.DateFormatID;
 import delta.common.utils.l10n.numbers.NumberFormatID;
+import delta.games.lotro.Config;
 import delta.games.lotro.config.DataConfiguration;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.config.UserConfig;
@@ -28,6 +29,7 @@ public class ApplicationConfiguration
   private static final String NUMBER_FORMAT="NumberFormat";
 
   private static final ApplicationConfiguration _instance=new ApplicationConfiguration();
+  private ApplicationWideConfiguration _globalConfiguration;
   private DatConfiguration _datConfiguration;
   private L10nConfiguration _l10nConfiguration;
   private DataConfiguration _dataConfiguration;
@@ -50,6 +52,15 @@ public class ApplicationConfiguration
   {
     initConfiguration();
     _listeners=new ListenersManager<ConfigurationListener>();
+  }
+
+  /**
+   * Get the application-wide configuration.
+   * @return the application-wide configuration.
+   */
+  public ApplicationWideConfiguration getGlobalConfiguration()
+  {
+    return _globalConfiguration;
   }
 
   /**
@@ -99,9 +110,12 @@ public class ApplicationConfiguration
 
   private void initConfiguration()
   {
-    _datConfiguration=new DatConfiguration();
     UserConfig config=UserConfig.getInstance();
+    // Global configuration
+    _globalConfiguration=new ApplicationWideConfiguration();
+    _globalConfiguration.fromPreferences(Config.getInstance().getPreferences());
     // DAT
+    _datConfiguration=new DatConfiguration();
     String clientPath=config.getStringValue(DAT_CONFIGURATION,CLIENT_PATH,null);
     if (clientPath!=null)
     {
@@ -130,6 +144,8 @@ public class ApplicationConfiguration
   public void saveConfiguration()
   {
     UserConfig userCfg=UserConfig.getInstance();
+    // Global configuration
+    _globalConfiguration.save(userCfg);
     // LOTRO client path
     String clientPath=_datConfiguration.getRootPath().getAbsolutePath();
     userCfg.setStringValue(DAT_CONFIGURATION,CLIENT_PATH,clientPath);

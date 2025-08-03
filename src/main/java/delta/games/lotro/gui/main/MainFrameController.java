@@ -52,6 +52,7 @@ import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.cfg.ApplicationConfiguration;
+import delta.games.lotro.utils.cfg.ApplicationWideConfiguration;
 import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
@@ -135,7 +136,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        doQuit();
+        quitCallback();
       }
     };
     quit.addActionListener(alQuit);
@@ -424,7 +425,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   @Override
   protected void doWindowClosing()
   {
-    doQuit();
+    quitCallback();
   }
 
   private void doWarbands()
@@ -640,15 +641,32 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void quitCallback()
+  {
+    boolean doIt=shallIQuit();
+    if (doIt)
+    {
+      doQuit();
+    }
+  }
+
+  private boolean shallIQuit()
+  {
+    ApplicationWideConfiguration globalConfig=ApplicationConfiguration.getInstance().getGlobalConfiguration();
+    boolean  askConfirmation=globalConfig.askForQuit();
+    if (askConfirmation)
+    {
+      String question=Labels.getLabel("main.window.quit.question");
+      String title=Labels.getLabel("main.window.quit.title");
+      int result=GuiFactory.showQuestionDialog(getFrame(),question,title,JOptionPane.YES_NO_OPTION);
+      return (result==JOptionPane.OK_OPTION);
+    }
+    return true;
+  }
+
   private void doQuit()
   {
-    String question=Labels.getLabel("main.window.quit.question");
-    String title=Labels.getLabel("main.window.quit.title");
-    int result=GuiFactory.showQuestionDialog(getFrame(),question,title,JOptionPane.YES_NO_OPTION);
-    if (result==JOptionPane.OK_OPTION)
-    {
-      dispose();
-    }
+    dispose();
     Preferences preferences=Config.getInstance().getPreferences();
     preferences.saveAllPreferences();
   }
