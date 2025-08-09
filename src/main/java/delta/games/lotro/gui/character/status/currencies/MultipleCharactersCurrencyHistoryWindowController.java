@@ -19,9 +19,9 @@ import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.Currency;
+import delta.games.lotro.character.utils.CharacterUtils;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartController;
 import delta.games.lotro.gui.character.status.curves.ValueRenderer;
@@ -55,17 +55,10 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAMES_PREFERENCE);
-    CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (!toonIds.isEmpty()))
+    List<CharacterFile> toons=CharacterUtils.getToons(toonIds);
+    for(CharacterFile toon : toons)
     {
-      for(String toonID : toonIds)
-      {
-        CharacterFile toon=manager.getToonById(toonID);
-        if (toon!=null)
-        {
-          _stats.addToon(toon);
-        }
-      }
+      _stats.addToon(toon);
     }
     CurrencyHistoryCurveProvider provider=new CurrencyHistoryCurveProvider();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();

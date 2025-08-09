@@ -13,7 +13,7 @@ import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.utils.CharacterUtils;
 import delta.games.lotro.character.utils.MultipleToonsStats;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.stats.deeds.statistics.curves.DeedCurvesBuilder;
@@ -51,17 +51,10 @@ public class DeedCurvesWindowController extends DefaultWindowController
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(DEEDS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(REGISTERED_TOONS_PREFERENCE_NAME);
-    CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (!toonIds.isEmpty()))
+    List<CharacterFile> toons=CharacterUtils.getToons(toonIds);
+    for(CharacterFile toon : toons)
     {
-      for(String toonID : toonIds)
-      {
-        CharacterFile toon=manager.getToonById(toonID);
-        if (toon!=null)
-        {
-          _stats.addToon(toon);
-        }
-      }
+      _stats.addToon(toon);
     }
     DeedCurvesBuilder provider=new DeedCurvesBuilder();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();

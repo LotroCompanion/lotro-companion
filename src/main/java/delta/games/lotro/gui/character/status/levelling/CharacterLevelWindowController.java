@@ -13,9 +13,9 @@ import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.status.levelling.LevelHistory;
 import delta.games.lotro.character.status.levelling.MultipleToonsLevellingStats;
+import delta.games.lotro.character.utils.CharacterUtils;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelController;
 
@@ -44,17 +44,10 @@ public class CharacterLevelWindowController extends DefaultWindowController
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(LEVELLING_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
-    CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (!toonIds.isEmpty()))
+    List<CharacterFile> toons=CharacterUtils.getToons(toonIds);
+    for(CharacterFile toon : toons)
     {
-      for(String toonID : toonIds)
-      {
-        CharacterFile toon=manager.getToonById(toonID);
-        if (toon!=null)
-        {
-          _stats.addToon(toon);
-        }
-      }
+      _stats.addToon(toon);
     }
     LevelCurveProvider provider=new LevelCurveProvider();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();

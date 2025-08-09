@@ -14,7 +14,7 @@ import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.utils.CharacterUtils;
 
 /**
  * Controller for a "emotes synopsis" window.
@@ -38,22 +38,10 @@ public class EmotesSynopsisWindowController extends DefaultWindowController
   public EmotesSynopsisWindowController(WindowController parent)
   {
     super(parent);
-    List<CharacterFile> toons=new ArrayList<CharacterFile>();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(EMOTES_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
-    CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (!toonIds.isEmpty()))
-    {
-      for(String toonID : toonIds)
-      {
-        CharacterFile toon=manager.getToonById(toonID);
-        if (toon!=null)
-        {
-          toons.add(toon);
-        }
-      }
-    }
+    List<CharacterFile> toons=CharacterUtils.getToons(toonIds);
     _panelController=new EmotesSynopsisPanelController(this);
     _panelController.getTableController().setToons(toons);
   }
