@@ -171,7 +171,6 @@ public class StashWindowController extends DefaultWindowController implements Ac
     }
     else if (GenericTableController.DOUBLE_CLICK.equals(command))
     {
-      @SuppressWarnings("unchecked")
       ItemInstance<? extends Item> data=(ItemInstance<? extends Item>)e.getSource();
       editItemInstance(data);
     }

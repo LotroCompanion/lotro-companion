@@ -209,7 +209,6 @@ public class StoredItemsTableController
     _tableController.addActionListener(al);
   }
 
-  @SuppressWarnings("unchecked")
   private void showItem(Object sourceItem)
   {
     StoredItem storedItem=(StoredItem)sourceItem;

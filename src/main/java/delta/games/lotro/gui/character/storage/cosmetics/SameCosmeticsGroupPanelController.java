@@ -52,7 +52,6 @@ public class SameCosmeticsGroupPanelController
       ItemProvider itemProvider=countedItem.getManagedItem();
       if (itemProvider instanceof ItemInstance)
       {
-        @SuppressWarnings("unchecked")
         ItemInstance<? extends Item> itemInstance=(ItemInstance<? extends Item>)itemProvider;
         gadgets=new ItemDisplayGadgets(parent,itemInstance,count,comment);
       }

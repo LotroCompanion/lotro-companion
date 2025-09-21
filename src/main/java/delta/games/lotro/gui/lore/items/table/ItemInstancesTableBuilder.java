@@ -93,7 +93,6 @@ public class ItemInstancesTableBuilder
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        @SuppressWarnings("unchecked")
         ItemInstance<? extends Item> source=(ItemInstance<? extends Item>)e.getSource();
         ItemUiTools.showItemInstanceWindow(parent,source);
       }
