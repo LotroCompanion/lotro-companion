@@ -205,7 +205,6 @@ public class EffectDisplayPanelController extends AbstractNavigablePanelControll
     {
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       panel.add(effectLines,c);
-      y++;
     }
     // Padding to push everything on left and top
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());

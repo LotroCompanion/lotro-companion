@@ -153,10 +153,7 @@ public class EffectReferencesDisplayController
     sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getEffectReference(effect);
     String effectName=effect.getName();
-    if (effectName.isEmpty())
-    {
-      effectName="(no name)";
-    }
+    effectName=fixEmptyName(effectName);
     HtmlUtils.printLink(sb,to.getFullAddress(),effectName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
@@ -183,10 +180,7 @@ public class EffectReferencesDisplayController
     sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getSkillReference(skill.getIdentifier());
     String skillName=skill.getName();
-    if (skillName.isEmpty())
-    {
-      skillName="(no name)";
-    }
+    skillName=fixEmptyName(skillName);
     HtmlUtils.printLink(sb,to.getFullAddress(),skillName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
@@ -213,10 +207,7 @@ public class EffectReferencesDisplayController
     sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getTraitReference(trait.getIdentifier());
     String traitName=trait.getName();
-    if (traitName.isEmpty())
-    {
-      traitName="(no name)";
-    }
+    traitName=fixEmptyName(traitName);
     HtmlUtils.printLink(sb,to.getFullAddress(),traitName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
@@ -243,13 +234,15 @@ public class EffectReferencesDisplayController
     sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getMobReference(mob);
     String mobName=mob.getName();
-    if (mobName.isEmpty())
-    {
-      mobName="(no name)";
-    }
+    mobName=fixEmptyName(mobName);
     HtmlUtils.printLink(sb,to.getFullAddress(),mobName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private static String fixEmptyName(String name)
+  {
+    return name.isEmpty()?"(no name)":name;
   }
 
   /**

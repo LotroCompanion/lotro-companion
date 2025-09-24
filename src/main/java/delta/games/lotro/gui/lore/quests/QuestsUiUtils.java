@@ -43,7 +43,7 @@ public class QuestsUiUtils
     List<String> questArcs=QuestsUtils.getQuestArcs();
     for(String questArc : questArcs)
     {
-      String label=(questArc.length()>0)?questArc:"(none)"; // I18n
+      String label=(questArc.isEmpty())?"(none)":questArc; // I18n
       ctrl.addItem(questArc,label);
     }
     ctrl.selectItem(null);
