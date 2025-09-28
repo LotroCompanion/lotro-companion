@@ -8,6 +8,7 @@ import java.util.List;
 
 import delta.common.ui.swing.area.AbstractAreaController;
 import delta.common.ui.swing.area.AreaController;
+import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.status.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.status.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.dat.data.DataFacade;
@@ -16,7 +17,9 @@ import delta.games.lotro.gui.maps.MapPanelConfigurator;
 import delta.games.lotro.gui.maps.MapUtils;
 import delta.games.lotro.lore.geo.GeoBoundingBox;
 import delta.games.lotro.lore.maps.MapDescription;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
+import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
@@ -101,8 +104,7 @@ public class AchievableGeoPointsMapPanelController extends AbstractAreaControlle
       marker.setId(id);
       marker.setDid(id+1);
       // Label
-      ObjectiveCondition condition=item.getCondition();
-      String label=utils.getConditionLabel(condition);
+      String label=getMarkerLabel(utils,item);
       marker.setLabel(label);
       // Position
       Point2D.Float position=point.getLonLat();
@@ -110,6 +112,21 @@ public class AchievableGeoPointsMapPanelController extends AbstractAreaControlle
       marker.setPosition(geoPoint);
       ret.add(marker);
       id++;
+    }
+    return ret;
+  }
+
+  private String getMarkerLabel(AchievableStatusUtils utils, AchievableStatusGeoItem item)
+  {
+    ObjectiveCondition condition=item.getCondition();
+    Achievable achievable=item.getAchievable();
+    Objective objective=item.getObjective();
+    String context=AchievableStatusUtils.getDefaultConditionLabel(achievable,objective);
+    String label=utils.getConditionLabel(condition).trim();
+    String ret=context;
+    if (!label.isEmpty())
+    {
+      ret=ret+EndOfLine.NATIVE_EOL+label;
     }
     return ret;
   }

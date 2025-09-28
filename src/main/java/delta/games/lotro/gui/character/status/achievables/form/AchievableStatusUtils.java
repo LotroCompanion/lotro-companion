@@ -2,6 +2,8 @@ package delta.games.lotro.gui.character.status.achievables.form;
 
 import delta.common.ui.swing.area.AreaController;
 import delta.common.utils.variables.VariablesResolver;
+import delta.games.lotro.lore.quests.Achievable;
+import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -24,6 +26,19 @@ public class AchievableStatusUtils
   {
     VariablesResolver resolver=ContextRendering.buildRenderer(controller);
     _builder=new ObjectivesDisplayBuilder(resolver,new TextOutput());
+  }
+
+  /**
+   * Get the context label for an objective condition.
+   * @param achievable Parent achievable.
+   * @param objective Parent objective.
+   * @return A displayable label.
+   */
+  public static String getDefaultConditionLabel(Achievable achievable, Objective objective)
+  {
+    String name=achievable.getName();
+    int index=objective.getIndex();
+    return name+", objective #"+index;
   }
 
   /**

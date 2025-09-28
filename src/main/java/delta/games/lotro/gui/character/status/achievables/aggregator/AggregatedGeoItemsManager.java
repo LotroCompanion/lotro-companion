@@ -37,9 +37,9 @@ public class AggregatedGeoItemsManager
    */
   public void addAchievableStatus(AchievableStatus status)
   {
-    Achievable achievable=status.getAchievable();
     AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(status,null);
     List<AchievableStatusGeoItem> points=geoStatusManager.getPoints();
+    Achievable achievable=status.getAchievable();
     List<MapDescription> maps=achievable.getMaps();
 
     for(AchievableStatusGeoItem point : points)
