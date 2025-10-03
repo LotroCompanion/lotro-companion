@@ -202,6 +202,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
         }
         catch (InterruptedException e)
         {
+          Thread.currentThread().interrupt();
           return;
         }
         List<LotroProcess> processes=null;
@@ -250,6 +251,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     }
     catch (InterruptedException e)
     {
+      Thread.currentThread().interrupt();
       return;
     }
     try
