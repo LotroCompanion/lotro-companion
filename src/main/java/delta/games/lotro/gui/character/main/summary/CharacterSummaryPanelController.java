@@ -206,7 +206,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     String rank=RanksManager.getInstance().getRankLabel(rankCode,RankScaleKeys.RENOWN);
     if (rank!=null)
     {
-      rank=ContextRendering.render(this,rank)+" ("+summary.getRankCode()+")";
+      rank=ContextRendering.render(this,rank)+" ("+rankCode+")";
     }
     else
     {
