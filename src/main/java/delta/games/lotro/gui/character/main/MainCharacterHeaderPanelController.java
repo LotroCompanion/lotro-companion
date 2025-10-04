@@ -147,7 +147,7 @@ public class MainCharacterHeaderPanelController extends AbstractPanelController 
       return;
     }
     // Name/region
-    String name=_summary.getName();
+    String name=_summary.getFullName();
     String region=_summary.getRegion();
     String text=name;
     if ((region!=null) && (!region.isEmpty()))
