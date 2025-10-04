@@ -18,6 +18,8 @@ import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
+import delta.games.lotro.character.status.notes.CharacterNotes;
+import delta.games.lotro.character.status.notes.io.CharacterNotesIo;
 import delta.games.lotro.character.status.summary.AchievementsSummary;
 import delta.games.lotro.character.status.summary.io.AchievementsSummaryIO;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
@@ -38,6 +40,8 @@ import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.maps.Zone;
 import delta.games.lotro.lore.maps.ZoneUtils;
+import delta.games.lotro.lore.pvp.RankScaleKeys;
+import delta.games.lotro.lore.pvp.RanksManager;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -77,9 +81,14 @@ public class CharacterFileColumnsBuilder
       TableColumnController<CharacterFile,Object> proxiedColumn=new ProxiedTableColumnController<CharacterFile,CharacterSummary,Object>(c,dataProvider);
       columns.add(proxiedColumn);
     }
+    columns.add(getSurnameColumn());
+    columns.add(getFullNameColumn());
+    columns.add(getPVPRankColumn());
+    columns.add(getPVPLevelColumn());
     // Details columns
     List<TableColumnController<CharacterFile,?>> detailsColumns=getDetailsColumns();
     columns.addAll(detailsColumns);
+    columns.add(getNotesColumn());
     // Storage columns
     columns.add(getBagSummaryColumn());
     columns.add(getOwnVaultSummaryColumn());
@@ -378,6 +387,89 @@ public class CharacterFileColumnsBuilder
   private static TableColumnController<CharacterFile,?> getTitlesCountColumn()
   {
     return getAchievementsSummaryColumn(ToonsTableColumnIds.TITLES_COUNT.name(),"Titles",AchievementsSummary::getTitlesCount); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getSurnameColumn()
+  {
+    CellDataProvider<CharacterFile,String> surnameCell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        CharacterSummary summary=file.getSummary();
+        return (summary!=null && summary.getSurname()!=null) ? summary.getSurname() : "";
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> surnameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.SURNAME.name(),"Surname",String.class,surnameCell); // I18n
+    surnameColumn.setWidthSpecs(100,-1,200);
+    return surnameColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getFullNameColumn()
+  {
+    CellDataProvider<CharacterFile,String> fullNameCell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        CharacterSummary summary=file.getSummary();
+        return summary!=null ? summary.getFullName() : "";
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> fullNameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.FULL_NAME.name(),"Full Name",String.class,fullNameCell); // I18n
+    fullNameColumn.setWidthSpecs(100,-1,200);
+    return fullNameColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getPVPRankColumn()
+  {
+    CellDataProvider<CharacterFile,String> pvpRankCell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        CharacterSummary summary=file.getSummary();
+        if (summary==null) return "";
+        String rank=RanksManager.getInstance().getRankLabel(summary.getRankCode(),RankScaleKeys.RENOWN);
+        return (rank!=null) ? ContextRendering.render(summary,rank) : "";
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> pvpRankColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PVP_RANK.name(),"PVP Rank",String.class,pvpRankCell); // I18n
+    pvpRankColumn.setWidthSpecs(100,-1,150);
+    return pvpRankColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getPVPLevelColumn()
+  {
+    CellDataProvider<CharacterFile,Integer> pvpLevelCell=new CellDataProvider<CharacterFile,Integer>()
+    {
+      @Override
+      public Integer getData(CharacterFile file)
+      {
+        CharacterSummary summary=file.getSummary();
+        return summary!=null ? summary.getRankCode() : null;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,Integer> pvpRankColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.PVP_LEVEL.name(),"PVP Level",Integer.class,pvpLevelCell); // I18n
+    pvpRankColumn.setWidthSpecs(50,65,65);
+    return pvpRankColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getNotesColumn()
+  {
+    CellDataProvider<CharacterFile,String> notesCell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        CharacterNotes notes=CharacterNotesIo.load(file);
+        if (notes==null) return "";
+        return notes.getText().split("\r\n|\r|\n",2)[0];
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> notesColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.NOTES_FIRST_LINE.name(),"Notes",String.class,notesCell); // I18n
+    notesColumn.setWidthSpecs(50,-1,100);
+    return notesColumn;
   }
 
   private static TableColumnController<CharacterFile,?> getAchievementsSummaryColumn(String columnId, String columnName, Function<AchievementsSummary,Integer> getter)
