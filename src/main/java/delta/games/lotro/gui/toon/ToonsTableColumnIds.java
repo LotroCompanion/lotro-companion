@@ -121,5 +121,25 @@ public enum ToonsTableColumnIds
   /**
    * Acquired titles count.
    */
-  TITLES_COUNT
+  TITLES_COUNT,
+  /**
+   * Surname.
+   */
+  SURNAME,
+  /**
+   * Full Name ("NAME SURNAME" or "NAME" if no SURNAME).
+   */
+  FULL_NAME,
+  /**
+   * PVP Rank.
+   */
+  PVP_RANK,
+  /**
+   * PVP Level.
+   */
+  PVP_LEVEL,
+  /**
+   * First line of notes
+   */
+  NOTES_FIRST_LINE
 }

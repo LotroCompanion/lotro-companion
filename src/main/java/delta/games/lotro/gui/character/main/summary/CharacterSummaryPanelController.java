@@ -44,6 +44,7 @@ import delta.games.lotro.utils.strings.ContextRendering;
 public class CharacterSummaryPanelController extends AbstractPanelController
 {
   private JLabel _name;
+  private JLabel _surname;
   private NavigationHyperLink _race;
   private JLabel _gender;
   private NavigationHyperLink _nationality;
@@ -63,6 +64,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
   {
     super(parent);
     _name=GuiFactory.buildLabel("");
+    _surname=GuiFactory.buildLabel("");
     _race=new NavigationHyperLink(parent,"",null);
     _gender=GuiFactory.buildLabel("");
     _nationality=new NavigationHyperLink(parent,"",null);
@@ -84,6 +86,10 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     // Name
     ret.add(GuiFactory.buildLabel("Name:"),cLabel);
     ret.add(_name,cValue);
+    cLabel.gridy++;cValue.gridy++;
+    // Surname
+    ret.add(GuiFactory.buildLabel("Surname:"),cLabel);
+    ret.add(_surname,cValue);
     cLabel.gridy++;cValue.gridy++;
     // Race
     ret.add(GuiFactory.buildLabel("Race:"),cLabel);
@@ -139,6 +145,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     // Name
     String name=summary.getName();
     _name.setText(name);
+    _surname.setText(summary.getSurname());
     // Race
     RaceDescription race=summary.getRace();
     if (race!=null)
@@ -199,7 +206,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     String rank=RanksManager.getInstance().getRankLabel(rankCode,RankScaleKeys.RENOWN);
     if (rank!=null)
     {
-      rank=ContextRendering.render(this,rank);
+      rank=ContextRendering.render(this,rank)+" ("+summary.getRankCode()+")";
     }
     else
     {
