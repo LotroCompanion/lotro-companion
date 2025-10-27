@@ -34,12 +34,12 @@
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-dat-utils</artifactId>
-      <version>11.7</version>
+      <version>11.8</version>
     </dependency>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-memory</artifactId>
-      <version>6.2</version>
+      <version>6.3</version>
     </dependency>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
