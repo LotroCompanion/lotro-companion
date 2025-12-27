@@ -24,6 +24,7 @@ import delta.games.lotro.gui.lore.trade.vendor.VendorFilterController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
 
 /**
@@ -87,7 +88,7 @@ public class VendorsExplorerWindowController extends DefaultWindowController
     // Filter
     _filterController=new VendorFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

@@ -17,6 +17,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.ListenersManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel to edit a selection of characters.
@@ -81,7 +82,7 @@ public class CharactersSelectionPanelController
     ret.add(selectionPanel,c);
 
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose characters..."); // I18n
+    JButton chooser=GuiFactory.buildButton(Labels.getLabel("shared.chooseCharacters.button"));
     ActionListener al=new ActionListener()
     {
       @Override

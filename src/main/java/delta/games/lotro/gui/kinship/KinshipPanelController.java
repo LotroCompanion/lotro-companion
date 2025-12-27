@@ -11,6 +11,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.kinship.filter.KinshipMemberFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.filters.KinshipMemberFilter;
@@ -67,7 +68,7 @@ public class KinshipPanelController
     // Top panel
     _filterController=new KinshipMemberFilterController(_kinship,_filter,_membersPanel);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,BorderLayout.NORTH);
     return panel;

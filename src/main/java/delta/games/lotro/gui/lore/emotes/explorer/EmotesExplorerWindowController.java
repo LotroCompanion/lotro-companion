@@ -23,6 +23,7 @@ import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
 import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
@@ -87,7 +88,7 @@ public class EmotesExplorerWindowController extends DefaultWindowController
     EmoteFilterConfiguration config=new EmoteFilterConfiguration();
     _filterController=new EmoteFilterController(_filter,config,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

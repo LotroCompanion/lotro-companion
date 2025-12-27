@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -130,7 +130,7 @@ public class WalletFilterController implements ActionListener
 
     // Paper items attributes
     JPanel paperItemPanel=buildPaperItemPanel();
-    Border border=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     paperItemPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(paperItemPanel,c);

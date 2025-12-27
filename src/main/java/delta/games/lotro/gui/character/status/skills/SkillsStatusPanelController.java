@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -15,6 +16,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.status.skills.SkillsStatusManager;
 import delta.games.lotro.character.status.skills.filters.SkillStatusFilter;
 import delta.games.lotro.gui.character.status.skills.filter.SkillStatusFilterController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window that show the status of skills.
@@ -68,7 +70,8 @@ public class SkillsStatusPanelController
     // Filter
     _filterController=new SkillStatusFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
+    filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);

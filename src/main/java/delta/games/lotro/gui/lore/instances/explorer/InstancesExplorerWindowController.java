@@ -24,6 +24,7 @@ import delta.games.lotro.gui.lore.instances.InstancesFilterController;
 import delta.games.lotro.gui.lore.instances.InstancesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.instances.InstanceTreeEntry;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 
@@ -88,7 +89,7 @@ public class InstancesExplorerWindowController extends DefaultWindowController
     // Filter
     _filterController=new InstancesFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

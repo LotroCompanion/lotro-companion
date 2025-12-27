@@ -7,6 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
@@ -21,6 +22,7 @@ import delta.games.lotro.gui.character.status.skirmishes.filter.SkirmishEntryFil
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.ConfigUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a skirmish statistics display window.
@@ -96,7 +98,8 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     // Whole panel
     // - filter
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
+    filterPanel.setBorder(filterBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     // - config

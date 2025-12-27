@@ -24,6 +24,7 @@ import delta.games.lotro.gui.lore.crafting.recipes.RecipeFilterController;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
@@ -90,7 +91,7 @@ public class RecipesExplorerWindowController extends DefaultWindowController
     List<Recipe> recipes=RecipesManager.getInstance().getAll();
     _filterController=new RecipeFilterController(recipes,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // 18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
 
     // Whole panel
