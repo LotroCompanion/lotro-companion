@@ -18,6 +18,7 @@ import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.BaseStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel that displays storage summary for an account/server.
@@ -137,14 +138,16 @@ public class AccountStorageSummaryPanelController
     {
       Color color=getColor(value.intValue(),maxValue.intValue());
       bar.setForeground(color);
-      bar.setString(value+" / "+maxValue);
+      String label=Labels.getLabel("account.storage.summary.values",new Object[] {value,maxValue});
+      bar.setString(label);
       bar.setMaximum(maxValue.intValue());
       bar.setValue(value.intValue());
     }
     else
     {
       bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)"); // I18n
+      String label=Labels.getLabel("account.storage.summary.unknown");
+      bar.setString(label);
       bar.setMaximum(100);
       bar.setValue(100);
     }
@@ -162,26 +165,27 @@ public class AccountStorageSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
-    JLabel bagsLabel=GuiFactory.buildLabel("Bags:"); // I18n
+    //
+    JLabel bagsLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.bags"));
     panel.add(bagsLabel,c);
     c.gridx++;
     _bags=buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vaults
-    JLabel vaultLabel=GuiFactory.buildLabel("Vaults:"); // I18n
+    JLabel vaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.vaults"));
     panel.add(vaultLabel,c);
     c.gridx++;
     _vault=buildProgressBar();
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
     // Shared vault
-    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared vault:"); // I18n
+    JLabel sharedVaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.sharedVault"));
     panel.add(sharedVaultLabel,c);
     c.gridx++;
     _sharedVault=buildProgressBar();
     panel.add(_sharedVault,c);
-    TitledBorder border=GuiFactory.buildTitledBorder("Capacity"); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("account.storage.summary.capacity"));
     panel.setBorder(border);
     return panel;
   }

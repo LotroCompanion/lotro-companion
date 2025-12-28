@@ -95,8 +95,11 @@ public class ItemsExplorerWindowController extends DefaultWindowController
     // Table
     initItemsTable();
     _panelController=new GenericTablePanelController<Item>(this,_tableController.getTableController());
-    _panelController.getConfiguration().setBorderTitle("Items"); // I18n
-    _panelController.getCountsDisplay().setText("Item(s)"); // I18n
+
+    String borderLabel=Labels.getLabel("shared.table.items.border");
+    _panelController.getConfiguration().setBorderTitle(borderLabel);
+    String itemsLabel=Labels.getLabel("shared.table.field.items");
+    _panelController.getCountsDisplay().setText(itemsLabel);
     JPanel tablePanel=_panelController.getPanel();
     _filterController.setFilterUpdateListener(_panelController);
     _panelController.filterUpdated();
