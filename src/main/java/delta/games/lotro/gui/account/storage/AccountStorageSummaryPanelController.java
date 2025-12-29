@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.account.storage;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +17,7 @@ import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.BaseStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
@@ -63,7 +63,7 @@ public class AccountStorageSummaryPanelController
       Integer[] capacity=getCapacity(storage,true);
       Integer used=capacity[0];
       Integer max=capacity[1];
-      updateProgressBar(_bags,used,max);
+      StorageUiUtils.updateProgressBar(_bags,used,max);
     }
     // Shared vault
     {
@@ -72,11 +72,11 @@ public class AccountStorageSummaryPanelController
       {
         Integer max=Integer.valueOf(sharedVault.getCapacity());
         Integer used=Integer.valueOf(sharedVault.getUsed());
-        updateProgressBar(_sharedVault,used,max);
+        StorageUiUtils.updateProgressBar(_sharedVault,used,max);
       }
       else
       {
-        updateProgressBar(_sharedVault,null,null);
+        StorageUiUtils.updateProgressBar(_sharedVault,null,null);
       }
     }
     // Vaults
@@ -84,7 +84,7 @@ public class AccountStorageSummaryPanelController
       Integer[] capacity=getCapacity(storage,false);
       Integer used=capacity[0];
       Integer max=capacity[1];
-      updateProgressBar(_vault,used,max);
+      StorageUiUtils.updateProgressBar(_vault,used,max);
     }
   }
 
@@ -132,60 +132,32 @@ public class AccountStorageSummaryPanelController
     return bar;
   }
 
-  private void updateProgressBar(JProgressBar bar, Integer value, Integer maxValue)
-  {
-    if ((value!=null) && (maxValue!=null))
-    {
-      Color color=getColor(value.intValue(),maxValue.intValue());
-      bar.setForeground(color);
-      String label=Labels.getLabel("account.storage.summary.values",new Object[] {value,maxValue});
-      bar.setString(label);
-      bar.setMaximum(maxValue.intValue());
-      bar.setValue(value.intValue());
-    }
-    else
-    {
-      bar.setForeground(Color.LIGHT_GRAY);
-      String label=Labels.getLabel("account.storage.summary.unknown");
-      bar.setString(label);
-      bar.setMaximum(100);
-      bar.setValue(100);
-    }
-  }
-
-  private Color getColor(int value, int maxValue)
-  {
-    if (value * 100 > maxValue * 80) return Color.RED; // > 80%
-    if (value * 100 > maxValue * 50) return Color.YELLOW; // > 80%
-    return Color.GREEN;
-  }
-
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
     //
-    JLabel bagsLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.bags"));
+    JLabel bagsLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.bags"));
     panel.add(bagsLabel,c);
     c.gridx++;
     _bags=buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vaults
-    JLabel vaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.vaults"));
+    JLabel vaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.vaults"));
     panel.add(vaultLabel,c);
     c.gridx++;
     _vault=buildProgressBar();
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
     // Shared vault
-    JLabel sharedVaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("account.storage.summary.field.sharedVault"));
+    JLabel sharedVaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.sharedVault"));
     panel.add(sharedVaultLabel,c);
     c.gridx++;
     _sharedVault=buildProgressBar();
     panel.add(_sharedVault,c);
-    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("account.storage.summary.capacity"));
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("storage.summary.capacity"));
     panel.setBorder(border);
     return panel;
   }

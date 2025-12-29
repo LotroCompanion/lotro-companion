@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.achievables.Progress;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Utility methods used in storage-related UIs.
@@ -53,14 +54,16 @@ public class StorageUiUtils
     {
       Color color=getColor(value.intValue(),maxValue.intValue());
       bar.setForeground(color);
-      bar.setString(value+" / "+maxValue);
+      String label=Labels.getLabel("storage.summary.values",new Object[] {value,maxValue});
+      bar.setString(label);
       bar.setMaximum(maxValue.intValue());
       bar.setValue(value.intValue());
     }
     else
     {
       bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)"); // I18n
+      String label=Labels.getLabel("storage.summary.unknown");
+      bar.setString(label);
       bar.setMaximum(100);
       bar.setValue(100);
     }
@@ -79,7 +82,7 @@ public class StorageUiUtils
   private static Color getColor(int value, int maxValue)
   {
     if (value * 100 > maxValue * 80) return Color.RED; // > 80%
-    if (value * 100 > maxValue * 50) return Color.YELLOW; // > 80%
+    if (value * 100 > maxValue * 50) return Color.YELLOW; // > 50%
     return Color.GREEN;
   }
 }

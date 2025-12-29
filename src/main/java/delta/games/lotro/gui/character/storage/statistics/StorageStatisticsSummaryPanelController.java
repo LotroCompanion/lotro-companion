@@ -14,6 +14,7 @@ import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
 import delta.games.lotro.character.storage.statistics.reputation.StorageReputationStats;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel to show the summary of the statistics about stored items.
@@ -46,29 +47,30 @@ public class StorageStatisticsSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Stats panel
     JPanel statsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Statistics"); // I18n
+    
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("storage.statistics.summary.title"));
     statsPanel.setBorder(border);
     panel.add(statsPanel,BorderLayout.CENTER);
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
     // Reputation
-    statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("storage.statistics.summary.field.reputation")),cLabels);
     _reputation=GuiFactory.buildLabel("");
     statsPanel.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Price
-    statsPanel.add(GuiFactory.buildLabel("Total Value:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("storage.statistics.summary.field.totalValue")),cLabels);
     _priceDisplay=new MoneyDisplayController();
     statsPanel.add(_priceDisplay.getPanel(),cValues);
     cLabels.gridy++;cValues.gridy++;
     // Item XP
-    statsPanel.add(GuiFactory.buildLabel("Total Item XP:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("storage.statistics.summary.field.totalItemXP")),cLabels);
     _totalItemXP=GuiFactory.buildLabel("");
     statsPanel.add(_totalItemXP,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtue XP
-    statsPanel.add(GuiFactory.buildLabel("Total Virtue XP:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("storage.statistics.summary.field.totalVirtueXP")),cLabels);
     _totalVirtueXP=GuiFactory.buildLabel("");
     statsPanel.add(_totalVirtueXP,cValues);
     cLabels.gridy++;cValues.gridy++;

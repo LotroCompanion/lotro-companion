@@ -157,7 +157,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
-    String title="Storage for "+name+" @ "+serverName; // I18n
+    String title=Labels.getLabel("character.storage.window.title",new Object[]{name,serverName});
     getDialog().setTitle(title);
     // Update storage
     CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(_toon);

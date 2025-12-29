@@ -11,6 +11,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.carryalls.CarryAllFilter;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
@@ -67,7 +68,7 @@ public class CarryAllFilterController extends ObjectFilterPanelController
     // Name filter
     JPanel nameContainsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
-      nameContainsPanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
+      nameContainsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("carryAll.filter.field.name")));
       _nameContains=buildReactiveTextField();
       nameContainsPanel.add(_nameContains);
     }

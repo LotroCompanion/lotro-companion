@@ -11,6 +11,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a "tasks statistics" window.
@@ -53,7 +54,7 @@ public class StorageStatisticsWindowController extends DefaultDialogController
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(400,400);
     dialog.setResizable(true);
-    dialog.setTitle("Storage Statistics"); // I18n
+    dialog.setTitle(Labels.getLabel("storage.statistics.window.title"));
     return dialog;
   }
 
