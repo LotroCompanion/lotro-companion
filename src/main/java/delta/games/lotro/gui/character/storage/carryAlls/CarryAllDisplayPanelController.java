@@ -85,7 +85,8 @@ public class CarryAllDisplayPanelController implements FilterUpdateListener
     int y=0;
     // Name
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,0),0,0);
-    JLabel label=GuiFactory.buildLabel("Name: "+_carryAllInstance.getEffectiveName());
+    String carryAllName=Labels.getLabel("carryAll.display.name",new Object[] {_carryAllInstance.getEffectiveName()});
+    JLabel label=GuiFactory.buildLabel(carryAllName);
     ret.add(label,c);
     y++;
     // Status date

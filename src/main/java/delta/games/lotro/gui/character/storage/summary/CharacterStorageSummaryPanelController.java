@@ -15,6 +15,7 @@ import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.SingleStorageSummary;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel that displays storage summary for a single character.
@@ -77,20 +78,20 @@ public class CharacterStorageSummaryPanelController extends AbstractPanelControl
     Dimension size=new Dimension(100,16);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
-    JLabel bagsLabel=GuiFactory.buildLabel("Bags:"); // I18n
+    JLabel bagsLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.bags"));
     panel.add(bagsLabel,c);
     c.gridx++;
     _bags=StorageUiUtils.buildProgressBar(size);
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vault
-    JLabel vaultLabel=GuiFactory.buildLabel("Vault:"); // I18n
+    JLabel vaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.vaults"));
     panel.add(vaultLabel,c);
     c.gridx++;
     _vault=StorageUiUtils.buildProgressBar(size);
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
-    TitledBorder border=GuiFactory.buildTitledBorder("Capacity"); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("storage.summary.capacity"));
     panel.setBorder(border);
     return panel;
   }

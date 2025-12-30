@@ -28,6 +28,7 @@ import delta.games.lotro.gui.lore.items.CountedItemsTableController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.tables.renderers.OwnerRenderer;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -138,7 +139,8 @@ public class StoredItemsTableController
           return countedItem.getOwner();
         }
       };
-      DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell); // I18n
+      String title=Labels.getLabel("storedItems.table.column.owner");
+      DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,title,Owner.class,ownerCell);
       ownerColumn.setWidthSpecs(150,-1,150);
       ownerColumn.setComparator(new OwnerComparator());
       ownerColumn.setCellRenderer(new OwnerRenderer());
@@ -154,7 +156,8 @@ public class StoredItemsTableController
           return countedItem.getLocation();
         }
       };
-      DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,"Location",StorageLocation.class,locationCell); // I18n
+      String title=Labels.getLabel("storedItems.table.column.location");
+      DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,title,StorageLocation.class,locationCell);
       locationColumn.setWidthSpecs(150,-1,150);
       locationColumn.setComparator(new LocationComparator());
       ret.add(locationColumn);
