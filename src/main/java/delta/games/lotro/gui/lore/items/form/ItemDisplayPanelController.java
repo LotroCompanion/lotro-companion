@@ -12,14 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
@@ -41,6 +38,7 @@ import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelCon
 import delta.games.lotro.gui.lore.items.essences.EssencesTemplatePanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.items.SaveItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
@@ -225,18 +223,6 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     return panel;
   }
 
-  private JComponent buildSelectableLabel(String text)
-  {
-    JTextField f=GuiFactory.buildTextField(text);
-    f.setEditable(false);
-    f.setBorder(null);
-    f.setOpaque(false);
-    f.setFont(UIManager.getFont("Label.font"));
-    Dimension d=f.getPreferredSize();
-    f.setPreferredSize(new Dimension(d.width+5,d.height));
-    return f;
-  }
-
   private JPanel buildMainAttrsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -248,7 +234,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(buildSelectableLabel(line));
+      panelLine.add(SharedUiUtils.buildSelectableLabel(line));
     }
     c.insets=new Insets(0,5,0,0);
     // Essence slots
