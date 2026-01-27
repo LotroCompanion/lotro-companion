@@ -16,6 +16,7 @@ import delta.games.lotro.character.storage.statistics.reputation.StorageFactionS
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievableStatisticsTabPanelController;
 import delta.games.lotro.gui.common.statistics.ReputationTableController;
 import delta.games.lotro.gui.lore.items.CountedItemsTableController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 
@@ -64,10 +65,10 @@ public class StorageStatisticsPanelController extends AbstractPanelController
     panel.add(pane,BorderLayout.CENTER);
     // Items
     JPanel itemsPanel=_items.getPanel();
-    pane.add("Disenchantment",itemsPanel); // I18n
+    pane.add(Labels.getLabel("storage.statistics.panel.disenchantment.title"),itemsPanel);
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
-    pane.add("Reputation",reputationPanel); // I18n
+    pane.add(Labels.getLabel("storage.statistics.panel.reputation.title"),reputationPanel);
     return panel;
   }
 

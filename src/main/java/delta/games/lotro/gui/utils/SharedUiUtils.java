@@ -1,7 +1,13 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.character.virtues.VirtueDescription;
@@ -162,5 +168,22 @@ public class SharedUiUtils
     }
     controller.selectItem(null);
     return controller;
+  }
+
+  /**
+   * Build a selectable label.
+   * @param text Text.
+   * @return the new component.
+   */
+  public static JComponent buildSelectableLabel(String text)
+  {
+    JTextField f=GuiFactory.buildTextField(text);
+    f.setEditable(false);
+    f.setBorder(null);
+    f.setOpaque(false);
+    f.setFont(UIManager.getFont("Label.font"));
+    Dimension d=f.getPreferredSize();
+    f.setPreferredSize(new Dimension(d.width+5,d.height));
+    return f;
   }
 }

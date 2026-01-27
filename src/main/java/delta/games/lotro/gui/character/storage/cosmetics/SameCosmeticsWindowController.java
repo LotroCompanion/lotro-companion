@@ -14,6 +14,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
 import delta.games.lotro.character.storage.cosmetics.SameCosmeticsFinder;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window that shows a collection of 'same cosmetics' groups.
@@ -46,7 +47,7 @@ public class SameCosmeticsWindowController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Same cosmetics"); // I18n
+    dialog.setTitle(Labels.getLabel("sameCosmetics.window.title"));
     dialog.pack();
     int width=dialog.getWidth()+20;
     dialog.setSize(width,INITIAL_HEIGHT);

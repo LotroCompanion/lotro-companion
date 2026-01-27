@@ -20,6 +20,7 @@ import delta.games.lotro.account.events.AccountEventProperties;
 import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.storage.wardrobe.Wardrobe;
 import delta.games.lotro.character.storage.wardrobe.io.xml.WardrobeIO;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -66,7 +67,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     // Filter
     _filterController=new WardrobeFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
+    filterPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter")));
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
@@ -127,7 +128,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     // Title
     String name=_accountOnServer.getAccount().getAccountName();
     String serverName=_accountOnServer.getServerName();
-    String title="Wardrobe for "+name+" @ "+serverName; // I18n
+    String title=Labels.getLabel("wardrobe.title",new Object[] {name,serverName});
     getDialog().setTitle(title);
     // Update storage
     Wardrobe wardrobe=WardrobeIO.loadWardrobe(_accountOnServer);

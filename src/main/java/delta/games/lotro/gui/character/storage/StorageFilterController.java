@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -186,7 +185,8 @@ public class StorageFilterController implements ActionListener
     // Label filter
     {
       JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
+      String label=Labels.getFieldLabel("storage.filter.field.name");
+      containsPanel.add(GuiFactory.buildLabel(label));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       containsPanel.add(_contains);
@@ -210,7 +210,8 @@ public class StorageFilterController implements ActionListener
     // Category
     {
       JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      categoryPanel.add(GuiFactory.buildLabel("Category:")); // I18n
+      String label=Labels.getFieldLabel("storage.filter.field.category");
+      categoryPanel.add(GuiFactory.buildLabel(label));
       _category=buildCategoryCombobox();
       categoryPanel.add(_category.getComboBox());
       line1Panel.add(categoryPanel);
@@ -222,22 +223,23 @@ public class StorageFilterController implements ActionListener
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Owner
     {
-      JLabel label=GuiFactory.buildLabel("Owner:"); // I18n
-      line2Panel.add(label);
+      String label=Labels.getFieldLabel("storage.filter.field.owner");
+      line2Panel.add(GuiFactory.buildLabel(label));
       _owner=buildOwnerCombobox();
       line2Panel.add(_owner.getComboBox());
     }
     // Location
     {
-      JLabel label=GuiFactory.buildLabel("Location:"); // I18n
-      line2Panel.add(label);
+      String label=Labels.getFieldLabel("storage.filter.field.location");
+      line2Panel.add(GuiFactory.buildLabel(label));
       _location=buildLocationCombobox();
       line2Panel.add(_location.getComboBox());
     }
     // Quality
     {
       JPanel qualityPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      qualityPanel.add(GuiFactory.buildLabel("Quality:")); // I18n
+      String label=Labels.getFieldLabel("storage.filter.field.quality");
+      qualityPanel.add(GuiFactory.buildLabel(label));
       _quality=buildQualityCombobox();
       qualityPanel.add(_quality.getComboBox());
       line2Panel.add(qualityPanel);

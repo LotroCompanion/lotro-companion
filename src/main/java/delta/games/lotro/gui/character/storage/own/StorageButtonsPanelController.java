@@ -19,6 +19,7 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.cosmetics.SameCosmeticsWindowController;
 import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel to show the storage buttons.
@@ -67,8 +68,9 @@ public class StorageButtonsPanelController implements FilterUpdateListener
     // Stats button
     JButton statsButton;
     {
-      statsButton=GuiFactory.buildButton("Statistics"); // I18n
-      statsButton.setToolTipText("Statistics on the selected items..."); // I18n
+      statsButton=GuiFactory.buildButton(Labels.getLabel("storage.buttons.statistics"));
+      String tooltip=Labels.getLabel("storage.buttons.statistics.tooltip");
+      statsButton.setToolTipText(tooltip);
       ActionListener al=new ActionListener()
       {
         @Override
@@ -82,8 +84,9 @@ public class StorageButtonsPanelController implements FilterUpdateListener
     // Cosmetics button
     JButton cosmeticsButton;
     {
-      cosmeticsButton=GuiFactory.buildButton("Cosmetics"); // I18n
-      cosmeticsButton.setToolTipText("A tool to find items with same look among the selected items..."); // I18n
+      cosmeticsButton=GuiFactory.buildButton(Labels.getLabel("storage.buttons.cosmetics"));
+      String tooltip=Labels.getLabel("storage.buttons.cosmetics.tooltip");
+      cosmeticsButton.setToolTipText(tooltip);
       ActionListener al=new ActionListener()
       {
         @Override

@@ -27,6 +27,7 @@ import delta.games.lotro.gui.lore.agents.mobs.MobsFilterController;
 import delta.games.lotro.gui.lore.agents.mobs.MobsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.mobs.MobsManager;
 import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
@@ -94,7 +95,7 @@ public class MobsExplorerWindowController extends DefaultWindowController
     // Filter
     _filterController=new MobsFilterController(_filter,mobs,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // 18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

@@ -31,6 +31,7 @@ import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.gui.lore.items.ItemInstanceEditionWindowController;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -89,7 +90,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     final Filter<Item> filter=filterController.getFilter();
     filterController.setFilterUpdateListener(this);
     JPanel filterPanel=filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);

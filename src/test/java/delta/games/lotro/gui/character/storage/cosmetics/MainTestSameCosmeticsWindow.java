@@ -20,13 +20,13 @@ public class MainTestSameCosmeticsWindow
 {
   private void doIt()
   {
-    CharacterFile toon=CharactersManager.getInstance().getToonById("Landroval","Lorewyne");
+    CharacterFile toon=CharactersManager.getInstance().getToonById("Peregrin","Lorewyne");
     CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(toon);
     List<StoredItem> items=StorageUtils.buildCharacterItems(toon,characterStorage);
     doIt(items);
 
     Account account=AccountsManager.getInstance().getAccountByAccountName("glorfindel666");
-    AccountOnServer accountOnServer=account.getServer("Landroval");
+    AccountOnServer accountOnServer=account.getServer("Peregrin");
     List<StoredItem> items2=StorageUtils.buildAccountItems(accountOnServer);
     doIt(items2);
   }

@@ -9,6 +9,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.character.storage.statistics.reputation.StorageFactionStats;
 import delta.games.lotro.character.storage.statistics.reputation.StorageReputationStats;
 import delta.games.lotro.gui.common.statistics.ReputationTableController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a table that shows reputations from stored items.
@@ -43,7 +44,8 @@ public class StorageReputationTableController extends ReputationTableController<
           return count;
         }
       };
-      DefaultTableColumnController<StorageFactionStats,Integer> countColumn=new DefaultTableColumnController<StorageFactionStats,Integer>(COUNT,"Items",Integer.class,countCell); // I18n
+      String columnLabel=Labels.getLabel("storage.reputation.column.items");
+      DefaultTableColumnController<StorageFactionStats,Integer> countColumn=new DefaultTableColumnController<StorageFactionStats,Integer>(COUNT,columnLabel,Integer.class,countCell);
       countColumn.setWidthSpecs(60,60,60);
       table.addColumnController(countColumn);
     }

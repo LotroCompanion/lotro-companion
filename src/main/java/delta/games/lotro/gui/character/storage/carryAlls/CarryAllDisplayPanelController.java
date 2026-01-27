@@ -23,6 +23,7 @@ import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.carryalls.CarryAll;
@@ -84,7 +85,8 @@ public class CarryAllDisplayPanelController implements FilterUpdateListener
     int y=0;
     // Name
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,0),0,0);
-    JLabel label=GuiFactory.buildLabel("Name: "+_carryAllInstance.getEffectiveName());
+    String carryAllName=Labels.getLabel("carryAll.display.name",new Object[] {_carryAllInstance.getEffectiveName()});
+    JLabel label=GuiFactory.buildLabel(carryAllName);
     ret.add(label,c);
     y++;
     // Status date
@@ -117,7 +119,7 @@ public class CarryAllDisplayPanelController implements FilterUpdateListener
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Label
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Capacity:"),c); // I18n
+    ret.add(GuiFactory.buildLabel(Labels.getLabel("carryAll.field.capacity")),c);
     // Progress bar
     int capacity=carryAll.getMaxItems();
     int used=_carryAllInstance.getItems().size();

@@ -24,6 +24,7 @@ import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -126,7 +127,8 @@ public class WardrobeItemsTableController
           return wardrobeItem.getColorsLabel();
         }
       };
-      DefaultTableColumnController<WardrobeItem,String> colorColumn=new DefaultTableColumnController<WardrobeItem,String>(COLOR_COLUMN,"Color",String.class,colorCell); // I18n
+      String columnName=Labels.getLabel("wardrobe.table.column.color");
+      DefaultTableColumnController<WardrobeItem,String> colorColumn=new DefaultTableColumnController<WardrobeItem,String>(COLOR_COLUMN,columnName,String.class,colorCell);
       colorColumn.setWidthSpecs(100,100,100);
       ret.add(colorColumn);
     }

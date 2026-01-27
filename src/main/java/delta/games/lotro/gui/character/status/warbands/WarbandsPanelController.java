@@ -19,6 +19,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 
 /**
@@ -107,12 +108,12 @@ public class WarbandsPanelController
 
     // Filter
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,c);
 
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose characters..."); // I18n
+    JButton chooser=GuiFactory.buildButton(Labels.getLabel("shared.chooseCharacters.button"));
     ActionListener al=new ActionListener()
     {
       @Override

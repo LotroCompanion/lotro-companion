@@ -7,11 +7,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.collections.birds.BirdsStatusManager;
 import delta.games.lotro.character.status.collections.birds.filters.BirdStatusFilter;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.collections.birds.BirdDescription;
 import delta.games.lotro.lore.collections.birds.BirdsManager;
 
@@ -66,7 +68,8 @@ public class BirdingStatusPanelController
     // Filter
     _filterController=new BirdingStatusFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
+    filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);

@@ -9,6 +9,7 @@ import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window to display the (shared?) vault of a single character.
@@ -54,8 +55,8 @@ public class VaultWindowController extends DefaultDisplayDialogController<Void>
     String toonName=_character.getName();
     String serverName=_character.getServerName();
     String accountName=_character.getAccountName();
-    String seed=(_shared?"Shared vault":"Vault"); // I18n
-    String title=seed+" for "+toonName+"@"+serverName+" ("+accountName+")";
+    String key=(_shared?"shared.":"")+"vault.window.title";
+    String title=Labels.getLabel(key,new Object[] {toonName,serverName,accountName});
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

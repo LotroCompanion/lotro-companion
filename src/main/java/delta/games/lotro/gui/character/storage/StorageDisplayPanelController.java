@@ -11,6 +11,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the storage display panel.
@@ -37,8 +38,10 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
     _tableController=new StoredItemsTableController(parent,prefs,_items,filter);
     _tablePanel=new GenericTablePanelController<>(parent,_tableController.getTableController());
-    _tablePanel.getConfiguration().setBorderTitle("Items"); // I18n
-    _tablePanel.getCountsDisplay().setText("Item(s)"); // I18n
+    String borderLabel=Labels.getLabel("shared.table.items.border");
+    _tablePanel.getConfiguration().setBorderTitle(borderLabel);
+    String itemsLabel=Labels.getLabel("shared.table.field.items");
+    _tablePanel.getCountsDisplay().setText(itemsLabel);
   }
 
   /**

@@ -28,6 +28,7 @@ import delta.games.lotro.gui.lore.items.CountedItemsTableController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.tables.renderers.OwnerRenderer;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -129,37 +130,53 @@ public class StoredItemsTableController
       ret.add(proxiedColumn);
     }
     // Owner column
-    {
-      CellDataProvider<StoredItem,Owner> ownerCell=new CellDataProvider<StoredItem,Owner>()
-      {
-        @Override
-        public Owner getData(StoredItem countedItem)
-        {
-          return countedItem.getOwner();
-        }
-      };
-      DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell); // I18n
-      ownerColumn.setWidthSpecs(150,-1,150);
-      ownerColumn.setComparator(new OwnerComparator());
-      ownerColumn.setCellRenderer(new OwnerRenderer());
-      ret.add(ownerColumn);
-    }
+    ret.add(buildOwnerColumn());
     // Location column
-    {
-      CellDataProvider<StoredItem,StorageLocation> locationCell=new CellDataProvider<StoredItem,StorageLocation>()
-      {
-        @Override
-        public StorageLocation getData(StoredItem countedItem)
-        {
-          return countedItem.getLocation();
-        }
-      };
-      DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,"Location",StorageLocation.class,locationCell); // I18n
-      locationColumn.setWidthSpecs(150,-1,150);
-      locationColumn.setComparator(new LocationComparator());
-      ret.add(locationColumn);
-    }
+    ret.add(buildLocationColumn());
     return ret;
+  }
+
+  /**
+   * Build a "owner" column.
+   * @return the new column.
+   */
+  public static TableColumnController<StoredItem,Owner> buildOwnerColumn()
+  {
+    CellDataProvider<StoredItem,Owner> ownerCell=new CellDataProvider<StoredItem,Owner>()
+    {
+      @Override
+      public Owner getData(StoredItem countedItem)
+      {
+        return countedItem.getOwner();
+      }
+    };
+    String title=Labels.getLabel("storedItems.table.column.owner");
+    DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,title,Owner.class,ownerCell);
+    ownerColumn.setWidthSpecs(150,-1,150);
+    ownerColumn.setComparator(new OwnerComparator());
+    ownerColumn.setCellRenderer(new OwnerRenderer());
+    return ownerColumn;
+  }
+
+  /**
+   * Build a "location" column.
+   * @return the new column.
+   */
+  public static TableColumnController<StoredItem,StorageLocation> buildLocationColumn()
+  {
+    CellDataProvider<StoredItem,StorageLocation> locationCell=new CellDataProvider<StoredItem,StorageLocation>()
+    {
+      @Override
+      public StorageLocation getData(StoredItem countedItem)
+      {
+        return countedItem.getLocation();
+      }
+    };
+    String title=Labels.getLabel("storedItems.table.column.location");
+    DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,title,StorageLocation.class,locationCell);
+    locationColumn.setWidthSpecs(150,-1,150);
+    locationColumn.setComparator(new LocationComparator());
+    return locationColumn;
   }
 
   protected List<String> getColumnsId()

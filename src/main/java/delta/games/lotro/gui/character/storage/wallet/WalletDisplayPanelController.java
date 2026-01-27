@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -24,6 +25,7 @@ import delta.games.lotro.common.enums.PaperItemCategory;
 import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.paper.PaperItem;
@@ -108,7 +110,8 @@ public class WalletDisplayPanelController
     _status=new StatusMetadataPanelController();
     _status.setData(_wallet.getStatusMetadata());
     JPanel statusPanel=_status.getPanel();
-    statusPanel.setBorder(GuiFactory.buildTitledBorder("Status")); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("wallet.status.area.title"));
+    statusPanel.setBorder(border);
     // Elements
     _elementsPanel=GuiFactory.buildPanel(new GridBagLayout());
     JScrollPane scrollPane=GuiFactory.buildScrollPane(_elementsPanel);

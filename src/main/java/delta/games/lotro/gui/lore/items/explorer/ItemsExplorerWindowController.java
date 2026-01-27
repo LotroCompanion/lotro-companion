@@ -27,6 +27,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.table.ItemsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
@@ -89,13 +90,16 @@ public class ItemsExplorerWindowController extends DefaultWindowController
     TypedProperties filterProps=preferences.getPreferences("ItemExplorerFilter");
     _filterController=new ItemFilterController(_cfg,null,filterProps);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Table
     initItemsTable();
     _panelController=new GenericTablePanelController<Item>(this,_tableController.getTableController());
-    _panelController.getConfiguration().setBorderTitle("Items"); // I18n
-    _panelController.getCountsDisplay().setText("Item(s)"); // I18n
+
+    String borderLabel=Labels.getLabel("shared.table.items.border");
+    _panelController.getConfiguration().setBorderTitle(borderLabel);
+    String itemsLabel=Labels.getLabel("shared.table.field.items");
+    _panelController.getCountsDisplay().setText(itemsLabel);
     JPanel tablePanel=_panelController.getPanel();
     _filterController.setFilterUpdateListener(_panelController);
     _panelController.filterUpdated();

@@ -229,7 +229,7 @@ public class CharacterSummaryColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterSummary,String> kinshipColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.KINSHIP.name(),"Kinship",String.class,kinshipCell); // I18n
-      kinshipColumn.setWidthSpecs(120,120,120);
+      kinshipColumn.setWidthSpecs(120,-1,120);
       ret.add(kinshipColumn);
     }
     // Import date column

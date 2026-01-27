@@ -30,6 +30,7 @@ import delta.games.lotro.gui.character.storage.bags.BagWindowController;
 import delta.games.lotro.gui.character.storage.carryAlls.CarryAllWindowController;
 import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 import delta.games.lotro.gui.character.storage.wallet.WalletWindowController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.carryalls.CarryAll;
 
 /**
@@ -67,7 +68,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     _character=character;
     _storage=null;
     _panel=GuiFactory.buildPanel(new GridBagLayout());
-    _panel.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
+    _panel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("storage.details.panel.title")));
   }
 
   /**
@@ -90,19 +91,22 @@ public class DetailedStorageAccessPanelController implements ActionListener
     _panel.removeAll();
     // Bags
     JPanel bagsPanel=buildBagsPanel();
-    bagsPanel.setBorder(GuiFactory.buildTitledBorder("Bags")); // I18n
+    
+    bagsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("storage.details.area.bags.title")));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     _panel.add(bagsPanel,c);
     // Wallet & vaults
     JPanel storagePanel=buildStoragePanel();
-    storagePanel.setBorder(GuiFactory.buildTitledBorder("Wallet/Vaults")); // I18n
+    
+    storagePanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("storage.details.area.walletVaults.title")));
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     _panel.add(storagePanel,c);
     // Carry-alls
     JPanel carryAllsPanel=buildCarryAllsPanel();
     if (carryAllsPanel!=null)
     {
-      carryAllsPanel.setBorder(GuiFactory.buildTitledBorder("Carry-alls")); // I18n
+      
+      carryAllsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("storage.details.area.carryAlls.title")));
       c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       _panel.add(carryAllsPanel,c);
     }
@@ -119,7 +123,8 @@ public class DetailedStorageAccessPanelController implements ActionListener
       SingleBagSetup bagSetup=setup.getBagSetup(index);
       boolean useBag=((bagSetup!=null) && (bagSetup.getSize()>0));
       String command=BAG_SEED+index;
-      JButton button=buildButton("Bag #"+index,command,useBag); // I18n
+      String tooltip=Labels.getLabel("storage.details.button.bag.tooltip",new Object[] {Integer.valueOf(index)});
+      JButton button=buildButton(tooltip,command,useBag);
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
@@ -133,14 +138,16 @@ public class DetailedStorageAccessPanelController implements ActionListener
     int x=0;
     // Wallet
     {
-      JButton button=buildButton("Wallet",WALLET,true); // I18n
+      String tooltip=Labels.getLabel("storage.details.button.wallet.tooltip");
+      JButton button=buildButton(tooltip,WALLET,true);
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
     }
     // Own vault
     {
-      JButton button=buildButton("Vault",VAULT,true); // I18n
+      String tooltip=Labels.getLabel("storage.details.button.vault.tooltip");
+      JButton button=buildButton(tooltip,VAULT,true);
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
@@ -149,7 +156,8 @@ public class DetailedStorageAccessPanelController implements ActionListener
     {
       String accountName=_character.getAccountName();
       boolean useSharedVault=(!accountName.isEmpty());
-      JButton button=buildButton("Shared Vault",SHARED_VAULT,useSharedVault); // I18n
+      String tooltip=Labels.getLabel("storage.details.button.sharedVault.tooltip");
+      JButton button=buildButton(tooltip,SHARED_VAULT,useSharedVault);
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
     }
@@ -187,7 +195,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     return ret;
   }
 
-  private JButton buildButton(String label, String command, boolean state)
+  private JButton buildButton(String tooltip, String command, boolean state)
   {
     JButton button=GuiFactory.buildIconButton();
     Icon icon=getIcon(command);
@@ -197,7 +205,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
       button.setSize(icon.getIconWidth(),icon.getIconHeight());
     }
     button.setEnabled(state);
-    button.setToolTipText(label);
+    button.setToolTipText(tooltip);
     button.setActionCommand(command);
     button.addActionListener(this);
     return button;

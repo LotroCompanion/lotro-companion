@@ -163,7 +163,7 @@ public class WardrobeFilterController implements ActionListener
     // Label filter
     {
       JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name:")); // I18n
+      containsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("wardrobe.filter.field.name")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       containsPanel.add(_contains);
@@ -187,7 +187,7 @@ public class WardrobeFilterController implements ActionListener
     // Category
     {
       JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      categoryPanel.add(GuiFactory.buildLabel("Category:")); // I18n
+      categoryPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("wardrobe.filter.field.category")));
       _category=buildCategoryCombobox();
       categoryPanel.add(_category.getComboBox());
       line1Panel.add(categoryPanel);
@@ -195,7 +195,7 @@ public class WardrobeFilterController implements ActionListener
     // Location
     {
       JPanel slotPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      slotPanel.add(GuiFactory.buildLabel("Slot:")); // I18n
+      slotPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("wardrobe.filter.field.slot")));
       _slot=buildSlotCombobox();
       slotPanel.add(_slot.getComboBox());
       line1Panel.add(slotPanel);

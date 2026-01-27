@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -130,7 +130,7 @@ public class WalletFilterController implements ActionListener
 
     // Paper items attributes
     JPanel paperItemPanel=buildPaperItemPanel();
-    Border border=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     paperItemPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(paperItemPanel,c);
@@ -151,7 +151,8 @@ public class WalletFilterController implements ActionListener
     JPanel namePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      namePanel.add(GuiFactory.buildLabel("Name:")); // I18n
+      
+      namePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("wallet.filter.field.name")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       namePanel.add(_contains);
@@ -174,7 +175,7 @@ public class WalletFilterController implements ActionListener
     // Shared
     JPanel sharedPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
-      JLabel label=GuiFactory.buildLabel("Shared:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("wallet.filter.field.shared"));
       sharedPanel.add(label);
       _shared=buildSharedCombobox();
       sharedPanel.add(_shared.getComboBox());
@@ -182,7 +183,7 @@ public class WalletFilterController implements ActionListener
     // Category
     JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
-      JLabel label=GuiFactory.buildLabel("Category:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("wallet.filter.field.category"));
       categoryPanel.add(label);
       _category=WalletUiUtils.buildCategoryCombo();
       ItemSelectionListener<PaperItemCategory> categoryListener=new ItemSelectionListener<PaperItemCategory>()

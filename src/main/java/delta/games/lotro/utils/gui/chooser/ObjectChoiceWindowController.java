@@ -19,6 +19,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
@@ -113,7 +114,7 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
     if (_filterController!=null)
     {
       filterPanel=_filterController.getPanel();
-      TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+      TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
       filterPanel.setBorder(filterBorder);
     }
     // Whole panel

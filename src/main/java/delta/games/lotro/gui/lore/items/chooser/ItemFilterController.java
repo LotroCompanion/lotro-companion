@@ -1025,7 +1025,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    for(int tier=1;tier<=15;tier++)
+    for(int tier=1;tier<=16;tier++)
     {
       String tierLabel=Labels.getLabel("shared.tier",new Object[] { Integer.valueOf(tier) });
       ctrl.addItem(Integer.valueOf(tier),tierLabel);

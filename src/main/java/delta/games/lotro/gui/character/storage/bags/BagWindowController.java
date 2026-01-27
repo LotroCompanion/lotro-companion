@@ -8,6 +8,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.BagsSetup;
 import delta.games.lotro.character.storage.bags.SingleBagSetup;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window to display a bag of a single character.
@@ -54,7 +55,7 @@ public class BagWindowController extends DefaultDisplayDialogController<Void>
   {
     super.configureWindow();
     // Title
-    String title="Bag #"+_bagIndex; // I18n
+    String title=Labels.getLabel("bag.window.title",new Object[]{Integer.valueOf(_bagIndex)});
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

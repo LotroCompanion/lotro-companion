@@ -20,6 +20,7 @@ import delta.games.lotro.account.status.friends.filters.FriendFilter;
 import delta.games.lotro.account.status.friends.io.xml.FriendsIO;
 import delta.games.lotro.gui.friends.filter.FriendFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -76,7 +77,7 @@ public class FriendsPanelController implements GenericEventsListener<AccountEven
     // Top panel
     _filterController=new FriendFilterController(_filter,_membersPanel);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,BorderLayout.NORTH);
     return panel;

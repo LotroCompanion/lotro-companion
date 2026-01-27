@@ -117,7 +117,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
       choose.addActionListener(al);
     }
     // Characters chooser
-    JButton chooseCharacters=GuiFactory.buildButton("Choose characters..."); // I18n
+    JButton chooseCharacters=GuiFactory.buildButton(Labels.getLabel("shared.chooseCharacters.button"));
     {
       ActionListener al=new ActionListener()
       {

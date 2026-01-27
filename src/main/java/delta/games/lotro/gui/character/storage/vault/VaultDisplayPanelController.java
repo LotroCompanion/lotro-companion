@@ -20,6 +20,7 @@ import delta.games.lotro.character.storage.vaults.Vault;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.ItemInstanceIconController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -90,7 +91,7 @@ public class VaultDisplayPanelController
     StorageUiUtils.updateProgressBar(_capacity,Integer.valueOf(used),Integer.valueOf(capacity));
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Capacity:"),c); // I18n
+    ret.add(GuiFactory.buildLabel(Labels.getFieldLabel("vault.field.capacity")),c);
     c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     ret.add(_capacity,c);
     return ret;
@@ -117,7 +118,7 @@ public class VaultDisplayPanelController
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int width=10;
     String chestName=chest.getName();
-    String label="Chest: "+chestName; // I18n
+    String label=Labels.getLabel("vault.chest.name",new Object[] {chestName});
     ret.setBorder(GuiFactory.buildTitledBorder(label));
     GridBagConstraints c=new GridBagConstraints(0,0,width+1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createHorizontalStrut(width*32),c);

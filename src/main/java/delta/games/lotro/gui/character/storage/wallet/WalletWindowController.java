@@ -9,6 +9,7 @@ import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.wallet.Wallet;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window to display the wallet of a single character.
@@ -56,7 +57,7 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
     String toonName=_character.getName();
     String serverName=_character.getServerName();
     String accountName=_character.getAccountName();
-    String title="Wallet for "+toonName+"@"+serverName+" ("+accountName+")"; // I18n
+    String title=Labels.getLabel("wallet.window.title",new Object[] {toonName,serverName,accountName});
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

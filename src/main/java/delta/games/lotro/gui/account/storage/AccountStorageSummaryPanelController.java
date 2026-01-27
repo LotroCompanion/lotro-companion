@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.account.storage;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,25 +8,26 @@ import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.BaseStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.character.storage.StorageUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel that displays storage summary for an account/server.
  * @author DAM
  */
-public class AccountStorageSummaryPanelController
+public class AccountStorageSummaryPanelController extends AbstractPanelController
 {
   // Data
   private AccountServerStorage _storage;
   // UI
-  private JPanel _panel;
   private JProgressBar _sharedVault;
   private JProgressBar _vault;
   private JProgressBar _bags;
@@ -38,16 +37,7 @@ public class AccountStorageSummaryPanelController
    */
   public AccountStorageSummaryPanelController()
   {
-    _panel=buildPanel();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    setPanel(buildPanel());
   }
 
   /**
@@ -62,7 +52,7 @@ public class AccountStorageSummaryPanelController
       Integer[] capacity=getCapacity(storage,true);
       Integer used=capacity[0];
       Integer max=capacity[1];
-      updateProgressBar(_bags,used,max);
+      StorageUiUtils.updateProgressBar(_bags,used,max);
     }
     // Shared vault
     {
@@ -71,11 +61,11 @@ public class AccountStorageSummaryPanelController
       {
         Integer max=Integer.valueOf(sharedVault.getCapacity());
         Integer used=Integer.valueOf(sharedVault.getUsed());
-        updateProgressBar(_sharedVault,used,max);
+        StorageUiUtils.updateProgressBar(_sharedVault,used,max);
       }
       else
       {
-        updateProgressBar(_sharedVault,null,null);
+        StorageUiUtils.updateProgressBar(_sharedVault,null,null);
       }
     }
     // Vaults
@@ -83,7 +73,7 @@ public class AccountStorageSummaryPanelController
       Integer[] capacity=getCapacity(storage,false);
       Integer used=capacity[0];
       Integer max=capacity[1];
-      updateProgressBar(_vault,used,max);
+      StorageUiUtils.updateProgressBar(_vault,used,max);
     }
   }
 
@@ -119,86 +109,42 @@ public class AccountStorageSummaryPanelController
     return ret;
   }
 
-
-  private JProgressBar buildProgressBar()
-  {
-    JProgressBar bar=new JProgressBar(SwingConstants.HORIZONTAL,0,100);
-    bar.setBackground(GuiFactory.getBackgroundColor());
-    bar.setBorderPainted(true);
-    bar.setStringPainted(true);
-    bar.setPreferredSize(new Dimension(200,25));
-    bar.setMinimumSize(new Dimension(200,25));
-    return bar;
-  }
-
-  private void updateProgressBar(JProgressBar bar, Integer value, Integer maxValue)
-  {
-    if ((value!=null) && (maxValue!=null))
-    {
-      Color color=getColor(value.intValue(),maxValue.intValue());
-      bar.setForeground(color);
-      bar.setString(value+" / "+maxValue);
-      bar.setMaximum(maxValue.intValue());
-      bar.setValue(value.intValue());
-    }
-    else
-    {
-      bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)"); // I18n
-      bar.setMaximum(100);
-      bar.setValue(100);
-    }
-  }
-
-  private Color getColor(int value, int maxValue)
-  {
-    if (value * 100 > maxValue * 80) return Color.RED; // > 80%
-    if (value * 100 > maxValue * 50) return Color.YELLOW; // > 80%
-    return Color.GREEN;
-  }
-
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
-    JLabel bagsLabel=GuiFactory.buildLabel("Bags:"); // I18n
+    JLabel bagsLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.bags"));
     panel.add(bagsLabel,c);
     c.gridx++;
-    _bags=buildProgressBar();
+    _bags=StorageUiUtils.buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vaults
-    JLabel vaultLabel=GuiFactory.buildLabel("Vaults:"); // I18n
+    JLabel vaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.vaults"));
     panel.add(vaultLabel,c);
     c.gridx++;
-    _vault=buildProgressBar();
+    _vault=StorageUiUtils.buildProgressBar();
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
     // Shared vault
-    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared vault:"); // I18n
+    JLabel sharedVaultLabel=GuiFactory.buildLabel(Labels.getFieldLabel("storage.summary.field.sharedVault"));
     panel.add(sharedVaultLabel,c);
     c.gridx++;
-    _sharedVault=buildProgressBar();
+    _sharedVault=StorageUiUtils.buildProgressBar();
     panel.add(_sharedVault,c);
-    TitledBorder border=GuiFactory.buildTitledBorder("Capacity"); // I18n
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("storage.summary.capacity"));
     panel.setBorder(border);
     return panel;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _storage=null;
     // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     _bags=null;
     _vault=null;
   }

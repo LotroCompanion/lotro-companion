@@ -23,6 +23,7 @@ import delta.games.lotro.gui.lore.collections.mounts.MountFilterController;
 import delta.games.lotro.gui.lore.collections.mounts.MountsTableController;
 import delta.games.lotro.gui.lore.collections.mounts.form.MountDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 
 /**
@@ -88,7 +89,7 @@ public class MountsExplorerWindowController extends DefaultWindowController
     // Filter
     _filterController=new MountFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("shared.title.filter"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
