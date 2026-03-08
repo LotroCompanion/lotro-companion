@@ -19,6 +19,10 @@ public enum ItemColumnIds
    */
   ICON,
   /**
+   * Icon ID.
+   */
+  ICON_ID,
+  /**
    * Quality.
    */
   QUALITY,

@@ -118,6 +118,7 @@ public class ItemsTableBuilder
     // ID column
     if (UiConfiguration.showTechnicalColumns())
     {
+      columns.add(buildIconIdColumn());
       columns.add(buildIdColumn());
     }
     // Name column
@@ -194,6 +195,26 @@ public class ItemsTableBuilder
     iconColumn.setWidthSpecs(50,50,50);
     iconColumn.setSortable(false);
     return iconColumn;
+  }
+
+  /**
+   * Build a column for the icon ID of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,String> buildIconIdColumn()
+  {
+    CellDataProvider<Item,String> cell=new CellDataProvider<Item,String>()
+    {
+      @Override
+      public String getData(Item item)
+      {
+        return item.getIcon();
+      }
+    };
+    String columnName=Labels.getLabel("items.table.iconID");
+    DefaultTableColumnController<Item,String> column=new DefaultTableColumnController<Item,String>(ItemColumnIds.ICON_ID.name(),columnName,String.class,cell);
+    column.setWidthSpecs(150,300,300);
+    return column;
   }
 
   /**
