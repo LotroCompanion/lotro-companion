@@ -107,18 +107,22 @@ public class HouseContentsDisplayPanelController extends AbstractPanelController
     c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createHorizontalGlue(),c);
     // Map button
-    JButton mapButton=GuiFactory.buildButton("Map...");
-    ActionListener al=new ActionListener()
+    int zoneID=_houseContents.getZoneID();
+    if (zoneID!=0)
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      JButton mapButton=GuiFactory.buildButton("Map...");
+      ActionListener al=new ActionListener()
       {
-        doMap();
-      }
-    };
-    mapButton.addActionListener(al);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-    ret.add(mapButton,c);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          doMap();
+        }
+      };
+      mapButton.addActionListener(al);
+      c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+      ret.add(mapButton,c);
+    }
     return ret;
   }
 

@@ -71,8 +71,7 @@ public class HouseMapPanelController extends AbstractAreaController
   private void initData(HouseContents contents)
   {
     int zoneID=contents.getZoneID();
-    MapDescription map=HousingMapsUtils.buildMapDescription(zoneID);
-    _map=map;
+    _map=HousingMapsUtils.buildMapDescription(zoneID);
   }
 
   /**
