@@ -11,7 +11,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,9 +31,9 @@ import delta.games.lotro.common.enums.HousingHookCategory;
 import delta.games.lotro.common.enums.LotroEnumEntry;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.config.LotroCoreConfig;
-import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
 import delta.games.lotro.gui.lore.items.essences.EssencesTemplatePanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
@@ -209,7 +209,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Icon
-    ImageIcon icon=LotroIconsManager.getItemIcon(_item.getIcon());
+    Icon icon=ItemUiTools.buildItemIcon(_item);
     JLabel iconLabel=GuiFactory.buildIconLabel(icon);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
     panel.add(iconLabel,c);
