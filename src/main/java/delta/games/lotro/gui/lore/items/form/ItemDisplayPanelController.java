@@ -46,6 +46,7 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
 import delta.games.lotro.lore.items.DisenchantmentResult;
 import delta.games.lotro.lore.items.EquipmentLocation;
+import delta.games.lotro.lore.items.EquipmentLocations;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -332,17 +333,21 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       ret.add("Equipment Category: "+equipmentCategory.getLabel());
     }
+    else
+    {
+      String category=getItemCategory();
+      if (!category.isEmpty())
+      {
+        ret.add("Category: "+category);
+      }
+    }
     // Slot
     EquipmentLocation location=_item.getEquipmentLocation();
-    if (location!=null)
+    if ((location!=null) && (location!=EquipmentLocations.NONE))
     {
       ret.add("Location: "+location.getLabel());
     }
-    // Category
-    if ((equipmentCategory==null) && (location==null))
-    {
-      handleItemCategory(ret);
-    }
+    // Weapon specifics
     if (_item instanceof Weapon)
     {
       List<String> weaponLines=getWeaponAttributeLines((Weapon)_item);
@@ -404,25 +409,25 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     return ret;
   }
 
-  private void handleItemCategory(List<String> ret)
+  private String getItemCategory()
   {
     String category=_item.getSubCategory();
-    if ((category!=null) && (!category.isEmpty()))
+    // Essence specifics
+    boolean isEssence=(_item instanceof Essence);
+    if (isEssence)
     {
-      String label=category;
-      if (_item instanceof Essence)
-      {
-        Essence essence=(Essence)_item;
-        label=label+" ("+essence.getType().getLabel();
-        Integer tier=essence.getTier();
-        if (tier!=null)
-        {
-          label=label+", tier "+tier;
-        }
-        label=label+")";
-      }
-      ret.add("Category: "+label);
+      Essence essence=(Essence)_item;
+      category=essence.getType().getLabel();
     }
+    if (category!=null)
+    {
+      Integer tier=_item.getTier();
+      if (tier!=null)
+      {
+        category=category+", tier "+tier;
+      }
+    }
+    return (category==null)?"":category;
   }
 
   private List<String> getWeaponAttributeLines(Weapon weapon)
