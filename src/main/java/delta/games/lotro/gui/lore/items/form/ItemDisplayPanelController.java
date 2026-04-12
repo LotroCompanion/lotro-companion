@@ -56,6 +56,7 @@ import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.details.AllegiancePoints;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.HousingHooks;
+import delta.games.lotro.lore.items.details.ItemDecay;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemUsageCooldown;
@@ -638,7 +639,9 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Allegiance points
     y=handleAllegiancePoints(mgr,ret,y);
     // Housing hooks
-    handleHousingHooks(mgr,ret,y);
+    y=handleHousingHooks(mgr,ret,y);
+    // Decay
+    handleDecay(mgr,ret,y);
     return ret;
   }
 
@@ -683,6 +686,21 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       List<HousingHookCategory> categories=housingHooks.getHookCategories();
       String categoriesStr=formatEnumEntries(categories);
       String label="Decoration Category: "+categoriesStr;
+      panel.add(GuiFactory.buildLabel(label),c);
+      y++;
+    }
+    return y;
+  }
+
+  private int handleDecay(ItemDetailsManager mgr, JPanel panel, int y)
+  {
+    ItemDecay decay=mgr.getFirstItemDetail(ItemDecay.class);
+    if (decay!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      float decayDuration=decay.getDuration();
+      String durationStr=Duration.getShortDurationString(decayDuration);
+      String label="Decay: "+durationStr;
       panel.add(GuiFactory.buildLabel(label),c);
       y++;
     }
