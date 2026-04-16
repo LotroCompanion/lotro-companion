@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.common.status.StatusMetadata;
 import delta.games.lotro.gui.utils.dates.DateAgeLabelController;
 
@@ -12,12 +13,10 @@ import delta.games.lotro.gui.utils.dates.DateAgeLabelController;
  * Controller for a panel to display status metadata.
  * @author DAM
  */
-public class StatusMetadataPanelController
+public class StatusMetadataPanelController extends AbstractPanelController
 {
   // Controllers
   private DateAgeLabelController _dateAge;
-  // UI
-  private JPanel _panel;
 
   /**
    * Constructor.
@@ -25,7 +24,7 @@ public class StatusMetadataPanelController
   public StatusMetadataPanelController()
   {
     _dateAge=new DateAgeLabelController();
-    _panel=buildPanel();
+    setPanel(buildPanel());
   }
 
   /**
@@ -56,30 +55,17 @@ public class StatusMetadataPanelController
   }
 
   /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
-  }
-
-  /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Controllers
     if (_dateAge!=null)
     {
       _dateAge.dispose();
       _dateAge=null;
-    }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

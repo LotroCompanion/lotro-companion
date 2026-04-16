@@ -21,12 +21,15 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.common.binding.BindingDisplayController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.dates.DecayLabelController;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.WeaponInstance;
+import delta.games.lotro.lore.items.details.ItemDecay;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.Formats;
 
@@ -61,6 +64,8 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
   private LabeledComponent<JLabel> _color;
   // - Bound to
   private BindingDisplayController _binding;
+  // Decay
+  private DecayLabelController _decay;
   // Weapon specifics
   private JLabel _dps;
   private JLabel _minMaxDamage;
@@ -110,6 +115,8 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     // - Bound to
     BaseCharacterSummary toon=getParentWindowController().getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
     _binding=new BindingDisplayController(toon);
+    // - Decay
+    _decay=new DecayLabelController();
     // Weapons
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -202,6 +209,13 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
       panel.add(panelLine,c);
       c.gridy++;
       panelLine.add(_binding.getComponent());
+    }
+    // Decay
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(_decay.getLabel());
     }
     // Weapon specifics
     if (_itemInstance instanceof WeaponInstance)
@@ -301,6 +315,8 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     {
       _binding.getComponent().setVisible(false);
     }
+    // - Decay
+    handleDecay();
     // Weapon specifics
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -327,6 +343,21 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     if (hasUserComments)
     {
       _userComments.getComponent().setText(userComments);
+    }
+  }
+
+  private void handleDecay()
+  {
+    Long decayBeginTime=_itemInstance.getDecayBeginTime();
+    if (decayBeginTime!=null)
+    {
+      Item item=_itemInstance.getReference();
+      ItemDecay decay=ItemUtils.getDetail(item,ItemDecay.class);
+      if (decay!=null)
+      {
+        Long endDecayTime=Long.valueOf(decayBeginTime.longValue()+(long)(decay.getDuration()*1000));
+        _decay.setEndDecayDate(endDecayTime);
+      }
     }
   }
 
@@ -416,6 +447,12 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     {
       _binding.dispose();
       _binding=null;
+    }
+    // - Decay
+    if (_decay!=null)
+    {
+      _decay.dispose();
+      _decay=null;
     }
     // Weapon specifics
     _dps=null;
