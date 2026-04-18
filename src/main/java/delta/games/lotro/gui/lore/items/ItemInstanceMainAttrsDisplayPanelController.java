@@ -116,7 +116,11 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     BaseCharacterSummary toon=getParentWindowController().getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
     _binding=new BindingDisplayController(toon);
     // - Decay
-    _decay=new DecayLabelController();
+    ItemDecay decay=ItemUtils.getDetail(_itemInstance.getItem(),ItemDecay.class);
+    if (decay!=null)
+    {
+      _decay=new DecayLabelController();
+    }
     // Weapons
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -211,6 +215,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
       panelLine.add(_binding.getComponent());
     }
     // Decay
+    if (_decay!=null)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -316,7 +321,10 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
       _binding.getComponent().setVisible(false);
     }
     // - Decay
-    handleDecay();
+    if (_decay!=null)
+    {
+      handleDecay();
+    }
     // Weapon specifics
     if (_itemInstance instanceof WeaponInstance)
     {
