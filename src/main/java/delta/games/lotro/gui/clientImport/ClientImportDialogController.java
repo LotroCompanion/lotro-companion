@@ -239,8 +239,13 @@ public class ClientImportDialogController extends DefaultDialogController implem
     SwingUtilities.invokeLater(r);
   }
 
-  private void updateUi(ImportStatusData data)
+  private synchronized void updateUi(ImportStatusData data)
   {
+    // If disposed, return immediately
+    if (_startButton==null)
+    {
+      return;
+    }
     // Update results display
     _displayCtrl.updateUi(data);
     // Start button
@@ -249,7 +254,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     _configCtrl.setUiState(enabled);
   }
 
-  private boolean getStartButtonState(ImportStatusData data)
+  private static boolean getStartButtonState(ImportStatusData data)
   {
     ImportStatus importStatus=data.getImportStatus();
     if (importStatus==ImportStatus.RUNNING)
@@ -263,7 +268,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
    * Release all managed resources.
    */
   @Override
-  public void dispose()
+  public synchronized void dispose()
   {
     _startButton=null;
     if (_displayCtrl!=null)
