@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -15,12 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.data.DataFacade;
-import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.memory.extraction.MemoryExtractionSession;
 import delta.games.lotro.memory.extraction.extractors.MainExtractor;
 import delta.games.lotro.memory.extraction.session.ImportConfiguration;
@@ -28,7 +24,6 @@ import delta.games.lotro.memory.extraction.session.ImportSession;
 import delta.games.lotro.memory.extraction.session.status.ImportStatus;
 import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
 import delta.games.lotro.memory.extraction.session.status.ImportStatusListener;
-import delta.games.lotro.memory.io.LotroProcessesManager;
 import delta.games.lotro.memory.io.MemoryAccess;
 import delta.games.lotro.memory.io.jna.LotroProcess;
 import delta.games.lotro.memory.io.jna.WinInterface;
@@ -45,13 +40,10 @@ public class ClientImportDialogController extends DefaultDialogController implem
    */
   public static final String IDENTIFIER="CLIENT_IMPORT";
   // UI
-  // - Processes combo box
-  private ComboBoxController<LotroProcess> _processComboBoxCtrl;
   // - start button
   private JButton _startButton;
-  // Controllers
-  private LotroProcessesManager _processesMgr;
-  // Child controllers
+  // - controllers
+  private ImportCharacterSelectionController _selectionCtrl;
   private ImportConfigurationPanelController _configCtrl;
   private ClientImportHowToPanelController _howToCtrl;
   private ImportResultDisplayController _displayCtrl;
@@ -63,9 +55,6 @@ public class ClientImportDialogController extends DefaultDialogController implem
   public ClientImportDialogController(WindowController parent)
   {
     super(parent);
-    DatInterface datInterface=DatInterface.getInstance();
-    DataFacade dataFacade=datInterface.getFacade();
-    _processesMgr=new LotroProcessesManager(dataFacade);
   }
 
   @Override
@@ -100,31 +89,6 @@ public class ClientImportDialogController extends DefaultDialogController implem
     return getIdentifier();
   }
 
-  /**
-   * Update the list of LOTRO processes currently running
-   * @param processes Updated list of LOTRO processes
-   */
-  private void updateProcessComboBox(final List<LotroProcess> processes)
-  {
-    if (processes.size()==0)
-    {
-      _processComboBoxCtrl.removeAllItems();
-      _processComboBoxCtrl.addEmptyItem(Labels.getLabel("clientimport.processeslist.notfound"));
-      _processComboBoxCtrl.selectItem(null);
-    }
-    else
-    {
-      LotroProcess oldSelected = _processComboBoxCtrl.getSelectedItem();
-      _processComboBoxCtrl.removeAllItems();
-      _processComboBoxCtrl.addItems(processes);
-      _processComboBoxCtrl.selectItem(oldSelected);
-      if (_processComboBoxCtrl.getSelectedItem()==null)
-      {
-        _processComboBoxCtrl.selectItem(_processComboBoxCtrl.getItems().get(0));
-      }
-    }
-  }
-
   @Override
   protected JComponent buildContents()
   {
@@ -151,9 +115,6 @@ public class ClientImportDialogController extends DefaultDialogController implem
     displayPanel.setBorder(GuiFactory.buildTitledBorder("Results")); // I18n
     c=new GridBagConstraints(1,2,1,0,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(displayPanel,c);
-
-    List<LotroProcess> processes=_processesMgr.fetchDetailedProcesses();
-    updateProcessComboBox(processes);
     return ret;
   }
 
@@ -172,15 +133,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     _startButton.addActionListener(alStart);
 
     // Select LOTRO process combo-box
-    _processComboBoxCtrl=new ComboBoxController<LotroProcess>();
-    _processComboBoxCtrl.addListener(new ItemSelectionListener<LotroProcess>()
-    {
-      @Override
-      public void itemSelected(LotroProcess process)
-      {
-        _startButton.setEnabled(true);
-      }
-    });
+    _selectionCtrl=new ImportCharacterSelectionController(_startButton);
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -188,16 +141,22 @@ public class ClientImportDialogController extends DefaultDialogController implem
     c.gridx++;
     c.weightx=1;
     c.fill=GridBagConstraints.HORIZONTAL;
-    panel.add(_processComboBoxCtrl.getComboBox(),c);
+    JPanel selectionPanel=_selectionCtrl.getPanel();
+    panel.add(selectionPanel,c);
     return panel;
   }
 
   private void doStart()
   {
+    LotroProcess selected=_selectionCtrl.getSelectedProcess();
+    if (selected==null)
+    {
+      return;
+    }
+    final MemoryAccess memoryAccess=buildMemoryAccess(selected);
+    final ImportConfiguration config=_configCtrl.getConfig();
     DatInterface datInterface=DatInterface.getInstance();
     DataFacade dataFacade=datInterface.getFacade();
-    final MemoryAccess memoryAccess=buildMemoryAccess();
-    final ImportConfiguration config=_configCtrl.getConfig();
     MemoryExtractionSession session=new MemoryExtractionSession(memoryAccess,dataFacade);
     ImportSession importSession=new ImportSession(config);
     importSession.getStatus().setListener(this);
@@ -214,10 +173,10 @@ public class ClientImportDialogController extends DefaultDialogController implem
     t.start();
   }
 
-  private MemoryAccess buildMemoryAccess()
+  private MemoryAccess buildMemoryAccess(LotroProcess selected)
   {
     WinInterface win=new WinInterface();
-    boolean ok=win.start(_processComboBoxCtrl.getSelectedItem());
+    boolean ok=win.start(selected);
     if (!ok)
     {
       return null;
@@ -252,6 +211,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     boolean enabled=getStartButtonState(data);
     _startButton.setEnabled(enabled);
     _configCtrl.setUiState(enabled);
+    _selectionCtrl.setEnabled(enabled);
   }
 
   private static boolean getStartButtonState(ImportStatusData data)
@@ -286,10 +246,10 @@ public class ClientImportDialogController extends DefaultDialogController implem
       _configCtrl.dispose();
       _configCtrl=null;
     }
-    if (_processComboBoxCtrl!=null)
+    if (_selectionCtrl!=null)
     {
-      _processComboBoxCtrl.dispose();
-      _processComboBoxCtrl=null;
+      _selectionCtrl.dispose();
+      _selectionCtrl=null;
     }
     super.dispose();
   }
