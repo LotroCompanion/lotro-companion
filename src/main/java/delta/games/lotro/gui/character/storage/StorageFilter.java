@@ -24,7 +24,6 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 public class StorageFilter implements Filter<StoredItem>
 {
   // Data
-  private StorageFilterConfiguration _cfg;
   private Filter<StoredItem> _filter;
 
   private NamedFilter<Item> _nameFilter;
@@ -38,7 +37,6 @@ public class StorageFilter implements Filter<StoredItem>
    */
   public StorageFilter()
   {
-    _cfg=new StorageFilterConfiguration();
     List<Filter<StoredItem>> filters=new ArrayList<Filter<StoredItem>>();
     // Name
     _nameFilter=new NamedFilter<Item>();
@@ -72,15 +70,6 @@ public class StorageFilter implements Filter<StoredItem>
     ProxyFilter<StoredItem,Item> categoryFilter=new ProxyFilter<StoredItem,Item>(itemResolver,_categoryFilter);
     filters.add(categoryFilter);
     _filter=new CompoundFilter<StoredItem>(Operator.AND,filters);
-  }
-
-  /**
-   * Get the filter configuration.
-   * @return the filter configuration.
-   */
-  public StorageFilterConfiguration getConfiguration()
-  {
-    return _cfg;
   }
 
   /**

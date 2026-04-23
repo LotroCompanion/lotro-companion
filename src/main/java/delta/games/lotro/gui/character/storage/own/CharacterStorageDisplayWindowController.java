@@ -166,7 +166,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     _items=StorageUtils.buildCharacterItems(_toon,characterStorage);
     _panelController.update(_items);
     _buttonsController.update(_items);
-    _filterController.update();
+    _filterController.update(_items);
   }
 
   /**

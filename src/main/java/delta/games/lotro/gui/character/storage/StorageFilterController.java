@@ -42,6 +42,7 @@ public class StorageFilterController implements ActionListener
 {
   // Data
   private StorageFilter _filter;
+  private StorageFilterConfiguration _cfg;
   // GUI
   private JPanel _panel;
   private JButton _reset;
@@ -64,6 +65,16 @@ public class StorageFilterController implements ActionListener
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
+    _cfg=new StorageFilterConfiguration();
+  }
+
+  /**
+   * Get the filter configuration.
+   * @return the filter configuration.
+   */
+  public StorageFilterConfiguration getConfiguration()
+  {
+    return _cfg;
   }
 
   /**
@@ -92,9 +103,12 @@ public class StorageFilterController implements ActionListener
 
   /**
    * Update the filter UI (for new items).
+   * @param items Items to show.
    */
-  public void update()
+  public void update(List<StoredItem> items)
   {
+    // Update items
+    _cfg.setItems(items);
     // Owner
     Owner owner=_owner.getSelectedItem();
     updateOwnerCombobox(_owner);
@@ -274,7 +288,7 @@ public class StorageFilterController implements ActionListener
   {
     ctrl.removeAllItems();
     ctrl.addEmptyItem("");
-    List<Owner> owners=_filter.getConfiguration().getOwners();
+    List<Owner> owners=_cfg.getOwners();
     for(Owner owner : owners)
     {
       ctrl.addItem(owner,getLabelForOwner(owner));
@@ -323,7 +337,7 @@ public class StorageFilterController implements ActionListener
   {
     ctrl.removeAllItems();
     ctrl.addEmptyItem("");
-    List<StorageLocation> locations=_filter.getConfiguration().getLocations();
+    List<StorageLocation> locations=_cfg.getLocations();
     for(StorageLocation location : locations)
     {
       ctrl.addItem(location,location.toString());
@@ -369,7 +383,7 @@ public class StorageFilterController implements ActionListener
   {
     ctrl.removeAllItems();
     ctrl.addEmptyItem("");
-    List<ItemClass> categories=_filter.getConfiguration().getCategories();
+    List<ItemClass> categories=_cfg.getCategories();
     for(ItemClass category : categories)
     {
       ctrl.addItem(category,category.getLabel());

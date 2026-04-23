@@ -202,7 +202,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     _items=StorageUtils.buildAccountItems(accountOnServer);
     _panelController.update(_items);
     _buttonsController.update(_items);
-    _filterController.update();
+    _filterController.update(_items);
   }
 
   /**

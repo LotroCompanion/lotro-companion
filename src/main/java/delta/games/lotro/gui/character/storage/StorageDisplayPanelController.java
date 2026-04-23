@@ -21,7 +21,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
 {
   // Data
   private List<StoredItem> _items;
-  private StorageFilter _filter;
   // Controllers
   private GenericTablePanelController<StoredItem> _tablePanel;
   private StoredItemsTableController _tableController;
@@ -33,7 +32,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
    */
   public StorageDisplayPanelController(WindowController parent, StorageFilter filter)
   {
-    _filter=filter;
     _items=new ArrayList<StoredItem>();
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
     _tableController=new StoredItemsTableController(parent,prefs,_items,filter);
@@ -77,7 +75,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   {
     _items.clear();
     _items.addAll(items);
-    _filter.getConfiguration().setItems(_items);
   }
 
   /**
@@ -87,7 +84,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   {
     // Data
     _items=null;
-    _filter=null;
     // Controllers
     _tableController=null;
   }
