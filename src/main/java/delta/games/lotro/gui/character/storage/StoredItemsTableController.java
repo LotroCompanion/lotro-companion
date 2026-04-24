@@ -31,8 +31,6 @@ import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.tables.renderers.OwnerRenderer;
 import delta.games.lotro.lore.items.CountedItem;
-import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemProvider;
 
 /**
@@ -50,8 +48,6 @@ public class StoredItemsTableController
    */
   public static final String LOCATION_COLUMN="LOCATION";
 
-  // Parent controller
-  private WindowController _parent;
   // Preferences
   private TypedProperties _prefs;
   // Data
@@ -68,12 +64,11 @@ public class StoredItemsTableController
    */
   public StoredItemsTableController(WindowController parent, TypedProperties prefs, List<StoredItem> items, Filter<StoredItem> filter)
   {
-    _parent=parent;
     _prefs=prefs;
     _items=items;
     _tableController=buildTable();
     _tableController.setFilter(filter);
-    configureTable();
+    configureTable(parent,_tableController);
   }
 
   /**
@@ -204,9 +199,14 @@ public class StoredItemsTableController
     return columnsIds;
   }
 
-  private void configureTable()
+  /**
+   * Configure a table that shows items (or related objects).
+   * @param parent Parent window.
+   * @param tableController Table controller to configure.
+   */
+  public static void configureTable(WindowController parent, GenericTableController<?> tableController)
   {
-    JTable table=getTable();
+    JTable table=tableController.getTable();
     // Adjust table row height for icons (32 pixels)
     table.setRowHeight(32);
     // Action listener
@@ -219,28 +219,11 @@ public class StoredItemsTableController
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           Object sourceItem=event.getSource();
-          showItem(sourceItem);
+          ItemUiTools.showItem(parent,sourceItem);
         }
       }
     };
-    _tableController.addActionListener(al);
-  }
-
-  private void showItem(Object sourceItem)
-  {
-    StoredItem storedItem=(StoredItem)sourceItem;
-    CountedItem<ItemProvider> countedItem=storedItem.getItem();
-    ItemProvider managedItem=countedItem.getManagedItem();
-    if (managedItem instanceof ItemInstance)
-    {
-      ItemInstance<? extends Item> item=(ItemInstance<? extends Item>)managedItem;
-      ItemUiTools.showItemInstanceWindow(_parent,item);
-    }
-    else if (managedItem instanceof Item)
-    {
-      Item item=(Item)managedItem;
-      ItemUiTools.showItemForm(_parent,item);
-    }
+    tableController.addActionListener(al);
   }
 
   /**
@@ -292,8 +275,6 @@ public class StoredItemsTableController
    */
   public void dispose()
   {
-    // Parent controller
-    _parent=null;
     // Preferences
     if (_prefs!=null)
     {

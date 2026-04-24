@@ -22,19 +22,23 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.character.storage.cosmetics.SameCosmeticsTableRow;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.ItemProvider;
 import delta.games.lotro.lore.items.ItemQualities;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemsManager;
@@ -138,6 +142,43 @@ public class ItemUiTools
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
     HyperLinkController controller=new HyperLinkController(action);
     return controller;
+  }
+
+  /**
+   * Show an item/item instance form.
+   * @param parent Parent window.
+   * @param sourceItem Source item.
+   */
+  public static void showItem(WindowController parent, Object sourceItem)
+  {
+    ItemProvider itemProvider=getItem(sourceItem);
+    if (itemProvider instanceof ItemInstance)
+    {
+      ItemInstance<? extends Item> item=(ItemInstance<? extends Item>)itemProvider;
+      ItemUiTools.showItemInstanceWindow(parent,item);
+    }
+    else if (itemProvider instanceof Item)
+    {
+      Item item=(Item)itemProvider;
+      ItemUiTools.showItemForm(parent,item);
+    }
+  }
+
+  private static ItemProvider getItem(Object sourceItem)
+  {
+    if (sourceItem instanceof SameCosmeticsTableRow)
+    {
+      SameCosmeticsTableRow row=(SameCosmeticsTableRow)sourceItem;
+      return getItem(row.getStoredItem());
+    }
+    if (sourceItem instanceof StoredItem)
+    {
+      StoredItem storedItem=(StoredItem)sourceItem;
+      CountedItem<ItemProvider> countedItem=storedItem.getItem();
+      ItemProvider managedItem=countedItem.getManagedItem();
+      return managedItem;
+    }
+    return null;
   }
 
   /**

@@ -1,11 +1,7 @@
 package delta.games.lotro.gui.character.storage.cosmetics;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.ColumnsUtils;
@@ -20,11 +16,9 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
 import delta.games.lotro.gui.character.storage.StoredItemsTableController;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemInstance;
 
 /**
  * Builder for a table that items with the same cosmetics.
@@ -51,9 +45,7 @@ public class SameCosmeticsTableBuilder
     }
     List<String> columnsIds=getDefaultColumnIds();
     columnsManager.setColumns(columnsIds);
-    // Adjust table row height for icons (32 pixels)
-    JTable swingTable=table.getTable();
-    swingTable.setRowHeight(32);
+    StoredItemsTableController.configureTable(parent,table);
     return table;
   }
 
@@ -71,30 +63,6 @@ public class SameCosmeticsTableBuilder
     columnsIds.add(StoredItemsTableController.OWNER_COLUMN);
     columnsIds.add(StoredItemsTableController.LOCATION_COLUMN);
     return columnsIds;
-  }
-
-  /**
-   * Add a details column on the given table.
-   * @param parent Parent window.
-   * @param table Table to use.
-   * @return A column controller.
-   */
-  public static DefaultTableColumnController<ItemInstance<? extends Item>,String> addDetailsColumn(final WindowController parent, GenericTableController<ItemInstance<? extends Item>> table)
-  {
-    DefaultTableColumnController<ItemInstance<? extends Item>,String> column=table.buildButtonColumn(ItemColumnIds.DETAILS.name(),"Details...",90);
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        ItemInstance<? extends Item> source=(ItemInstance<? extends Item>)e.getSource();
-        ItemUiTools.showItemInstanceWindow(parent,source);
-      }
-    };
-    column.setActionListener(al);
-    table.addColumnController(column);
-    table.updateColumns();
-    return column;
   }
 
   /**
