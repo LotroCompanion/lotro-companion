@@ -89,7 +89,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private AccountsManagementController _accountsManager;
   private HousesManagementController _housesManager;
   private KinshipsManagementController _kinshipsManager;
-  private WindowsManager _windowsManager;
 
   /**
    * Constructor.
@@ -100,8 +99,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     _accountsManager=new AccountsManagementController(this);
     _housesManager=new HousesManagementController(this);
     _kinshipsManager=new KinshipsManagementController(this);
-    _windowsManager=new WindowsManager();
-    _loreCtrl=new LoreActionsController(this,_windowsManager);
+    _loreCtrl=new LoreActionsController(this,getWindowsManager());
   }
 
   @Override
@@ -430,71 +428,72 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doWarbands()
   {
-    String id=WarbandsWindowController.WINDOW_IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(WarbandsWindowController.WINDOW_IDENTIFIER);
     if (controller==null)
     {
       controller=new WarbandsWindowController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doReputationSynopsis()
   {
-    String id=ReputationSynopsisWindowController.WINDOW_IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(ReputationSynopsisWindowController.WINDOW_IDENTIFIER);
     if (controller==null)
     {
       controller=new ReputationSynopsisWindowController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doCraftingSynopsis()
   {
-    String id=CraftingSynopsisWindowController.IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(CraftingSynopsisWindowController.IDENTIFIER);
     if (controller==null)
     {
       controller=new CraftingSynopsisWindowController();
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doCurrenciesSynopsis()
   {
-    String id=MultipleCharactersCurrencyHistoryWindowController.WINDOW_IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(MultipleCharactersCurrencyHistoryWindowController.WINDOW_IDENTIFIER);
     if (controller==null)
     {
       controller=new MultipleCharactersCurrencyHistoryWindowController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doEmotesSynopsis()
   {
-    String id=EmotesSynopsisWindowController.WINDOW_IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(EmotesSynopsisWindowController.WINDOW_IDENTIFIER);
     if (controller==null)
     {
       controller=new EmotesSynopsisWindowController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doMap()
   {
-    WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(MapWindowController.IDENTIFIER);
     if (controller==null)
     {
       controller=new MapWindowController(Maps.getMaps().getMapsManager());
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
@@ -502,34 +501,37 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doInstances()
   {
-    WindowController controller=_windowsManager.getWindow(InstancesExplorerWindowController.IDENTIFIER);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(InstancesExplorerWindowController.IDENTIFIER);
     if (controller==null)
     {
       controller=new InstancesExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doResourcesMaps()
   {
-    WindowController controller=_windowsManager.getWindow(ResourcesMapsExplorerWindowController.IDENTIFIER);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(ResourcesMapsExplorerWindowController.IDENTIFIER);
     if (controller==null)
     {
       DataFacade facade=DatInterface.getInstance().getFacade();
       controller=new ResourcesMapsExplorerWindowController(this,facade);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
 
   private void doClientSynchronizer()
   {
-    WindowController controller=_windowsManager.getWindow(ClientImportDialogController.IDENTIFIER);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(ClientImportDialogController.IDENTIFIER);
     if (controller==null)
     {
       controller=new ClientImportDialogController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
   }
@@ -598,12 +600,12 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doLevelling()
   {
-    String id=CharacterLevelWindowController.WINDOW_IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(CharacterLevelWindowController.WINDOW_IDENTIFIER);
     if (controller==null)
     {
       controller=new CharacterLevelWindowController();
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
@@ -611,13 +613,13 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doAbout()
   {
-    String id=AboutDialogController.IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(AboutDialogController.IDENTIFIER);
     if (controller==null)
     {
       JFrame thisFrame=getFrame();
       controller=new AboutDialogController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       Window w=controller.getWindow();
       w.setLocationRelativeTo(thisFrame);
       Point p=w.getLocation();
@@ -628,13 +630,13 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doCredits()
   {
-    String id=CreditsDialogController.IDENTIFIER;
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(CreditsDialogController.IDENTIFIER);
     if (controller==null)
     {
       JFrame thisFrame=getFrame();
       controller=new CreditsDialogController(this);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       Window w=controller.getWindow();
       w.setLocationRelativeTo(thisFrame);
     }
@@ -678,11 +680,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   public void dispose()
   {
     saveBoundsPreferences();
-    if (_windowsManager!=null)
-    {
-      _windowsManager.disposeAll();
-      _windowsManager=null;
-    }
     super.dispose();
     if (_toolbarTracking!=null)
     {
