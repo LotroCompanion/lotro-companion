@@ -195,6 +195,7 @@ public class ImportCharacterSelectionController extends AbstractPanelController
   public void dispose()
   {
     super.dispose();
+    _processesMgr=null;
     // Controllers
     if (_processComboBoxCtrl!=null)
     {
