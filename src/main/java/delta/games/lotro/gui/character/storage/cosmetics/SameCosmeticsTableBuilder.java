@@ -189,7 +189,7 @@ public class SameCosmeticsTableBuilder
       };
       DefaultTableColumnController<CosmeticItemsGroup,Integer> column=new DefaultTableColumnController<CosmeticItemsGroup,Integer>(SameCosmeticsColumnIds.GROUP_ID.name(),"Group ID",Integer.class,cell);
       ColumnsUtils.configureIntegerColumn(column);
-      column.setSortable(false);
+      column.setSortable(true);
       columns.add(new ProxiedTableColumnController<SameCosmeticsTableRow,CosmeticItemsGroup,Integer>(column,dataProvider));
     }
 
@@ -205,7 +205,7 @@ public class SameCosmeticsTableBuilder
       };
       DefaultTableColumnController<CosmeticItemsGroup,Integer> column=new DefaultTableColumnController<CosmeticItemsGroup,Integer>(SameCosmeticsColumnIds.COSMETIC_ID.name(),"Cosmetic ID",Integer.class,cell);
       ColumnsUtils.configureIntegerColumn(column);
-      column.setSortable(false);
+      column.setSortable(true);
       columns.add(new ProxiedTableColumnController<SameCosmeticsTableRow,CosmeticItemsGroup,Integer>(column,dataProvider));
     }
     return columns;
