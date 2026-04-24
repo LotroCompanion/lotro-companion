@@ -1,106 +1,114 @@
 package delta.games.lotro.gui.character.storage.cosmetics;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
 
 /**
  * Controller for a panel to show a collection of 'same cosmetics' groups.
  * @author DAM
  */
-public class SameCosmeticsPanelController
+public class SameCosmeticsPanelController extends AbstractPanelController implements FilterUpdateListener
 {
-  // UI
-  private JPanel _panel;
   // Controllers
-  private WindowController _parent;
-  private List<SameCosmeticsGroupPanelController> _groups;
+  private List<SameCosmeticsTableRow> _data;
+  private GenericTableController<SameCosmeticsTableRow> _table;
+  private GenericTablePanelController<SameCosmeticsTableRow> _panelController;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param filter Filter.
    */
-  public SameCosmeticsPanelController(WindowController parent)
+  public SameCosmeticsPanelController(WindowController parent, SameCosmeticsTableRowFilter filter)
   {
-    _parent=parent;
-    _panel=GuiFactory.buildPanel(new GridBagLayout());
-    _groups=new ArrayList<SameCosmeticsGroupPanelController>();
+    _data=new ArrayList<SameCosmeticsTableRow>();
+    _table=SameCosmeticsTableBuilder.buildTable(parent,_data);
+    _panelController=new GenericTablePanelController<SameCosmeticsTableRow>(parent,_table);
+    _table.setFilter(filter);
+    JPanel tablePanel=_panelController.getPanel();
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    panel.add(tablePanel,BorderLayout.CENTER);
+    setPanel(panel);
   }
 
+  private List<SameCosmeticsTableRow> buildRows(List<CosmeticItemsGroup> groups)
+  {
+    List<SameCosmeticsTableRow> ret=new ArrayList<SameCosmeticsTableRow>();
+    for(CosmeticItemsGroup group : groups)
+    {
+      for(StoredItem item : group.getItems())
+      {
+        SameCosmeticsTableRow row=new SameCosmeticsTableRow(group,item);
+        ret.add(row);
+      }
+    }
+    Collections.sort(ret,new SameCosmeticsTableRowComparator());
+    return ret;
+  }
   /**
    * Update the display.
    * @param groups Groups to display.
    */
   public void updateDisplay(List<CosmeticItemsGroup> groups)
   {
-    disposeGroups();
-    for(CosmeticItemsGroup group : groups)
-    {
-      SameCosmeticsGroupPanelController ctrl=new SameCosmeticsGroupPanelController(_parent,group);
-      _groups.add(ctrl);
-    }
-    fillPanel();
-    _panel.revalidate();
-    _panel.repaint();
-  }
-
-  private void fillPanel()
-  {
-    _panel.removeAll();
-    int y=0;
-    for(SameCosmeticsGroupPanelController ctrl : _groups)
-    {
-      JPanel groupPanel=ctrl.getPanel();
-      groupPanel.setBorder(GuiFactory.buildTitledBorder(""));
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      _panel.add(groupPanel,c);
-      y++;
-    }
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
-    _panel.add(Box.createVerticalGlue(),c);
+    _data.clear();
+    _data.addAll(buildRows(groups));
+    _table.refresh();
   }
 
   /**
-   * Get the managed panel.
-   * @return a panel.
+   * Get the managed rows.
+   * @return the managed rows.
    */
-  public JPanel getPanel()
+  public List<SameCosmeticsTableRow> getRows()
   {
-    return _panel;
+    return _data;
+  }
+
+  /**
+   * Get the managed stored items.
+   * @return the managed stored items.
+   */
+  public List<StoredItem> getStoredItems()
+  {
+    List<StoredItem> ret=new ArrayList<StoredItem>();
+    for(SameCosmeticsTableRow row : _data)
+    {
+      ret.add(row.getStoredItem());
+    }
+    return ret;
+  }
+
+  @Override
+  public void filterUpdated()
+  {
+    _panelController.filterUpdated();
   }
 
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
-    if (_groups!=null)
+    super.dispose();
+    if (_table!=null)
     {
-      disposeGroups();
-      _groups=null;
+      _table.dispose();
+      _table=null;
     }
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
-  }
-
-  private void disposeGroups()
-  {
-    for(SameCosmeticsGroupPanelController group : _groups)
-    {
-      group.dispose();
-    }
-    _groups.clear();
   }
 }

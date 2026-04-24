@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
@@ -38,13 +39,12 @@ import delta.games.lotro.lore.items.filters.ItemClassFilter;
  * Controller for a storage filter edition panel.
  * @author DAM
  */
-public class StorageFilterController implements ActionListener
+public class StorageFilterController extends AbstractPanelController implements ActionListener
 {
   // Data
   private StorageFilter _filter;
   private StorageFilterConfiguration _cfg;
   // GUI
-  private JPanel _panel;
   private JButton _reset;
   // -- Filter UI --
   private JTextField _contains;
@@ -66,15 +66,8 @@ public class StorageFilterController implements ActionListener
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
     _cfg=new StorageFilterConfiguration();
-  }
-
-  /**
-   * Get the filter configuration.
-   * @return the filter configuration.
-   */
-  public StorageFilterConfiguration getConfiguration()
-  {
-    return _cfg;
+    setPanel(build());
+    setFilter();
   }
 
   /**
@@ -84,21 +77,6 @@ public class StorageFilterController implements ActionListener
   public Filter<StoredItem> getFilter()
   {
     return _filter;
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-      setFilter();
-      filterUpdated();
-    }
-    return _panel;
   }
 
   /**
@@ -393,8 +371,10 @@ public class StorageFilterController implements ActionListener
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
     // Controllers
@@ -424,11 +404,6 @@ public class StorageFilterController implements ActionListener
       _category=null;
     }
     // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     _contains=null;
     _reset=null;
   }
