@@ -81,12 +81,23 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     panel.add(topPanel,c);
     y++;
     // Startup effects
-    JPanel startupEffectsPanel=buildStartupEffectsPanel();
+    List<EffectGenerator> startupEffects=_mob.getStartupEffects();
+    JPanel startupEffectsPanel=buildEffectsPanel(startupEffects);
     if (startupEffectsPanel!=null)
     {
-      startupEffectsPanel.setBorder(GuiFactory.buildTitledBorder("Effects"));
+      startupEffectsPanel.setBorder(GuiFactory.buildTitledBorder("Startup Effects"));
       c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(startupEffectsPanel,c);
+      y++;
+    }
+    // Init effects
+    List<EffectGenerator> initEffects=_mob.getInitEffects();
+    JPanel initEffectsPanel=buildEffectsPanel(initEffects);
+    if (initEffectsPanel!=null)
+    {
+      initEffectsPanel.setBorder(GuiFactory.buildTitledBorder("Init Effects"));
+      c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(initEffectsPanel,c);
       y++;
     }
     // Skills
@@ -204,9 +215,8 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     return NavigationUtils.buildPanel(links);
   }
 
-  private JPanel buildStartupEffectsPanel()
+  private JPanel buildEffectsPanel(List<EffectGenerator> effectGenerators)
   {
-    List<EffectGenerator> effectGenerators=_mob.getStartupEffects();
     if (effectGenerators.isEmpty())
     {
       return null;
