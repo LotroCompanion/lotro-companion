@@ -15,8 +15,10 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -25,9 +27,9 @@ import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
-import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -36,16 +38,13 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  * Controller for an emotes synopsis panel.
  * @author DAM
  */
-public class EmotesSynopsisPanelController implements GenericEventsListener<CharacterEvent>,FilterUpdateListener
+public class EmotesSynopsisPanelController extends AbstractPanelController implements GenericEventsListener<CharacterEvent>,FilterUpdateListener
 {
   // Controllers
-  private EmotesSynopsisWindowController _parent;
   private EmoteFilterController _filterController;
   private EmotesSynopsisTableController _tableController;
   // Data
   private EmoteFilter _filter;
-  // GUI
-  private JPanel _panel;
 
   /**
    * Constructor.
@@ -53,13 +52,14 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
    */
   public EmotesSynopsisPanelController(EmotesSynopsisWindowController parentController)
   {
-    _parent=parentController;
+    super(parentController);
     _filter=new EmoteFilter();
     _filter.getAutoFilter().setAutoFlag(Boolean.FALSE);
     EmoteFilterConfiguration config=new EmoteFilterConfiguration(State.VISIBLE);
     _filterController=new EmoteFilterController(_filter,config,this);
     _tableController=new EmotesSynopsisTableController(_filter);
     EventsManager.addListener(CharacterEvent.class,this);
+    setPanel(buildPanel());
   }
 
   /**
@@ -71,25 +71,13 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
     return _tableController;
   }
 
-  /**
-   * Get the managed panel.
-   * @return a panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=buildPanel();
-    }
-    return _panel;
-  }
-
   private void doChooseToons()
   {
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
     List<CharacterFile> selectedToons=_tableController.getToons();
-    List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(_parent,toons,selectedToons);
+    WindowController parent=getParentWindowController();
+    List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(parent,toons,selectedToons);
     if (newSelectedToons!=null)
     {
       _tableController.setToons(newSelectedToons);
@@ -154,7 +142,8 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           EmoteDescription emote=(EmoteDescription)event.getSource();
-          EmoteUiUtils.showEmoteWindow(EmotesSynopsisPanelController.this._parent,emote.getIdentifier());
+          WindowController parent=getParentWindowController();
+          EmoteUiUtils.showEmoteWindow(parent,emote.getIdentifier());
         }
       }
     };
@@ -193,15 +182,11 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
+    super.dispose();
     EventsManager.removeListener(CharacterEvent.class,this);
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Controllers
     if (_filterController!=null)
     {
@@ -213,7 +198,6 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
       _tableController.dispose();
       _tableController=null;
     }
-    _parent=null;
     // Data
     _filter=null;
   }

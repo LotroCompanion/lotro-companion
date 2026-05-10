@@ -43,8 +43,7 @@ public class EmotesSynopsisTableController
   private List<CharacterFile> _toons;
   private EmoteFilter _filter;
   private Map<String,EmotesStatusManager> _cache;
-
-  // GUI
+  // Controllers
   private GenericTableController<EmoteDescription> _table;
 
   /**
