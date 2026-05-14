@@ -119,6 +119,10 @@ public class ReferenceConstants
    * Bird page identifier.
    */
   public static final String BIRD_PAGE="bird";
+  /**
+   * Portait-frame page identifier.
+   */
+  public static final String PORTRAIT_FRAME_PAGE="portraitFrame";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -399,5 +403,15 @@ public class ReferenceConstants
   public static final PageIdentifier getBirdReference(int birdId)
   {
     return new PageIdentifier(BIRD_PAGE,birdId);
+  }
+
+  /**
+   * Get a page identifier for the given portrait frame.
+   * @param code Code of the portrait frame to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getPortraitFrameReference(int code)
+  {
+    return new PageIdentifier(PORTRAIT_FRAME_PAGE,code);
   }
 }

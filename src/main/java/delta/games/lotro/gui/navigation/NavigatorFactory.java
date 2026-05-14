@@ -14,6 +14,7 @@ import delta.games.lotro.gui.lore.hobbies.HobbyPanelFactory;
 import delta.games.lotro.gui.lore.housing.HousingPanelsFactory;
 import delta.games.lotro.gui.lore.items.ItemPanelsFactory;
 import delta.games.lotro.gui.lore.nationalities.NationalityPanelsFactory;
+import delta.games.lotro.gui.lore.portraitFrames.PortraitFramePanelsFactory;
 import delta.games.lotro.gui.lore.quests.QuestPanelsFactory;
 import delta.games.lotro.gui.lore.races.RacePanelsFactory;
 import delta.games.lotro.gui.lore.skills.SkillPanelsFactory;
@@ -58,6 +59,7 @@ public class NavigatorFactory
     resolver.addFactory(new EffectPanelsFactory(window));
     resolver.addFactory(new HousingPanelsFactory(window));
     resolver.addFactory(new BirdsPanelFactory(window));
+    resolver.addFactory(new PortraitFramePanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }

@@ -42,7 +42,7 @@ public class NationalityPanelsFactory implements NavigablePanelControllerFactory
 
   private NationalityDisplayPanelController buildNationalityPanel(NationalityDescription nationality)
   {
-    NationalityDisplayPanelController traitPanel=new NationalityDisplayPanelController(_parent,nationality);
-    return traitPanel;
+    NationalityDisplayPanelController ret=new NationalityDisplayPanelController(_parent,nationality);
+    return ret;
   }
 }

@@ -641,7 +641,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Housing hooks
     y=handleHousingHooks(mgr,ret,y);
     // Decay
-    handleDecay(mgr,ret,y);
+    y=handleDecay(mgr,ret,y);
     return ret;
   }
 

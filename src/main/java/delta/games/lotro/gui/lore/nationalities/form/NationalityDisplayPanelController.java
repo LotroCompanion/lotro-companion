@@ -45,7 +45,7 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param nationality Race to show.
+   * @param nationality Nationality to show.
    */
   public NationalityDisplayPanelController(NavigatorWindowController parent, NationalityDescription nationality)
   {
