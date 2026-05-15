@@ -130,4 +130,8 @@ public class MainCharacterWindowCommands
    * Command: show trait tree.
    */
   public static final String TRAIT_TREE_COMMAND="traitTree";
+  /**
+   * Command: show portrait frames.
+   */
+  public static final String PORTRAIT_FRAMES_COMMAND="portraitFrames";
 }

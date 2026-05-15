@@ -113,6 +113,8 @@ public class CharacterMainButtonsManager implements ActionListener
     buildCommandButton("Configs",MainCharacterWindowCommands.CONFIGS_COMMAND);
     // Housing
     buildCommandButton("Housing",MainCharacterWindowCommands.HOUSING_COMMAND);
+    // Portrait frames
+    buildCommandButton("Portrait frames",MainCharacterWindowCommands.PORTRAIT_FRAMES_COMMAND);
   }
 
   private JButton buildCommandButton(String label, String command)

@@ -41,6 +41,7 @@ import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowControl
 import delta.games.lotro.gui.character.status.housing.CharacterHousingStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.notes.CharacterNotesEditionDialogController;
+import delta.games.lotro.gui.character.status.portraitFrames.PortraitFramesStatusWindowController;
 import delta.games.lotro.gui.character.status.pvp.PvpStatusWindowController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
@@ -233,6 +234,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.CONFIGS_COMMAND.equals(command))
     {
       showConfigs();
+    }
+    else if (MainCharacterWindowCommands.PORTRAIT_FRAMES_COMMAND.equals(command))
+    {
+      showPortraitFramesStatus();
     }
   }
 
@@ -567,7 +572,18 @@ public class MainCharacterWindowCommandsManager
     windowCtrl.bringToFront();
   }
 
-  
+  private void showPortraitFramesStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    PortraitFramesStatusWindowController windowCtrl=(PortraitFramesStatusWindowController)windowsManager.getWindow(PortraitFramesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new PortraitFramesStatusWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
   private WindowsManager getWindowsManager()
   {
     return _parent.getWindowsManager();

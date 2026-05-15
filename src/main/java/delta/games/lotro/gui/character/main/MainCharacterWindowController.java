@@ -441,6 +441,11 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     buttonsLine5.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_MAP_COMMAND));
     JPanel line5=LayoutUtils.buildHorizontalPanel(buttonsLine5,buttonsLine5.size());
     verticalList.add(line5);
+    // Line 6
+    List<JButton> buttonsLine6=new ArrayList<JButton>();
+    buttonsLine6.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PORTRAIT_FRAMES_COMMAND));
+    JPanel line6=LayoutUtils.buildHorizontalPanel(buttonsLine6,buttonsLine6.size());
+    verticalList.add(line6);
     JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());
     ret.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("main.character.window.panel.capaCollecs.name")));
     return ret;
