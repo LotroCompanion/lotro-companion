@@ -22,6 +22,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
@@ -32,6 +33,7 @@ import delta.games.lotro.common.enums.LotroEnumEntry;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
@@ -41,6 +43,7 @@ import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.items.SaveItemIconController;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -61,6 +64,7 @@ import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemUsageCooldown;
 import delta.games.lotro.lore.items.details.ItemXP;
+import delta.games.lotro.lore.items.details.ProvidesPortraitFrame;
 import delta.games.lotro.lore.items.details.VirtueXP;
 import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
 import delta.games.lotro.lore.items.essences.Essence;
@@ -69,6 +73,7 @@ import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
+import delta.games.lotro.lore.portraitFrames.PortraitFrameDescription;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.html.HtmlUtils;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -91,6 +96,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private DisenchantmentResultPanelController _disenchantment;
   private List<IconAndLinkPanelController> _grantedCtrls;
   private SaveItemIconController _saveItemIcon;
+  private List<NavigationHyperLink> _links;
 
   /**
    * Constructor.
@@ -108,6 +114,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     _container=new ContainerDisplayPanelController(parent,item);
     _money=new MoneyDisplayController();
     _grantedCtrls=new ArrayList<IconAndLinkPanelController>();
+    _links=new ArrayList<NavigationHyperLink>();
     setPanel(build());
   }
 
@@ -642,6 +649,8 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     y=handleHousingHooks(mgr,ret,y);
     // Decay
     y=handleDecay(mgr,ret,y);
+    // Portrait frames
+    handlePortraitFrames(mgr,ret,y);
     return ret;
   }
 
@@ -703,6 +712,29 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       String label="Decay: "+durationStr;
       panel.add(GuiFactory.buildLabel(label),c);
       y++;
+    }
+    return y;
+  }
+
+  private int handlePortraitFrames(ItemDetailsManager mgr, JPanel panel, int y)
+  {
+    List<ProvidesPortraitFrame> providedPortraitFrames=mgr.getItemDetails(ProvidesPortraitFrame.class);
+    if (!providedPortraitFrames.isEmpty())
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(GuiFactory.buildLabel("Provides:"),c);
+      y++;
+      for(ProvidesPortraitFrame providedPortraitFrame : providedPortraitFrames)
+      {
+        PortraitFrameDescription portraitFrame=providedPortraitFrame.getPortraitFrame();
+        PageIdentifier ref=ReferenceConstants.getPortraitFrameReference(portraitFrame.getCode());
+        String text=portraitFrame.getName();
+        NavigationHyperLink controller=new NavigationHyperLink(getParent(),text,ref);
+        _links.add(controller);
+        c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
+        panel.add(controller.getLabel(),c);
+        y++;
+      }
     }
     return y;
   }
@@ -789,6 +821,14 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       _saveItemIcon.dispose();
       _saveItemIcon=null;
+    }
+    if (_links!=null)
+    {
+      for(NavigationHyperLink link : _links)
+      {
+        link.dispose();
+      }
+      _links=null;
     }
   }
 }
