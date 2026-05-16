@@ -20,6 +20,8 @@ import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
 import delta.games.lotro.character.status.notes.CharacterNotes;
 import delta.games.lotro.character.status.notes.io.CharacterNotesIo;
+import delta.games.lotro.character.status.portraitFrames.PortraitFramesStatus;
+import delta.games.lotro.character.status.portraitFrames.io.PortraitFramesStatusIo;
 import delta.games.lotro.character.status.summary.AchievementsSummary;
 import delta.games.lotro.character.status.summary.io.AchievementsSummaryIO;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
@@ -40,6 +42,7 @@ import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.maps.Zone;
 import delta.games.lotro.lore.maps.ZoneUtils;
+import delta.games.lotro.lore.portraitFrames.PortraitFrameDescription;
 import delta.games.lotro.lore.pvp.RankScaleKeys;
 import delta.games.lotro.lore.pvp.RanksManager;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -98,6 +101,7 @@ public class CharacterFileColumnsBuilder
     columns.add(getDeedsCountColumn());
     columns.add(getQuestsCountColumn());
     columns.add(getTitlesCountColumn());
+    columns.add(getPortraitFrameColumn());
     return columns;
   }
 
@@ -504,6 +508,28 @@ public class CharacterFileColumnsBuilder
     DefaultTableColumnController<CharacterFile,Boolean> column=new DefaultTableColumnController<CharacterFile,Boolean>(ToonsTableColumnIds.NO_PURCHASE_REQUIRED.name(),"VIP Goodies",Boolean.class,cell); // I18n
     column.setWidthSpecs(30,30,30);
     column.setCellRenderer(new ThreeStateBooleanTableCellRenderer());
+    return column;
+  }
+
+  private static TableColumnController<CharacterFile,String> getPortraitFrameColumn()
+  {
+    CellDataProvider<CharacterFile,String> cell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        String portraitFrameName=null;
+        PortraitFramesStatus status=PortraitFramesStatusIo.load(file);
+        PortraitFrameDescription portraitFrame=status.getCurrentPortraitFrame();
+        if (portraitFrame!=null)
+        {
+          portraitFrameName=portraitFrame.getName();
+        }
+        return portraitFrameName;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> column=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PORTRAIT_FRAME.name(),"Portrait Frame",String.class,cell); // I18n
+    column.setWidthSpecs(100,-1,200);
     return column;
   }
 }

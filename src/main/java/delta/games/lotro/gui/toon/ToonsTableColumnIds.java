@@ -71,6 +71,10 @@ public enum ToonsTableColumnIds
    */
   TITLE,
   /**
+   * Portrait frame.
+   */
+  PORTRAIT_FRAME,
+  /**
    * Vocation.
    */
   VOCATION,
