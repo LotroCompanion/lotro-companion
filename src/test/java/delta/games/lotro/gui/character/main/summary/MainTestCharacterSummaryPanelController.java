@@ -33,7 +33,7 @@ public class MainTestCharacterSummaryPanelController
       CharacterDetails details=toon.getDetails();
       DefaultWindowController c=new DefaultWindowController();
       CharacterSummaryPanelController ctrl=new CharacterSummaryPanelController(c);
-      ctrl.setSummary(summary,details);
+      ctrl.setSummary(toon,summary,details);
       JPanel panel=ctrl.getPanel();
       JFrame f=c.getFrame();
       f.setTitle("Summary for "+toon.getName());

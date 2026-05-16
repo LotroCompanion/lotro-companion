@@ -12,11 +12,14 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.status.portraitFrames.PortraitFramesStatus;
+import delta.games.lotro.character.status.portraitFrames.io.PortraitFramesStatusIo;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
@@ -31,6 +34,7 @@ import delta.games.lotro.lore.maps.Area;
 import delta.games.lotro.lore.maps.Dungeon;
 import delta.games.lotro.lore.maps.DungeonsManager;
 import delta.games.lotro.lore.maps.GeoAreasManager;
+import delta.games.lotro.lore.portraitFrames.PortraitFrameDescription;
 import delta.games.lotro.lore.pvp.RankScaleKeys;
 import delta.games.lotro.lore.pvp.RanksManager;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -53,6 +57,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
   private JLabel _level;
   private JLabel _pvpRank;
   private NavigationHyperLink _title;
+  private NavigationHyperLink _portraitFrame;
   private JLabel _positionZone;
   private JLabel _position;
 
@@ -73,6 +78,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     _level=GuiFactory.buildLabel("");
     _pvpRank=GuiFactory.buildLabel("");
     _title=new NavigationHyperLink(parent,"",null);
+    _portraitFrame=new NavigationHyperLink(parent,"",null);
     _positionZone=GuiFactory.buildLabel("");
     _position=GuiFactory.buildLabel("");
     setPanel(buildPanel());
@@ -81,8 +87,8 @@ public class CharacterSummaryPanelController extends AbstractPanelController
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,0,0),0,0);
-    GridBagConstraints cValue=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,0,5),0,0);
+    GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,5,0,0),0,0);
+    GridBagConstraints cValue=new GridBagConstraints(1,0,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,5,0,5),0,0);
     // Name
     ret.add(GuiFactory.buildLabel("Name:"),cLabel);
     ret.add(_name,cValue);
@@ -91,13 +97,12 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     ret.add(GuiFactory.buildLabel("Surname:"),cLabel);
     ret.add(_surname,cValue);
     cLabel.gridy++;cValue.gridy++;
-    // Race
-    ret.add(GuiFactory.buildLabel("Race:"),cLabel);
-    ret.add(_race.getLabel(),cValue);
-    cLabel.gridy++;cValue.gridy++;
-    // Gender
-    ret.add(GuiFactory.buildLabel("Gender:"),cLabel);
-    ret.add(_gender,cValue);
+    // Race & gender
+    ret.add(GuiFactory.buildLabel("Race/gender:"),cLabel);
+    GridBagConstraints cValueRace=new GridBagConstraints(1,cValue.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,5,0,5),0,0);
+    ret.add(_race.getLabel(),cValueRace);
+    GridBagConstraints cValueGender=new GridBagConstraints(2,cValue.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,5,0,5),0,0);
+    ret.add(_gender,cValueGender);
     cLabel.gridy++;cValue.gridy++;
     // Nationality
     ret.add(GuiFactory.buildLabel("Nationality:"),cLabel);
@@ -123,6 +128,10 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     ret.add(GuiFactory.buildLabel("Title:"),cLabel);
     ret.add(_title.getLabel(),cValue);
     cLabel.gridy++;cValue.gridy++;
+    // Portrait frame
+    ret.add(GuiFactory.buildLabel("Portrait:"),cLabel);
+    ret.add(_portraitFrame.getLabel(),cValue);
+    cLabel.gridy++;cValue.gridy++;
     // Position
     ret.add(GuiFactory.buildLabel("Position:"),cLabel);
     ret.add(_positionZone,cValue);
@@ -137,10 +146,11 @@ public class CharacterSummaryPanelController extends AbstractPanelController
 
   /**
    * Set the data to show.
+   * @param toon Character.
    * @param summary Summary to show.
    * @param details Details to show.
    */
-  public void setSummary(CharacterSummary summary, CharacterDetails details)
+  public void setSummary(CharacterFile toon, CharacterSummary summary, CharacterDetails details)
   {
     // Name
     String name=summary.getName();
@@ -161,7 +171,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     // Gender
     CharacterSex gender=summary.getCharacterSex();
     String genderLabel=(gender!=null)?gender.getLabel():"?";
-    _gender.setText(genderLabel);
+    _gender.setText("("+genderLabel+")");
     // Nationality
     NationalityDescription nationality=summary.getNationality();
     if (nationality!=null)
@@ -214,6 +224,18 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     }
     _pvpRank.setText(rank);
     // Title
+    handleTitle(details);
+    // Portrait frame
+    handlePortraitFrame(toon);
+    // Position
+    String positionZone=getPositionZone(details);
+    _positionZone.setText(positionZone);
+    String position=getPosition(details);
+    _position.setText(position);
+  }
+
+  private void handleTitle(CharacterDetails details)
+  {
     Integer titleID=details.getCurrentTitleId();
     TitleDescription title=null;
     if (titleID!=null)
@@ -231,11 +253,22 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     {
       _title.setText("");
     }
-    // Position
-    String positionZone=getPositionZone(details);
-    _positionZone.setText(positionZone);
-    String position=getPosition(details);
-    _position.setText(position);
+  }
+
+  private void handlePortraitFrame(CharacterFile toon)
+  {
+    PortraitFramesStatus status=PortraitFramesStatusIo.load(toon);
+    PortraitFrameDescription current=status.getCurrentPortraitFrame();
+    if (current!=null)
+    {
+      _portraitFrame.setText(current.getName());
+      PageIdentifier portraitRef=ReferenceConstants.getPortraitFrameReference(current.getCode());
+      _portraitFrame.setPageIdentifier(portraitRef);
+    }
+    else
+    {
+      _portraitFrame.setText("");
+    }
   }
 
   private String getPositionZone(CharacterDetails details)
@@ -302,6 +335,11 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     {
       _title.dispose();
       _title=null;
+    }
+    if (_portraitFrame!=null)
+    {
+      _portraitFrame.dispose();
+      _portraitFrame=null;
     }
     _positionZone=null;
     _position=null;

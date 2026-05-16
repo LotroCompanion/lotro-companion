@@ -130,7 +130,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     CharacterData current=_toon.getInfosManager().getCurrentData();
     setContext(current);
     // Summary
-    _summaryController.setSummary(summary,details);
+    _summaryController.setSummary(_toon,summary,details);
     // Achievements
     AchievementsSummary achievements=AchievementsSummaryIO.loadAchievementsSummary(_toon);
     _achievements.setSummary(achievements);
