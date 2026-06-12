@@ -38,7 +38,11 @@ public class ItemIconProvider implements MarkerIconProvider
       Item item=ItemsManager.getInstance().getItem(did.intValue());
       if (item!=null)
       {
-        icon=_builder.getItemIcon(item.getIcon());
+        String iconName=item.getIcon();
+        if (iconName!=null)
+        {
+          icon=_builder.getItemIcon(iconName);
+        }
       }
       _icons.put(did,icon);
     }
