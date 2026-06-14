@@ -48,12 +48,24 @@ public class PortraitFramesStatusDisplayPanelController extends AbstractPanelCon
     super(parent);
     _status=status;
     _filter=filter;
-    _portraitFrames=new ArrayList<PortraitFrameDescription>();
-    _portraitFrames.addAll(PortraitFramesManager.getInstance().getAll());
+    _portraitFrames=getPortraitFrames();
     Collections.sort(_portraitFrames,new NamedComparator());
     _links=new ArrayList<NavigationHyperLink>();
     setPanel(buildPanel());
     updatePanel();
+  }
+
+  private static List<PortraitFrameDescription> getPortraitFrames()
+  {
+    List<PortraitFrameDescription> ret=new ArrayList<PortraitFrameDescription>();
+    for(PortraitFrameDescription portrait : PortraitFramesManager.getInstance().getAll())
+    {
+      if (portrait.isForFreeps())
+      {
+        ret.add(portrait);
+      }
+    }
+    return ret;
   }
 
   private JPanel buildPanel()
