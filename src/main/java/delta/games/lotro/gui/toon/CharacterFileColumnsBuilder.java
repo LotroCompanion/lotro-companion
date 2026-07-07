@@ -36,6 +36,7 @@ import delta.games.lotro.gui.character.status.achievables.table.ProgressTableCel
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
@@ -119,7 +120,8 @@ public class CharacterFileColumnsBuilder
           return Long.valueOf(data.getXp());
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.xp");
+      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),columnName,Long.class,xpCell);
       ColumnsUtils.configureLongColumn(xpColumn);
       ret.add(xpColumn);
     }
@@ -134,7 +136,8 @@ public class CharacterFileColumnsBuilder
           return Integer.valueOf(data.getIngameTime());
         }
       };
-      DefaultTableColumnController<CharacterFile,Integer> inGameTimeColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,inGameTimeCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.inGameTime");
+      DefaultTableColumnController<CharacterFile,Integer> inGameTimeColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),columnName,Integer.class,inGameTimeCell);
       inGameTimeColumn.setWidthSpecs(120,120,120);
       DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
       {
@@ -159,7 +162,8 @@ public class CharacterFileColumnsBuilder
           return data.getMoney();
         }
       };
-      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),"Money",Money.class,moneyCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.money");
+      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),columnName,Money.class,moneyCell);
       MoneyCellRenderer.configureColumn(moneyColumn);
       ret.add(moneyColumn);
     }
@@ -174,7 +178,8 @@ public class CharacterFileColumnsBuilder
           return data.getLastLogoutDate();
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.lastLogout");
+      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),columnName,Long.class,lastLogoutCell);
       ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
@@ -200,7 +205,8 @@ public class CharacterFileColumnsBuilder
           return titleName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.TITLE.name(),"Title",String.class,titleCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.title");
+      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.TITLE.name(),columnName,String.class,titleCell);
       titleColumn.setWidthSpecs(100,-1,200);
       ret.add(titleColumn);
     }
@@ -224,7 +230,8 @@ public class CharacterFileColumnsBuilder
           return zoneName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> areaColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.AREA.name(),"Area",String.class,areaCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.area");
+      DefaultTableColumnController<CharacterFile,String> areaColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.AREA.name(),columnName,String.class,areaCell);
       areaColumn.setWidthSpecs(80,250,250);
       ret.add(areaColumn);
     }
@@ -248,7 +255,8 @@ public class CharacterFileColumnsBuilder
           return zoneName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> dungeonColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.DUNGEON.name(),"Dungeon",String.class,dungeonCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.dungeon");
+      DefaultTableColumnController<CharacterFile,String> dungeonColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.DUNGEON.name(),columnName,String.class,dungeonCell);
       dungeonColumn.setWidthSpecs(80,250,250);
       ret.add(dungeonColumn);
     }
@@ -274,7 +282,8 @@ public class CharacterFileColumnsBuilder
           return vocationName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell); // I18n
+      String columnName=Labels.getLabel("characters.table.column.vocation");
+      DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),columnName,String.class,vocationCell);
       vocationColumn.setWidthSpecs(100,100,100);
       ret.add(vocationColumn);
     }
@@ -299,29 +308,34 @@ public class CharacterFileColumnsBuilder
         return positionStr;
       }
     };
-    DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),"Position",String.class,positionCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.position");
+    DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),columnName,String.class,positionCell);
     positionColumn.setWidthSpecs(100,200,200);
     return positionColumn;
   }
 
   private static TableColumnController<CharacterFile,?> getBagSummaryColumn()
   {
-    return getStorageSummaryColumn(ToonsTableColumnIds.BAG_SUMMARY.name(),"Bags",CharacterStorageSummary::getBags); // I18n
+    String columnName=Labels.getLabel("characters.table.column.bags");
+    return getStorageSummaryColumn(ToonsTableColumnIds.BAG_SUMMARY.name(),columnName,CharacterStorageSummary::getBags);
   }
 
   private static TableColumnController<CharacterFile,?> getOwnVaultSummaryColumn()
   {
-    return getStorageSummaryColumn(ToonsTableColumnIds.OWN_VAULT_SUMMARY.name(),"Own Vault",CharacterStorageSummary::getOwnVault); // I18n
+    String columnName=Labels.getLabel("characters.table.column.ownVault");
+    return getStorageSummaryColumn(ToonsTableColumnIds.OWN_VAULT_SUMMARY.name(),columnName,CharacterStorageSummary::getOwnVault);
   }
 
   private static TableColumnController<CharacterFile,?> getBagAvailableColumn()
   {
-    return getStorageAvailableColumn(ToonsTableColumnIds.BAG_AVAILABLE.name(),"Bags free slots",CharacterStorageSummary::getBags); // I18n
+    String columnName=Labels.getLabel("characters.table.column.bagsFreeSlots");
+    return getStorageAvailableColumn(ToonsTableColumnIds.BAG_AVAILABLE.name(),columnName,CharacterStorageSummary::getBags);
   }
 
   private static TableColumnController<CharacterFile,?> getOwnVaultAvailableColumn()
   {
-    return getStorageAvailableColumn(ToonsTableColumnIds.OWN_VAULT_AVAILABLE.name(),"Own Vault free slots",CharacterStorageSummary::getOwnVault); // I18n
+    String columnName=Labels.getLabel("characters.table.column.ownVaultFreeSlots");
+    return getStorageAvailableColumn(ToonsTableColumnIds.OWN_VAULT_AVAILABLE.name(),columnName,CharacterStorageSummary::getOwnVault);
   }
 
   private static TableColumnController<CharacterFile,?> getStorageSummaryColumn(String columnId, String columnName, Function<CharacterStorageSummary,SingleStorageSummary> getter)
@@ -380,17 +394,20 @@ public class CharacterFileColumnsBuilder
 
   private static TableColumnController<CharacterFile,?> getDeedsCountColumn()
   {
-    return getAchievementsSummaryColumn(ToonsTableColumnIds.DEEDS_COUNT.name(),"Deeds",AchievementsSummary::getDeedsCount); // I18n
+    String columnName=Labels.getLabel("characters.table.column.deeds");
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.DEEDS_COUNT.name(),columnName,AchievementsSummary::getDeedsCount);
   }
 
   private static TableColumnController<CharacterFile,?> getQuestsCountColumn()
   {
-    return getAchievementsSummaryColumn(ToonsTableColumnIds.QUESTS_COUNT.name(),"Quests",AchievementsSummary::getQuestsCount); // I18n
+    String columnName=Labels.getLabel("characters.table.column.quests");
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.QUESTS_COUNT.name(),columnName,AchievementsSummary::getQuestsCount);
   }
 
   private static TableColumnController<CharacterFile,?> getTitlesCountColumn()
   {
-    return getAchievementsSummaryColumn(ToonsTableColumnIds.TITLES_COUNT.name(),"Titles",AchievementsSummary::getTitlesCount); // I18n
+    String columnName=Labels.getLabel("characters.table.column.titles");
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.TITLES_COUNT.name(),columnName,AchievementsSummary::getTitlesCount);
   }
 
   private static TableColumnController<CharacterFile,?> getSurnameColumn()
@@ -404,7 +421,8 @@ public class CharacterFileColumnsBuilder
         return (summary!=null && summary.getSurname()!=null) ? summary.getSurname() : "";
       }
     };
-    DefaultTableColumnController<CharacterFile,String> surnameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.SURNAME.name(),"Surname",String.class,surnameCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.surname");
+    DefaultTableColumnController<CharacterFile,String> surnameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.SURNAME.name(),columnName,String.class,surnameCell);
     surnameColumn.setWidthSpecs(100,-1,200);
     return surnameColumn;
   }
@@ -420,7 +438,8 @@ public class CharacterFileColumnsBuilder
         return summary!=null ? summary.getFullName() : "";
       }
     };
-    DefaultTableColumnController<CharacterFile,String> fullNameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.FULL_NAME.name(),"Full Name",String.class,fullNameCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.fullName");
+    DefaultTableColumnController<CharacterFile,String> fullNameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.FULL_NAME.name(),columnName,String.class,fullNameCell);
     fullNameColumn.setWidthSpecs(100,-1,200);
     return fullNameColumn;
   }
@@ -438,7 +457,8 @@ public class CharacterFileColumnsBuilder
         return (rank!=null) ? ContextRendering.render(summary,rank) : "";
       }
     };
-    DefaultTableColumnController<CharacterFile,String> pvpRankColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PVP_RANK.name(),"PVP Rank",String.class,pvpRankCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.pvpRank");
+    DefaultTableColumnController<CharacterFile,String> pvpRankColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PVP_RANK.name(),columnName,String.class,pvpRankCell);
     pvpRankColumn.setWidthSpecs(100,-1,150);
     return pvpRankColumn;
   }
@@ -454,7 +474,8 @@ public class CharacterFileColumnsBuilder
         return summary!=null ? summary.getRankCode() : null;
       }
     };
-    DefaultTableColumnController<CharacterFile,Integer> pvpRankColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.PVP_LEVEL.name(),"PVP Level",Integer.class,pvpLevelCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.pvpLevel");
+    DefaultTableColumnController<CharacterFile,Integer> pvpRankColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.PVP_LEVEL.name(),columnName,Integer.class,pvpLevelCell);
     pvpRankColumn.setWidthSpecs(50,65,65);
     return pvpRankColumn;
   }
@@ -471,7 +492,8 @@ public class CharacterFileColumnsBuilder
         return notes.getText().split("\r\n|\r|\n",2)[0];
       }
     };
-    DefaultTableColumnController<CharacterFile,String> notesColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.NOTES_FIRST_LINE.name(),"Notes",String.class,notesCell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.notes");
+    DefaultTableColumnController<CharacterFile,String> notesColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.NOTES_FIRST_LINE.name(),columnName,String.class,notesCell);
     notesColumn.setWidthSpecs(50,-1,100);
     return notesColumn;
   }
@@ -505,7 +527,8 @@ public class CharacterFileColumnsBuilder
         return data.getNoPurchaseRequired();
       }
     };
-    DefaultTableColumnController<CharacterFile,Boolean> column=new DefaultTableColumnController<CharacterFile,Boolean>(ToonsTableColumnIds.NO_PURCHASE_REQUIRED.name(),"VIP Goodies",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.vipGoodies");
+    DefaultTableColumnController<CharacterFile,Boolean> column=new DefaultTableColumnController<CharacterFile,Boolean>(ToonsTableColumnIds.NO_PURCHASE_REQUIRED.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(30,30,30);
     column.setCellRenderer(new ThreeStateBooleanTableCellRenderer());
     return column;
@@ -528,7 +551,8 @@ public class CharacterFileColumnsBuilder
         return portraitFrameName;
       }
     };
-    DefaultTableColumnController<CharacterFile,String> column=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PORTRAIT_FRAME.name(),"Portrait Frame",String.class,cell); // I18n
+    String columnName=Labels.getLabel("characters.table.column.portraitFrame");
+    DefaultTableColumnController<CharacterFile,String> column=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.PORTRAIT_FRAME.name(),columnName,String.class,cell);
     column.setWidthSpecs(100,-1,200);
     return column;
   }
