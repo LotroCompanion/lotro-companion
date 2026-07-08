@@ -22,6 +22,7 @@ import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.filters.CharacterClassFilter;
 import delta.games.lotro.character.filters.CharacterNameFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a friend filter edition panel.
@@ -132,7 +133,7 @@ public class FriendSummaryFilterController
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("friends.filter.name")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -154,7 +155,7 @@ public class FriendSummaryFilterController
     }
     // Class
     {
-      JLabel label=GuiFactory.buildLabel("Class:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("friends.filter.class"));
       linePanel.add(label);
       _class=CharacterUiUtils.buildCharacterClassCombo(true);
       ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()

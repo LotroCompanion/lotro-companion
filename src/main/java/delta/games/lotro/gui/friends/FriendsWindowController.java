@@ -9,6 +9,7 @@ import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.status.friends.FriendsManager;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a "friends" window.
@@ -45,7 +46,8 @@ public class FriendsWindowController extends DefaultDisplayDialogController<Frie
   {
     JDialog frame=super.build();
     // Title
-    frame.setTitle("Friends"); // I18n
+    String title=Labels.getLabel("friends.window.title");
+    frame.setTitle(title);
     frame.setMinimumSize(new Dimension(650,350));
     frame.setSize(850,600);
     frame.setResizable(true);
