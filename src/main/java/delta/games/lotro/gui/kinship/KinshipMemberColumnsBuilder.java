@@ -10,6 +10,7 @@ import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.kinship.KinshipCharacterSummary;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRank;
@@ -76,7 +77,8 @@ public class KinshipMemberColumnsBuilder
           return summary.getVocation();
         }
       };
-      DefaultTableColumnController<KinshipCharacterSummary,String> vocationColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.vocation");
+      DefaultTableColumnController<KinshipCharacterSummary,String> vocationColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.VOCATION.name(),columnName,String.class,vocationCell);
       vocationColumn.setWidthSpecs(80,80,80);
       ret.add(vocationColumn);
     }
@@ -90,7 +92,8 @@ public class KinshipMemberColumnsBuilder
           return summary.getLastLogoutDate();
         }
       };
-      DefaultTableColumnController<KinshipCharacterSummary,Long> lastLogoutColumn=new DefaultTableColumnController<KinshipCharacterSummary,Long>(KinshipMembersColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.lastLogout");
+      DefaultTableColumnController<KinshipCharacterSummary,Long> lastLogoutColumn=new DefaultTableColumnController<KinshipCharacterSummary,Long>(KinshipMembersColumnIds.LAST_LOGOUT_DATE.name(),columnName,Long.class,lastLogoutCell);
       ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
@@ -104,7 +107,8 @@ public class KinshipMemberColumnsBuilder
           return summary.getArea();
         }
       };
-      DefaultTableColumnController<KinshipCharacterSummary,String> areaColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.AREA.name(),"Area",String.class,areaCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.area");
+      DefaultTableColumnController<KinshipCharacterSummary,String> areaColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.AREA.name(),columnName,String.class,areaCell);
       areaColumn.setWidthSpecs(80,250,250);
       ret.add(areaColumn);
     }
@@ -124,7 +128,8 @@ public class KinshipMemberColumnsBuilder
           return member.getJoinDate();
         }
       };
-      DefaultTableColumnController<KinshipMember,Long> joinDateColumn=new DefaultTableColumnController<KinshipMember,Long>(KinshipMembersColumnIds.JOIN_DATE.name(),"Joined",Long.class,joinDateCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.joined");
+      DefaultTableColumnController<KinshipMember,Long> joinDateColumn=new DefaultTableColumnController<KinshipMember,Long>(KinshipMembersColumnIds.JOIN_DATE.name(),columnName,Long.class,joinDateCell);
       ColumnsUtils.configureDateTimeColumn(joinDateColumn);
       ret.add(joinDateColumn);
     }
@@ -141,7 +146,8 @@ public class KinshipMemberColumnsBuilder
           return text;
         }
       };
-      DefaultTableColumnController<KinshipMember,String> rankColumn=new DefaultTableColumnController<KinshipMember,String>(KinshipMembersColumnIds.RANK.name(),"Rank",String.class,rankCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.rank");
+      DefaultTableColumnController<KinshipMember,String> rankColumn=new DefaultTableColumnController<KinshipMember,String>(KinshipMembersColumnIds.RANK.name(),columnName,String.class,rankCell);
       rankColumn.setWidthSpecs(120,120,120);
       ret.add(rankColumn);
     }
@@ -155,7 +161,8 @@ public class KinshipMemberColumnsBuilder
           return member.getNotes();
         }
       };
-      DefaultTableColumnController<KinshipMember,String> notesColumn=new DefaultTableColumnController<KinshipMember,String>(KinshipMembersColumnIds.NOTES.name(),"Notes",String.class,notesCell); // I18n
+      String columnName=Labels.getLabel("kinship.members.table.column.notes");
+      DefaultTableColumnController<KinshipMember,String> notesColumn=new DefaultTableColumnController<KinshipMember,String>(KinshipMembersColumnIds.NOTES.name(),columnName,String.class,notesCell);
       notesColumn.setWidthSpecs(100,-1,200);
       ret.add(notesColumn);
     }

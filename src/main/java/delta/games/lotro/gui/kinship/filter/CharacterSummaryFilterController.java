@@ -26,6 +26,7 @@ import delta.games.lotro.character.filters.RaceFilter;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a kinship member filter edition panel.
@@ -148,7 +149,7 @@ public class CharacterSummaryFilterController
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.name")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -170,7 +171,7 @@ public class CharacterSummaryFilterController
     }
     // Class
     {
-      JLabel label=GuiFactory.buildLabel("Class:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.class"));
       linePanel.add(label);
       _class=CharacterUiUtils.buildCharacterClassCombo(true);
       ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()
@@ -188,7 +189,7 @@ public class CharacterSummaryFilterController
     }
     // Race
     {
-      JLabel label=GuiFactory.buildLabel("Race:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.race"));
       linePanel.add(label);
       _race=CharacterUiUtils.buildRaceCombo(true);
       ItemSelectionListener<RaceDescription> raceListener=new ItemSelectionListener<RaceDescription>()
@@ -204,9 +205,9 @@ public class CharacterSummaryFilterController
       _race.addListener(raceListener);
       linePanel.add(_race.getComboBox());
     }
-    // Sex
+    // Gender
     {
-      JLabel label=GuiFactory.buildLabel("Sex:"); // I18n
+      JLabel label=GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.gender"));
       linePanel.add(label);
       _sex=CharacterUiUtils.buildSexCombo(true);
       ItemSelectionListener<CharacterSex> sexListener=new ItemSelectionListener<CharacterSex>()

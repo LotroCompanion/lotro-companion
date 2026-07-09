@@ -56,7 +56,7 @@ public class KinshipMembersTableController implements GenericEventsListener<Kins
     List<TableColumnController<KinshipMember,?>> columns=KinshipMemberColumnsBuilder.build();
     for(TableColumnController<KinshipMember,?> column:columns)
     {
-      // Skip some tables
+      // Skip some columns
       String id=column.getId();
       if ((ToonsTableColumnIds.SERVER.name().equals(id)) || (ToonsTableColumnIds.ACCOUNT.name().equals(id)))
       {

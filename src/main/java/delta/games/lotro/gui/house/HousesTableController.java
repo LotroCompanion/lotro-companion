@@ -158,8 +158,8 @@ public class HousesTableController
         return item.getServer();
       }
     };
-    String title=Labels.getLabel("houses.table.column.server");
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(SERVER,title,String.class,cell);
+    String columnName=Labels.getLabel("houses.table.column.server");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(SERVER,columnName,String.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -174,8 +174,8 @@ public class HousesTableController
         return item.getNeighborhoodTemplate();
       }
     };
-    String title=Labels.getLabel("houses.table.column.homestead");
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOMESTEAD,title,String.class,cell);
+    String columnName=Labels.getLabel("houses.table.column.homestead");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOMESTEAD,columnName,String.class,cell);
     column.setWidthSpecs(100,150,150);
     return column;
   }
@@ -190,8 +190,8 @@ public class HousesTableController
         return item.getNeighborhood();
       }
     };
-    String title=Labels.getLabel("houses.table.column.neighborhood");
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(NEIGHBORHOOD,title,String.class,cell);
+    String columnName=Labels.getLabel("houses.table.column.neighborhood");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(NEIGHBORHOOD,columnName,String.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -206,8 +206,8 @@ public class HousesTableController
         return item.getAddress();
       }
     };
-    String title=Labels.getLabel("houses.table.column.address");
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOUSE_ADDRESS,title,String.class,cell); // I18n
+    String columnName=Labels.getLabel("houses.table.column.address");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOUSE_ADDRESS,columnName,String.class,cell);
     column.setWidthSpecs(100,150,150);
     return column;
   }
@@ -222,8 +222,8 @@ public class HousesTableController
         return item.getType();
       }
     };
-    String title=Labels.getLabel("houses.table.column.type");
-    DefaultTableColumnController<HouseEntry,HouseType> column=new DefaultTableColumnController<HouseEntry,HouseType>(HOUSE_TYPE,title,HouseType.class,cell); // I18n
+    String columnName=Labels.getLabel("houses.table.column.type");
+    DefaultTableColumnController<HouseEntry,HouseType> column=new DefaultTableColumnController<HouseEntry,HouseType>(HOUSE_TYPE,columnName,HouseType.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }

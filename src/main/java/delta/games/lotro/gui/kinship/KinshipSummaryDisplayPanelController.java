@@ -72,7 +72,7 @@ public class KinshipSummaryDisplayPanelController extends AbstractPanelControlle
     c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(attributesPanel,c);
     // House button
-    JButton houseButton=GuiFactory.buildButton("House...");
+    JButton houseButton=GuiFactory.buildButton("House..."); // I18n
     c=new GridBagConstraints(1,1,1,1,0.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(houseButton,c);
     ActionListener al=new ActionListener()
@@ -208,7 +208,7 @@ public class KinshipSummaryDisplayPanelController extends AbstractPanelControlle
     HouseAddress address=kinshipSummary.getAddress();
     if (address==null)
     {
-      GuiFactory.showInformationDialog(getPanel(),"No known house!","Warning!");
+      GuiFactory.showInformationDialog(getPanel(),"No known house!","Warning!"); // I18n
       return;
     }
     String server=_kinship.getSummary().getServerName();

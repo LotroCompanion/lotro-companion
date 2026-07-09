@@ -63,7 +63,6 @@ public class KinshipPanelController
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     // Characters table
     JPanel tablePanel=buildTablePanel();
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters")); // I18n
     panel.add(tablePanel,BorderLayout.CENTER);
     // Top panel
     _filterController=new KinshipMemberFilterController(_kinship,_filter,_membersPanel);
@@ -78,8 +77,10 @@ public class KinshipPanelController
   {
     _membersTable=buildMembersTable();
     _membersPanel=new GenericTablePanelController<KinshipMember>(_parent,_membersTable.getTableController());
-    _membersPanel.getConfiguration().setBorderTitle("Members"); // I18n
-    _membersPanel.getCountsDisplay().setText("Member(s)"); // I18n
+    String title=Labels.getLabel("kinship.members.table.title");
+    _membersPanel.getConfiguration().setBorderTitle(title);
+    String counts=Labels.getLabel("kinship.members.table.counts");
+    _membersPanel.getCountsDisplay().setText(counts);
     return _membersPanel.getPanel();
   }
 

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -144,7 +143,7 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Summary
     JPanel summaryPanel=_summary.getPanel();
-    Border summaryBorder=GuiFactory.buildTitledBorder("Character"); // I18n
+    Border summaryBorder=GuiFactory.buildTitledBorder(Labels.getFieldLabel("kinship.members.filter.character.border"));
     summaryPanel.setBorder(summaryBorder);
     GridBagConstraints c=new GridBagConstraints(0,y,2,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
@@ -152,7 +151,7 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Member attributes
     JPanel memberPanel=buildMemberPanel();
-    Border memberBorder=GuiFactory.buildTitledBorder("Member"); // I18n
+    Border memberBorder=GuiFactory.buildTitledBorder(Labels.getFieldLabel("kinship.members.filter.member.border"));
     memberPanel.setBorder(memberBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(memberPanel,c);
@@ -174,8 +173,7 @@ public class KinshipMemberFilterController implements ActionListener
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Rank filter
     {
-      JLabel label=GuiFactory.buildLabel("Rank:"); // I18n
-      linePanel.add(label);
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.rank")));
       _rank=buildRankCombo(_kinship.getRoster());
       ItemSelectionListener<Integer> rankListener=new ItemSelectionListener<Integer>()
       {
@@ -192,7 +190,7 @@ public class KinshipMemberFilterController implements ActionListener
     }
     // Notes filter
     {
-      linePanel.add(GuiFactory.buildLabel("Notes filter:")); // I18n
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("kinship.members.filter.notes")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
