@@ -89,8 +89,11 @@ public class MobsExplorerWindowController extends DefaultWindowController
     // Table
     initTable(mobs);
     _panelController=new GenericTablePanelController<MobDescription>(this,_tableController.getTableController());
-    _panelController.getConfiguration().setBorderTitle("Mobs"); // I18n
-    _panelController.getCountsDisplay().setText("Mob(s)"); // I18n
+
+    String title=Labels.getLabel("mobs.table.title");
+    _panelController.getConfiguration().setBorderTitle(title);
+    String counts=Labels.getLabel("mobs.table.counts");
+    _panelController.getCountsDisplay().setText(counts);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new MobsFilterController(_filter,mobs,_panelController);

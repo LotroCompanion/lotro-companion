@@ -143,7 +143,7 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Summary
     JPanel summaryPanel=_summary.getPanel();
-    Border summaryBorder=GuiFactory.buildTitledBorder(Labels.getFieldLabel("kinship.members.filter.character.border"));
+    Border summaryBorder=GuiFactory.buildTitledBorder(Labels.getLabel("kinship.members.filter.character.border"));
     summaryPanel.setBorder(summaryBorder);
     GridBagConstraints c=new GridBagConstraints(0,y,2,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
@@ -151,7 +151,7 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Member attributes
     JPanel memberPanel=buildMemberPanel();
-    Border memberBorder=GuiFactory.buildTitledBorder(Labels.getFieldLabel("kinship.members.filter.member.border"));
+    Border memberBorder=GuiFactory.buildTitledBorder(Labels.getLabel("kinship.members.filter.member.border"));
     memberPanel.setBorder(memberBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(memberPanel,c);
