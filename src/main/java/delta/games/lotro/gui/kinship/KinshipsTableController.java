@@ -13,6 +13,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipSummary;
 import delta.games.lotro.kinship.KinshipsManager;
@@ -69,7 +70,8 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
           return null;
         }
       };
-      DefaultTableColumnController<Kinship,String> iidColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.IID.name(),"ID",String.class,iidCell);
+      String columnName=Labels.getLabel("kinships.table.column.id");
+      DefaultTableColumnController<Kinship,String> iidColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.IID.name(),columnName,String.class,iidCell);
       iidColumn.setWidthSpecs(130,130,130);
       table.addColumnController(iidColumn);
     }
@@ -84,7 +86,8 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
           return summary.getName();
         }
       };
-      DefaultTableColumnController<Kinship,String> nameColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.NAME.name(),"Name",String.class,nameCell);
+      String columnName=Labels.getLabel("kinships.table.column.name");
+      DefaultTableColumnController<Kinship,String> nameColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.NAME.name(),columnName,String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -98,7 +101,8 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
           return kinship.getSummary().getCreationDate();
         }
       };
-      DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),"Creation",Long.class,creationCell);
+      String columnName=Labels.getLabel("kinships.table.column.creation");
+      DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),columnName,Long.class,creationCell);
       ColumnsUtils.configureDateTimeColumn(creationColumn);
       table.addColumnController(creationColumn);
     }
@@ -112,7 +116,8 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
           return kinship.getSummary().getMotd();
         }
       };
-      DefaultTableColumnController<Kinship,String> motdColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.MOTD.name(),"Message of the day",String.class,motdCell);
+      String columnName=Labels.getLabel("kinships.table.column.motd");
+      DefaultTableColumnController<Kinship,String> motdColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.MOTD.name(),columnName,String.class,motdCell);
       motdColumn.setWidthSpecs(100,-1,200);
       table.addColumnController(motdColumn);
     }

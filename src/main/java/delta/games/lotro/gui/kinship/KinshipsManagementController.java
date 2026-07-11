@@ -17,6 +17,7 @@ import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipsManager;
 import delta.games.lotro.kinship.events.KinshipEvent;
@@ -108,7 +109,9 @@ public class KinshipsManagementController implements ActionListener,GenericEvent
     ToolbarModel model=controller.getModel();
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
-    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_KINSHIP_ID,deleteIconPath,REMOVE_KINSHIP_ID,"Remove the selected kinship...","Remove");
+    String tooltip=Labels.getLabel("kinships.toolbar.delete.button.tooltip");
+    String altText=Labels.getLabel("kinships.toolbar.delete.button.altText");
+    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_KINSHIP_ID,deleteIconPath,REMOVE_KINSHIP_ID,tooltip,altText);
     model.addToolbarIconItem(deleteIconItem);
     controller.addActionListener(this);
     return controller;
@@ -156,7 +159,9 @@ public class KinshipsManagementController implements ActionListener,GenericEvent
     {
       String name=kinship.getName();
       // Check deletion
-      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete kinship " + name + "?","Delete?",JOptionPane.YES_NO_OPTION); // I18n
+      String message=Labels.getLabel("kinships.delete.confirmation.message",new Object[] {name});
+      String title=Labels.getLabel("kinships.delete.confirmation.title");
+      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),message,title,JOptionPane.YES_NO_OPTION);
       if (result==JOptionPane.OK_OPTION)
       {
         String id=KinshipWindowController.getIdentifier(name);
