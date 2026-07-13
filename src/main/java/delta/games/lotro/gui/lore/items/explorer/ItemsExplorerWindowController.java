@@ -63,7 +63,7 @@ public class ItemsExplorerWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Items explorer");
+    frame.setTitle(Labels.getLabel("items.window.title"));
     frame.setMinimumSize(new Dimension(400,300));
     frame.setSize(950,700);
     return frame;

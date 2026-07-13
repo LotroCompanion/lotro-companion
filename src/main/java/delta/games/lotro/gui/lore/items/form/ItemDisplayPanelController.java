@@ -43,6 +43,7 @@ import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.items.SaveItemIconController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.DamageType;
@@ -121,10 +122,15 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   @Override
   public String getTitle()
   {
-    String title="Item: "+_item.getName();
+    String itemName=_item.getName();
+    String title;
     if (_itemLevel!=null)
     {
-      title=title+" (item level "+_itemLevel+")";
+      title=Labels.getLabel("item.form.window.title.withItemLevel",new Object[] {itemName,_itemLevel});
+    }
+    else
+    {
+      title=Labels.getLabel("item.form.window.title.noItemLevel",new Object[] {itemName});
     }
     return title;
   }
@@ -153,7 +159,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       statsLabel=new MultilineLabel2();
       String[] linesToShow=lines.toArray(new String[lines.size()]);
       statsLabel.setText(linesToShow);
-      statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));
+      statsLabel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("item.form.stats.border")));
     }
     return statsLabel;
   }
@@ -165,18 +171,18 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Build components for tabs
     JPanel mainAttrs=buildMainAttrsPanel();
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    tabbedPane.add("Main",buildPanelForTab(mainAttrs));
+    tabbedPane.add(Labels.getLabel("item.form.main.tab"),buildPanelForTab(mainAttrs));
     // - references
     JEditorPane references=_references.getComponent();
     if (references!=null)
     {
-      tabbedPane.add("References",buildPanelForTab(references));
+      tabbedPane.add(Labels.getLabel("item.form.references.tab"),buildPanelForTab(references));
     }
     // - scaling
     JPanel scalingPanel=_scaling.getPanel();
     if (scalingPanel!=null)
     {
-      tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
+      tabbedPane.add(Labels.getLabel("item.form.scaling.tab"),buildPanelForTab(scalingPanel));
     }
     // - container
     JPanel containerPanel=_container.getPanel();
@@ -185,7 +191,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       containerPanel=buildContainerPanel(containerPanel);
       JPanel tabPanel=buildPanelForTab(containerPanel);
       tabPanel.setPreferredSize(new Dimension(500,300));
-      tabbedPane.add("Contents",tabPanel);
+      tabbedPane.add(Labels.getLabel("item.form.contents.tab"),tabPanel);
     }
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(tabbedPane,c);
@@ -295,7 +301,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       _disenchantment=new DisenchantmentResultPanelController(getParent(),disenchantment);
       JPanel disenchantmentPanel=_disenchantment.getPanel();
-      disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
+      disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("item.form.disenchantment.border")));
       c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(disenchantmentPanel,c);
     }
@@ -327,33 +333,33 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     List<String> ret=new ArrayList<String>();
     if (UiConfiguration.showTechnicalColumns())
     {
-      ret.add("ID: "+_item.getIdentifier());
+      ret.add(Labels.getFieldLabel("item.form.id")+_item.getIdentifier());
     }
     // Quality
     ItemQuality quality=_item.getQuality();
     if (quality!=null)
     {
-      ret.add("Quality: "+_item.getQuality().getLabel());
+      ret.add(Labels.getFieldLabel("item.form.quality")+_item.getQuality().getLabel());
     }
     // Equipment category
     EquipmentCategory equipmentCategory=_item.getEquipmentCategory();
     if (equipmentCategory!=null)
     {
-      ret.add("Equipment Category: "+equipmentCategory.getLabel());
+      ret.add(Labels.getFieldLabel("item.form.equipmentCategory")+equipmentCategory.getLabel());
     }
     else
     {
       String category=getItemCategory();
       if (!category.isEmpty())
       {
-        ret.add("Category: "+category);
+        ret.add(Labels.getFieldLabel("item.form.category")+category);
       }
     }
     // Slot
     EquipmentLocation location=_item.getEquipmentLocation();
     if ((location!=null) && (location!=EquipmentLocations.NONE))
     {
-      ret.add("Location: "+location.getLabel());
+      ret.add(Labels.getFieldLabel("item.form.location")+location.getLabel());
     }
     // Weapon specifics
     if (_item instanceof Weapon)
@@ -369,7 +375,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       {
         itemLevel=_itemLevel;
       }
-      ret.add("Item level: "+itemLevel.toString());
+      ret.add(Labels.getFieldLabel("item.form.itemLevel")+itemLevel.toString());
     }
     // Tracery complements
     Tracery tracery=TraceriesManager.getInstance().getTracery(_item.getIdentifier());
@@ -377,34 +383,30 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       int maxItemLevel=tracery.getMaxItemLevel();
       int increment=tracery.getLevelUpIncrement();
-      String label="Enhancement limit: "+maxItemLevel;
-      if (increment>1)
-      {
-        label=label+" (increment: "+increment+")";
-      }
+      String label=Labels.getLabel("item.form.enhancementLimit",new Object[] {Integer.valueOf(maxItemLevel),Integer.valueOf(increment)});
       ret.add(label);
     }
     // Enhancement rune complements
     EnhancementRune enhancementRune=EnhancementRunesManager.getInstance().getEnhancementRune(_item.getIdentifier());
     if (enhancementRune!=null)
     {
-      int minItemLevel=enhancementRune.getMinItemLevel();
-      int maxItemLevel=enhancementRune.getMaxItemLevel();
-      int increment=enhancementRune.getLevelUpIncrement();
-      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel+" (increment: "+increment+")";
+      Integer minItemLevel=Integer.valueOf(enhancementRune.getMinItemLevel());
+      Integer maxItemLevel=Integer.valueOf(enhancementRune.getMaxItemLevel());
+      Integer increment=Integer.valueOf(enhancementRune.getLevelUpIncrement());
+      String label=Labels.getLabel("item.form.enhancementItemLevels",new Object[] {minItemLevel,maxItemLevel,increment});
       ret.add(label);
     }
     // Durability
     Integer durability=_item.getDurability();
     if (durability!=null)
     {
-      ret.add("Durability: "+durability.toString());
+      ret.add(Labels.getFieldLabel("item.form.durability")+durability.toString());
     }
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_item.getUsageRequirements());
     if (!requirements.isEmpty())
     {
-      ret.add("Requirements: "+requirements);
+      ret.add(Labels.getFieldLabel("item.form.requirements")+requirements);
     }
     // Attributes
     {
@@ -432,7 +434,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       Integer tier=_item.getTier();
       if (tier!=null)
       {
-        category=category+", tier "+tier;
+        category=category+", tier "+tier; // I18n
       }
     }
     return (category==null)?"":category;
@@ -445,23 +447,23 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     DamageType damageType=weapon.getDamageType();
     if (damageType!=null)
     {
-      ret.add("Damage type: "+damageType.getName());
+      ret.add(Labels.getFieldLabel("item.form.damageType")+damageType.getName());
     }
     // Damage range
     int minDamage=getMinDamage(weapon);
     int maxDamage=getMaxDamage(weapon);
-    ret.add("Damage: "+minDamage+" - "+maxDamage);
+    ret.add(Labels.getFieldLabel("item.form.damage")+minDamage+" - "+maxDamage);
     // DPS
     float dps=getDPS(weapon);
     String dpsStr=L10n.getString(dps,1);
-    ret.add("DPS: "+dpsStr);
+    ret.add(Labels.getFieldLabel("item.form.dps")+dpsStr);
     // Speed
     WeaponSpeedEntry speedData=weapon.getSpeed();
     if (speedData!=null)
     {
       float duration=speedData.getBaseActionDuration();
       String durationStr=L10n.getString(duration,1);
-      ret.add("Speed: "+durationStr);
+      ret.add(Labels.getFieldLabel("item.form.speed")+durationStr);
     }
     return ret;
   }
@@ -513,7 +515,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     boolean unique=_item.isUnique();
     if (unique)
     {
-      sb.append("Unique");
+      sb.append(Labels.getLabel("item.form.unique"));
     }
     // Binding
     ItemBinding binding=_item.getBinding();
@@ -534,8 +536,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     if ((stack!=null) && (stack.intValue()>1))
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Stacks to ");
-      sb.append(stack);
+      sb.append(Labels.getLabel("item.form.stacksTo",new Object[]{stack}));
     }
     String ret=sb.toString();
     return ret;
@@ -572,7 +573,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     if (!grantedElements.isEmpty())
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      ret.add(GuiFactory.buildLabel("Grants:"),c);
+      ret.add(GuiFactory.buildLabel(Labels.getFieldLabel("item.form.grants")),c);
       y++;
       for(GrantedElement<?> grantedElement : grantedElements)
       {
@@ -593,7 +594,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       for(ItemXP itemXP : itemXPs)
       {
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-        String label="Gives "+itemXP.getAmount()+" item XP.";
+        String label=Labels.getLabel("item.form.givesItemXP",new Object[]{Integer.valueOf(itemXP.getAmount())});
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
@@ -607,7 +608,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
         int amount=virtueXP.getAmount();
         boolean bonus=virtueXP.isBonus();
-        String label="Gives "+amount+(bonus?" bonus":"")+" virtue XP.";
+        String label=Labels.getLabel("item.form.givesBonusVirtueXP",new Object[]{Integer.valueOf(amount),bonus?Integer.valueOf(1):Integer.valueOf(0)});
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
@@ -621,10 +622,9 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
         Faction faction=reputation.getFaction();
         int amount=reputation.getAmount();
-        String verb=(amount>0)?"Gives":"Removes";
         String rawFactionName=faction.getName();
         String factionName=ContextRendering.render(this,rawFactionName);
-        String label=verb+" "+amount+" reputation points in faction "+factionName+".";
+        String label=Labels.getLabel("item.form.givesReputation",new Object[]{Integer.valueOf(amount),factionName});
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
@@ -662,7 +662,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       float duration=cooldown.getDuration();
       String durationStr=Duration.getDurationString((int)duration);
-      String label="Cooldown: "+durationStr;
+      String label="Cooldown: "+durationStr; // I18n
       panel.add(GuiFactory.buildLabel(label),c);
       y++;
     }
@@ -678,7 +678,8 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       {
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
         String allegianceGroup=allegiancePointsEntry.getGroup().getLabel();
-        String label="This item is worth "+allegiancePointsEntry.getPoints()+" Allegiance Points ("+allegianceGroup+")."; // I18n
+        Integer points=Integer.valueOf(allegiancePointsEntry.getPoints());
+        String label=Labels.getLabel("item.form.worthAllegiancePoints",new Object[]{points,allegianceGroup});
         panel.add(GuiFactory.buildLabel(label),c);
         y++;
       }
@@ -694,7 +695,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       List<HousingHookCategory> categories=housingHooks.getHookCategories();
       String categoriesStr=formatEnumEntries(categories);
-      String label="Decoration Category: "+categoriesStr;
+      String label=Labels.getFieldLabel("item.form.decorationCategory")+categoriesStr;
       panel.add(GuiFactory.buildLabel(label),c);
       y++;
     }
@@ -709,7 +710,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       float decayDuration=decay.getDuration();
       String durationStr=Duration.getShortDurationString(decayDuration);
-      String label="Decay: "+durationStr;
+      String label=Labels.getFieldLabel("item.form.decay")+durationStr;
       panel.add(GuiFactory.buildLabel(label),c);
       y++;
     }
@@ -722,7 +723,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     if (!providedPortraitFrames.isEmpty())
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(GuiFactory.buildLabel("Provides:"),c);
+      panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("item.form.provides")),c);
       y++;
       for(ProvidesPortraitFrame providedPortraitFrame : providedPortraitFrames)
       {
