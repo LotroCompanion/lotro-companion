@@ -16,6 +16,7 @@ import delta.games.lotro.character.classes.initialGear.InitialGearElement;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.crafting.Profession;
@@ -43,6 +44,9 @@ import delta.games.lotro.utils.html.HtmlUtils;
  */
 public class ItemReferencesDisplayController
 {
+  private static final String H1="<h1>";
+  private static final String END_H1="</h1>";
+
   // Controllers
   private NavigatorWindowController _parent;
   // UI
@@ -163,7 +167,9 @@ public class ItemReferencesDisplayController
     int currentTier=0;
     if (!recipeReferences.isEmpty())
     {
-      sb.append("<h1>Crafting</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.crafting.chapter"));
+      sb.append(END_H1);
       for(Reference<Recipe,ItemRole> recipeReference : recipeReferences)
       {
         Recipe recipe=recipeReference.getSource();
@@ -177,7 +183,9 @@ public class ItemReferencesDisplayController
         }
         if (tier!=currentTier)
         {
-          sb.append("<h3>Tier ").append(tier).append("</h3>");
+          sb.append("<h3>");
+          sb.append(Labels.getLabel("item.form.references.crafting.tier",new Object[]{Integer.valueOf(tier)}));
+          sb.append("</h3>");
           currentTier=tier;
         }
         buildHtmlForRecipeReference(sb,recipe,recipeReference.getRoles());
@@ -188,7 +196,17 @@ public class ItemReferencesDisplayController
   private void buildHtmlForRecipeReference(StringBuilder sb, Recipe recipe, List<ItemRole> roles)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Found as ");
+    String rolesLabel=buildRolesLabel(roles);
+    PageIdentifier to=ReferenceConstants.getRecipeReference(recipe.getIdentifier());
+    String link=buildLink(to,recipe.getName());
+    String line=Labels.getLabel("item.form.references.crafting.fromRecipe",new Object[]{rolesLabel,link});
+    sb.append(line);
+    sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private String buildRolesLabel(List<ItemRole> roles)
+  {
+    StringBuilder sb=new StringBuilder();
     int index=0;
     for(ItemRole role : roles)
     {
@@ -196,19 +214,20 @@ public class ItemReferencesDisplayController
       {
         sb.append(" / ");
       }
-      if (role==ItemRole.RECIPE_INGREDIENT) sb.append("ingredient");
-      if (role==ItemRole.RECIPE_CRITICAL_INGREDIENT) sb.append("optional ingredient");
-      if (role==ItemRole.RECIPE_RESULT) sb.append("result");
-      if (role==ItemRole.RECIPE_CRITICAL_RESULT) sb.append("critical result");
-      if (role==ItemRole.RECIPE_PROVIDES_RECIPE) sb.append("provider");
+      String roleStr=Labels.getLabel("item.form.references.role."+role.name());
+      sb.append(roleStr);
       index++;
     }
-    sb.append(" in recipe ");
+    return sb.toString();
+  }
+
+  private String buildLink(PageIdentifier to, String label)
+  {
+    StringBuilder sb=new StringBuilder();
     sb.append(HtmlConstants.START_BOLD);
-    PageIdentifier to=ReferenceConstants.getRecipeReference(recipe.getIdentifier());
-    HtmlUtils.printLink(sb,to.getFullAddress(),recipe.getName());
+    HtmlUtils.printLink(sb,to.getFullAddress(),label);
     sb.append(HtmlConstants.END_BOLD);
-    sb.append(HtmlConstants.END_PARAGRAPH);
+    return sb.toString();
   }
 
   private void buildHtmlForTaskItems(StringBuilder sb, List<Reference<?,ItemRole>> references)
@@ -216,7 +235,9 @@ public class ItemReferencesDisplayController
     List<Reference<Task,ItemRole>> taskReferences=getReferences(references,Task.class);
     if (!taskReferences.isEmpty())
     {
-      sb.append("<h1>Tasks</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.tasks.chapter"));
+      sb.append(END_H1);
       for(Reference<Task,ItemRole> taskReference : taskReferences)
       {
         buildHtmlForTaskReference(sb,taskReference.getSource());
@@ -227,11 +248,10 @@ public class ItemReferencesDisplayController
   private void buildHtmlForTaskReference(StringBuilder sb, Task task)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Required for task: ");
-    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getAchievableReference(task.getQuest());
-    HtmlUtils.printLink(sb,to.getFullAddress(),task.getQuest().getName());
-    sb.append(HtmlConstants.END_BOLD);
+    String link=buildLink(to,task.getQuest().getName());
+    String line=Labels.getLabel("item.form.references.tasks.required",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -240,7 +260,9 @@ public class ItemReferencesDisplayController
     List<Reference<Achievable,ItemRole>> achievableReferences=getReferences(references,Achievable.class);
     if (!achievableReferences.isEmpty())
     {
-      sb.append("<h1>Quests and deeds</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.achievables.chapter"));
+      sb.append(END_H1);
       for(Reference<Achievable,ItemRole> achievableReference : achievableReferences)
       {
         for(ItemRole role : achievableReference.getRoles())
@@ -254,20 +276,25 @@ public class ItemReferencesDisplayController
   private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable, ItemRole role)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    boolean isQuest=(achievable instanceof QuestDescription);
-    String text=getTextForAchievableReference(isQuest,role);
+    String text=getTextForAchievableReference(achievable,role);
     sb.append(text);
-    sb.append(HtmlConstants.START_BOLD);
-    PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
-    HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
-    sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
-  private String getTextForAchievableReference(boolean isQuest, ItemRole role)
+  private String getTextForAchievableReference(Achievable achievable, ItemRole role)
   {
-    if (role==ItemRole.ACHIEVABLE_REWARD) return "Reward for "+(isQuest?"quest ":"deed ");
-    if (role==ItemRole.ACHIEVABLE_INVOLVED) return "Involved in "+(isQuest?"quest ":"deed ");
+    boolean isQuest=(achievable instanceof QuestDescription);
+    PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
+    String link=buildLink(to,achievable.getName());
+    Integer selector=Integer.valueOf(isQuest?1:0);
+    if (role==ItemRole.ACHIEVABLE_REWARD)
+    {
+      return Labels.getLabel("item.form.references.achievables.reward",new Object[]{selector,link});
+    }
+    if (role==ItemRole.ACHIEVABLE_INVOLVED)
+    {
+      return Labels.getLabel("item.form.references.achievables.involved",new Object[]{selector,link});
+    }
     return "? for ";
   }
 
@@ -276,7 +303,9 @@ public class ItemReferencesDisplayController
     List<Reference<BarterNpc,ItemRole>> bartererReferences=getReferences(references,BarterNpc.class);
     if (!bartererReferences.isEmpty())
     {
-      sb.append("<h1>Barterers</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.barterers.chapter"));
+      sb.append(END_H1);
       for(Reference<BarterNpc,ItemRole> bartererReference : bartererReferences)
       {
         buildHtmlForBartererReference(sb,bartererReference);
@@ -289,7 +318,9 @@ public class ItemReferencesDisplayController
     List<Reference<RewardsTrack,ItemRole>> rewardsTrackReferences=getReferences(references,RewardsTrack.class);
     if (!rewardsTrackReferences.isEmpty())
     {
-      sb.append("<h1>Reward Tracks</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.rewardTracks.chapter"));
+      sb.append(END_H1);
       for(Reference<RewardsTrack,ItemRole> rewardsTrackReference : rewardsTrackReferences)
       {
         buildHtmlForRewardTracksReference(sb,rewardsTrackReference.getSource());
@@ -300,7 +331,8 @@ public class ItemReferencesDisplayController
   private void buildHtmlForRewardTracksReference(StringBuilder sb, RewardsTrack rewardTrack)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Reward in Reward Track '"+rewardTrack.getName()+"'");
+    String line=Labels.getLabel("item.form.references.rewardTracks.reward",new Object[]{rewardTrack.getName()});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -309,21 +341,21 @@ public class ItemReferencesDisplayController
     List<ItemRole> roles=bartererReference.getRoles();
     for(ItemRole role : roles)
     {
+      BarterNpc barterer=bartererReference.getSource();
+      PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
+      String npcStr=getNpcLabel(barterer.getNpc());
+      String link=buildLink(to,npcStr);
+      sb.append(HtmlConstants.START_PARAGRAPH);
       if (role==ItemRole.BARTERER_GIVEN)
       {
-        sb.append(HtmlConstants.START_PARAGRAPH);
-        sb.append("Received from barterer ");
+        String line=Labels.getLabel("item.form.references.role.BARTERER_GIVEN",new Object[]{link});
+        sb.append(line);
       }
       else if (role==ItemRole.BARTERER_RECEIVED)
       {
-        sb.append(HtmlConstants.START_PARAGRAPH);
-        sb.append("Accepted by barterer ");
+        String line=Labels.getLabel("item.form.references.role.BARTERER_RECEIVED",new Object[]{link});
+        sb.append(line);
       }
-      sb.append(HtmlConstants.START_BOLD);
-      BarterNpc barterer=bartererReference.getSource();
-      PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
-      HtmlUtils.printLink(sb,to.getFullAddress(),getNpcLabel(barterer.getNpc()));
-      sb.append(HtmlConstants.END_BOLD);
       sb.append(HtmlConstants.END_PARAGRAPH);
     }
   }
@@ -333,7 +365,9 @@ public class ItemReferencesDisplayController
     List<Reference<VendorNpc,ItemRole>> vendorReferences=getReferences(references,VendorNpc.class);
     if (!vendorReferences.isEmpty())
     {
-      sb.append("<h1>Vendors</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.vendors.chapter"));
+      sb.append(END_H1);
       for(Reference<VendorNpc,ItemRole> vendorReference : vendorReferences)
       {
         buildHtmlForVendorReference(sb,vendorReference.getSource());
@@ -344,11 +378,11 @@ public class ItemReferencesDisplayController
   private void buildHtmlForVendorReference(StringBuilder sb, VendorNpc vendor)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Sold by ");
-    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getVendorReference(vendor.getIdentifier());
-    HtmlUtils.printLink(sb,to.getFullAddress(),getNpcLabel(vendor.getNpc()));
-    sb.append(HtmlConstants.END_BOLD);
+    String npcStr=getNpcLabel(vendor.getNpc());
+    String link=buildLink(to,npcStr);
+    String line=Labels.getLabel("item.form.references.vendors.soldBy",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -357,7 +391,9 @@ public class ItemReferencesDisplayController
     List<Reference<ItemsSet,ItemRole>> setReferences=getReferences(references,ItemsSet.class);
     if (!setReferences.isEmpty())
     {
-      sb.append("<h1>Sets</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.sets.chapter"));
+      sb.append(END_H1);
       for(Reference<ItemsSet,ItemRole> setReference : setReferences)
       {
         buildHtmlForSetReference(sb,setReference.getSource());
@@ -368,11 +404,10 @@ public class ItemReferencesDisplayController
   private void buildHtmlForSetReference(StringBuilder sb, ItemsSet itemsSet)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Member of ");
-    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getItemsSetReference(itemsSet.getIdentifier());
-    HtmlUtils.printLink(sb,to.getFullAddress(),itemsSet.getName());
-    sb.append(HtmlConstants.END_BOLD);
+    String link=buildLink(to,itemsSet.getName());
+    String line=Labels.getLabel("item.form.references.sets.memberOf",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -381,7 +416,9 @@ public class ItemReferencesDisplayController
     List<Reference<ItemsContainer,ItemRole>> containerReferences=getReferences(references,ItemsContainer.class);
     if (!containerReferences.isEmpty())
     {
-      sb.append("<h1>Containers</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.containers.chapter"));
+      sb.append(END_H1);
       for(Reference<ItemsContainer,ItemRole> containerReference : containerReferences)
       {
         buildHtmlForContainerReference(sb,containerReference.getSource().getIdentifier());
@@ -392,13 +429,12 @@ public class ItemReferencesDisplayController
   private void buildHtmlForContainerReference(StringBuilder sb, int itemId)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Found in ");
-    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getItemReference(itemId);
     Item item=ItemsManager.getInstance().getItem(itemId);
     String itemName=item.getName();
-    HtmlUtils.printLink(sb,to.getFullAddress(),itemName);
-    sb.append(HtmlConstants.END_BOLD);
+    String link=buildLink(to,itemName);
+    String line=Labels.getLabel("item.form.references.containers.foundIn",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -407,7 +443,9 @@ public class ItemReferencesDisplayController
     List<Reference<MobDescription,ItemRole>> mobReferences=getReferences(references,MobDescription.class);
     if (!mobReferences.isEmpty())
     {
-      sb.append("<h1>Mob drops</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.mobDrops.chapter"));
+      sb.append(END_H1);
       for(Reference<MobDescription,ItemRole> mobReference : mobReferences)
       {
         buildHtmlForMobReference(sb,mobReference.getSource());
@@ -418,12 +456,10 @@ public class ItemReferencesDisplayController
   private void buildHtmlForMobReference(StringBuilder sb, MobDescription mob)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Drops from ");
-    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getMobReference(mob);
-    String mobName=mob.getName();
-    HtmlUtils.printLink(sb,to.getFullAddress(),mobName);
-    sb.append(HtmlConstants.END_BOLD);
+    String link=buildLink(to,mob.getName());
+    String line=Labels.getLabel("item.form.references.mobDrops.dropsFrom",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -432,7 +468,9 @@ public class ItemReferencesDisplayController
     List<Reference<RelicMeldingRecipe,ItemRole>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
     if (!recipeReferences.isEmpty())
     {
-      sb.append("<h1>Melding recipes</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.meldingRecipes.chapter"));
+      sb.append(END_H1);
       for(Reference<RelicMeldingRecipe,ItemRole> recipeReference : recipeReferences)
       {
         buildHtmlForMeldingRecipeReference(sb,recipeReference);
@@ -442,25 +480,12 @@ public class ItemReferencesDisplayController
 
   private void buildHtmlForMeldingRecipeReference(StringBuilder sb, Reference<RelicMeldingRecipe,ItemRole> recipeReference)
   {
-    RelicMeldingRecipe recipe=recipeReference.getSource();
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Found as ");
-    int index=0;
-    for(ItemRole role : recipeReference.getRoles())
-    {
-      if (index>0)
-      {
-        sb.append(" / ");
-      }
-      if (role==ItemRole.RECIPE_RESULT) sb.append("result");
-      index++;
-    }
-    sb.append(" in recipe ");
-    sb.append(HtmlConstants.START_BOLD);
+    RelicMeldingRecipe recipe=recipeReference.getSource();
     PageIdentifier to=ReferenceConstants.getMeldingRecipeReference(recipe.getIdentifier());
-    String recipeName=recipe.getName();
-    HtmlUtils.printLink(sb,to.getFullAddress(),recipeName);
-    sb.append(HtmlConstants.END_BOLD);
+    String link=buildLink(to,recipe.getName());
+    String line=Labels.getLabel("item.form.references.meldingRecipes.foundInRecipe",new Object[]{link});
+    sb.append(line);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
@@ -481,7 +506,9 @@ public class ItemReferencesDisplayController
     List<Reference<Item,ItemRole>> sameCosmeticsReferences=getReferences(references,Item.class,ItemRole.SAME_COSMETICS);
     if (!sameCosmeticsReferences.isEmpty())
     {
-      sb.append("<h1>Items with same cosmetics</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.sameCosmetics.chapter"));
+      sb.append(END_H1);
       for(Reference<Item,ItemRole> sameCosmeticsReference : sameCosmeticsReferences)
       {
         buildHtmlForSameCosmeticsReference(sb,sameCosmeticsReference.getSource());
@@ -504,7 +531,9 @@ public class ItemReferencesDisplayController
     List<Reference<WebStoreItem,ItemRole>> webStoreReferences=getReferences(references,WebStoreItem.class,ItemRole.WEB_STORE_ITEM);
     if (!webStoreReferences.isEmpty())
     {
-      sb.append("<h1>Can be bought in the Lotro Store</h1>");
+      sb.append(H1);
+      sb.append(Labels.getLabel("item.form.references.lotroStore.chapter"));
+      sb.append(END_H1);
     }
   }
 
@@ -514,22 +543,20 @@ public class ItemReferencesDisplayController
     for(Reference<InitialGearElement,ItemRole> reference : webStoreReferences)
     {
       sb.append(HtmlConstants.START_PARAGRAPH);
-      sb.append("Found in initial gear for class ");
-      sb.append(HtmlConstants.START_BOLD);
       InitialGearElement element=reference.getSource();
       ClassDescription c=element.getClassDescription();
       PageIdentifier to=ReferenceConstants.getClassReference(c);
-      HtmlUtils.printLink(sb,to.getFullAddress(),c.getName());
-      sb.append(HtmlConstants.END_BOLD);
+      String classLink=buildLink(to,c.getName());
+      String raceLink="";
       RaceDescription race=element.getRequiredRace();
       if (race!=null)
       {
-        sb.append(" and race ");
-        sb.append(HtmlConstants.START_BOLD);
         PageIdentifier racePageId=ReferenceConstants.getRaceReference(race);
-        HtmlUtils.printLink(sb,racePageId.getFullAddress(),race.getName());
-        sb.append(HtmlConstants.END_BOLD);
+        raceLink=buildLink(racePageId,race.getName());
       }
+      Integer hasRace=Integer.valueOf((race!=null)?1:0);
+      String line=Labels.getLabel("item.form.references.initialGear",new Object[]{classLink,hasRace,raceLink});
+      sb.append(line);
       sb.append(HtmlConstants.END_PARAGRAPH);
     }
   }
