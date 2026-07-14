@@ -28,6 +28,7 @@ import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -91,7 +92,8 @@ public class QuestsTableController extends AbstractAreaController
         return Integer.valueOf(quest.getIdentifier());
       }
     };
-    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(QuestColumnIds.ID.name(),"ID",Integer.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.id");
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(QuestColumnIds.ID.name(),columnName,Integer.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -110,7 +112,8 @@ public class QuestsTableController extends AbstractAreaController
         return quest.getCategory();
       }
     };
-    DefaultTableColumnController<QuestDescription,QuestCategory> column=new DefaultTableColumnController<QuestDescription,QuestCategory>(QuestColumnIds.CATEGORY.name(),"Category",QuestCategory.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.category");
+    DefaultTableColumnController<QuestDescription,QuestCategory> column=new DefaultTableColumnController<QuestDescription,QuestCategory>(QuestColumnIds.CATEGORY.name(),columnName,QuestCategory.class,cell);
     column.setWidthSpecs(80,350,80);
     return column;
   }
@@ -129,7 +132,8 @@ public class QuestsTableController extends AbstractAreaController
         return quest.getQuestArc();
       }
     };
-    DefaultTableColumnController<QuestDescription,String> column=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.QUEST_ARC.name(),"Quest arc",String.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.questArc");
+    DefaultTableColumnController<QuestDescription,String> column=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.QUEST_ARC.name(),columnName,String.class,cell);
     column.setWidthSpecs(80,350,80);
     return column;
   }
@@ -148,7 +152,8 @@ public class QuestsTableController extends AbstractAreaController
         return quest.getSize();
       }
     };
-    DefaultTableColumnController<QuestDescription,Size> sizeColumn=new DefaultTableColumnController<QuestDescription,Size>(QuestColumnIds.SIZE.name(),"Size",Size.class,sizeCell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.size");
+    DefaultTableColumnController<QuestDescription,Size> sizeColumn=new DefaultTableColumnController<QuestDescription,Size>(QuestColumnIds.SIZE.name(),columnName,Size.class,sizeCell);
     sizeColumn.setWidthSpecs(100,100,100);
     return sizeColumn;
   }
@@ -167,7 +172,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isMonsterPlay());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.MONSTER_PLAY.name(),"Monster Play",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.monsterPlay");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.MONSTER_PLAY.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -186,7 +192,8 @@ public class QuestsTableController extends AbstractAreaController
         return quest.getRepeatability();
       }
     };
-    DefaultTableColumnController<QuestDescription,Repeatability> column=new DefaultTableColumnController<QuestDescription,Repeatability>(QuestColumnIds.REPEATABLE.name(),"Repeatability",Repeatability.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.repeatability");
+    DefaultTableColumnController<QuestDescription,Repeatability> column=new DefaultTableColumnController<QuestDescription,Repeatability>(QuestColumnIds.REPEATABLE.name(),columnName,Repeatability.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -205,7 +212,8 @@ public class QuestsTableController extends AbstractAreaController
         return quest.getLockType();
       }
     };
-    DefaultTableColumnController<QuestDescription,LockType> column=new DefaultTableColumnController<QuestDescription,LockType>(QuestColumnIds.LOCK_TYPE.name(),"Lock",LockType.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.lock");
+    DefaultTableColumnController<QuestDescription,LockType> column=new DefaultTableColumnController<QuestDescription,LockType>(QuestColumnIds.LOCK_TYPE.name(),columnName,LockType.class,cell);
     column.setWidthSpecs(60,60,60);
     return column;
   }
@@ -224,7 +232,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isInstanced());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.INSTANCED.name(),"Instanced",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.instanced");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.INSTANCED.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -243,7 +252,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isShareable());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SHAREABLE.name(),"Shareable",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.shareable");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SHAREABLE.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -262,7 +272,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isSessionPlay());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SESSION_PLAY.name(),"Session Play",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.sessionPlay");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SESSION_PLAY.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -281,7 +292,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isAutoBestowed());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.AUTO_BESTOWED.name(),"Auto-bestowed",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.autoBestowed");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.AUTO_BESTOWED.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -300,7 +312,8 @@ public class QuestsTableController extends AbstractAreaController
         return Boolean.valueOf(quest.isHidden());
       }
     };
-    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.OBSOLETE.name(),"Hidden",Boolean.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.hidden");
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.OBSOLETE.name(),columnName,Boolean.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -322,7 +335,8 @@ public class QuestsTableController extends AbstractAreaController
         return description;
       }
     };
-    DefaultTableColumnController<QuestDescription,String> descriptionColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.description");
+    DefaultTableColumnController<QuestDescription,String> descriptionColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.DESCRIPTION.name(),columnName,String.class,descriptionCell);
     descriptionColumn.setWidthSpecs(100,-1,100);
     return descriptionColumn;
   }
@@ -346,7 +360,8 @@ public class QuestsTableController extends AbstractAreaController
         return null;
       }
     };
-    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),"Infamy",Integer.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.infamy");
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),columnName,Integer.class,cell);
     column.setWidthSpecs(60,60,60);
     return column;
   }
@@ -370,7 +385,8 @@ public class QuestsTableController extends AbstractAreaController
         return glory>0?Integer.valueOf(glory):null;
       }
     };
-    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.RENOWN.name(),"Renown",Integer.class,cell); // I18n
+    String columnName=Labels.getLabel("quests.table.column.renown");
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.RENOWN.name(),columnName,Integer.class,cell);
     column.setWidthSpecs(60,60,60);
     return column;
   }
