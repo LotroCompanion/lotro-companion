@@ -19,6 +19,7 @@ import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -93,7 +94,7 @@ public class QuestLinksDisplayPanelController
 
   private void buildLinks()
   {
-    buildController("Next:",_quest.getNextQuest()); // I18n
+    buildController(Labels.getFieldLabel("quest.window.nextQuest"),_quest.getNextQuest());
   }
 
   private void buildController(String label, Proxy<Achievable> proxy)

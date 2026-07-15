@@ -52,6 +52,7 @@ import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactor
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
 import delta.games.lotro.gui.utils.LayoutUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -127,7 +128,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     _rewards=new RewardsPanelController(getParent(),_quest.getRewards(),monsterPlay);
     JPanel rewardsPanel=_rewards.getPanel();
     JComponent rewards=LayoutUtils.configureMaxHeightWithScrollPane(rewardsPanel,400,40);
-    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder(Labels.getLabel("quest.window.rewards.border"));
     rewards.setBorder(rewardsBorder);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(rewards,c);
@@ -135,7 +136,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     // Details
     _details=buildDetailsPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
+    detailsPane.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("quest.window.details.border")));
     LayoutUtils.configureScrollPane(_details,detailsPane,500,40,400);
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
@@ -197,17 +198,18 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Category
-      panelLine.add(GuiFactory.buildLabel("Category: ")); // I18n
+      panelLine.add(GuiFactory.buildLabel(Labels.getFieldLabel("quest.window.category")));
       _category=GuiFactory.buildLabel("");
       panelLine.add(_category);
     }
     // Line 3
+    if (!_quest.getQuestArc().isEmpty())
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
       // Quest arc
-      panelLine.add(GuiFactory.buildLabel("Quest arc: ")); // I18n
+      panelLine.add(GuiFactory.buildLabel(Labels.getFieldLabel("quest.window.questArc")));
       _questArc=GuiFactory.buildLabel("");
       panelLine.add(_questArc);
     }
@@ -217,7 +219,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Challenge level
-      panelLine.add(GuiFactory.buildLabel("Level: ")); // I18n
+      panelLine.add(GuiFactory.buildLabel(Labels.getFieldLabel("quest.window.level")));
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
     }
@@ -227,7 +229,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Requirements
-      panelLine.add(GuiFactory.buildLabel("Requirements: ")); // I18n
+      panelLine.add(GuiFactory.buildLabel(Labels.getFieldLabel("quest.window.requirements")));
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
     }
@@ -246,7 +248,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Quest pack
-      panelLine.add(GuiFactory.buildLabel("Contents pack: ")); // I18n
+      panelLine.add(GuiFactory.buildLabel(Labels.getFieldLabel("quest.window.contentsPack")));
       _questPack=GuiFactory.buildLabel("");
       panelLine.add(_questPack);
     }
@@ -266,7 +268,8 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(achievablesRequirementsPanel,c);
-      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements")); // I18n
+      
+      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("quest.window.requirements.border")));
       c.gridy++;
     }
     // World events conditions
@@ -280,7 +283,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         JPanel worldEventConditionsPanel=_worldEventConditions.getPanel();
         c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
         panel.add(worldEventConditionsPanel,c);
-        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder("Context")); // I18n
+        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("quest.window.context.border")));
         c.gridy++;
       }
     }
@@ -325,7 +328,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       AchievableStatus status=new AchievableStatus(_quest);
       AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(status,null);
       _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,false);
-      toggleMap=GuiFactory.buildButton("Map"); // I18n
+      toggleMap=GuiFactory.buildButton(Labels.getLabel("quest.window.map.button"));
       ActionListener mapActionListener=new ActionListener()
       {
         @Override
@@ -348,7 +351,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       return null;
     }
-    toggleMap=GuiFactory.buildButton("Instance Map"); // I18n
+    toggleMap=GuiFactory.buildButton(Labels.getLabel("quest.window.instanceMap.button"));
     ActionListener actionListener=new ActionListener()
     {
       @Override
@@ -410,7 +413,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     output.startDocument(sb);
     output.startBody(sb);
     output.startBold(sb);
-    output.printText(sb,"Description"); // I18n
+    output.printText(sb,Labels.getLabel("quest.window.description.chapter"));
     output.endBold(sb);
     output.newLine(sb);
     String description=_quest.getDescription();
@@ -423,7 +426,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       output.startParagraph(sb);
       output.startBold(sb);
-      output.printText(sb,"Bestowal dialogue"); // I18n
+      output.printText(sb,Labels.getLabel("quest.window.bestowalDialog.chapter"));
       output.endBold(sb);
       int index=0;
       for(DialogElement bestower : bestowers)
@@ -431,7 +434,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         if (index>0)
         {
           output.newLine(sb);
-          output.printText(sb,"OR"); // I18n
+          output.printText(sb,Labels.getLabel("quest.window.or"));
         }
         QuestsHtmlUtils.buildHtmlForDialog(resolver,sb,bestower);
         index++;
@@ -446,7 +449,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       output.startParagraph(sb);
       output.startBold(sb);
-      output.printText(sb,"End"); // I18n
+      output.printText(sb,Labels.getLabel("quest.window.endDialog.chapter"));
       output.endBold(sb);
       for(DialogElement endDialog : endDialogs)
       {
@@ -460,7 +463,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       output.startParagraph(sb);
       output.startBold(sb);
-      output.printText(sb,"Completion comments"); // I18n
+      output.printText(sb,Labels.getLabel("quest.window.completionComments.chapter"));
       output.endBold(sb);
       for(QuestCompletionComment comment : comments)
       {
@@ -484,8 +487,11 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     QuestCategory category=_quest.getCategory();
     _category.setText((category!=null)?category.getLabel():"");
     // Quest arc
-    String questArc=_quest.getQuestArc();
-    _questArc.setText((questArc!=null)?questArc:"");
+    if (_questArc!=null)
+    {
+      String questArc=_quest.getQuestArc();
+      _questArc.setText((questArc!=null)?questArc:"");
+    }
     // Challenge level
     ChallengeLevel challengeLevel=_quest.getChallengeLevel();
     _challengeLevel.setText(challengeLevel.getLabel());
@@ -532,7 +538,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     if (isMonsterPlay)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Monster Play"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.monsterPlay"));
     }
     // Repeatability
     Repeatability repeatability=_quest.getRepeatability();
@@ -553,35 +559,35 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     if (instanced)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Instanced"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.instanced"));
     }
     // Shareable
     boolean shareable=_quest.isShareable();
     if (!shareable)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Not shareable"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.notShareable"));
     }
     // Session play
     boolean sessionPlay=_quest.isSessionPlay();
     if (sessionPlay)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Session play"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.sessionPlay"));
     }
     // Auto-bestowed
     boolean autoBestowed=_quest.isAutoBestowed();
     if (autoBestowed)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Auto-bestowed"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.autoBestowed"));
     }
     // Hidden
     boolean hidden=_quest.isHidden();
     if (hidden)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Hidden"); // I18n
+      sb.append(Labels.getLabel("quest.window.attributes.hidden"));
     }
     return sb.toString();
   }
