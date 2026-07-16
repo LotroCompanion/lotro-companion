@@ -204,5 +204,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
       _link.dispose();
       _link=null;
     }
+    // Data
+    _requirement=null;
   }
 }
