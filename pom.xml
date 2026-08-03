@@ -39,7 +39,7 @@
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-memory</artifactId>
-      <version>6.7</version>
+      <version>6.7.1</version>
     </dependency>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
