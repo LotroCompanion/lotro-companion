@@ -421,15 +421,10 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     int count=result.getQuantity();
     boolean isCrit=result.isCriticalResult();
     String key="recipe.window.attributes."+(isCrit?"criticalResult":"regularResult");
-    String comment=Labels.getLabel(key);
-    int itemLevel=result.getItemLevel();
-    if (itemLevel>0)
-    {
-      comment=comment+" (item level "+itemLevel+")";
-    }
-    comment=comment+": ";
+    Integer itemLevel=Integer.valueOf(result.getItemLevel());
+    String comment=Labels.getFieldLabel(key,new Object[]{itemLevel});
     ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);
-    if (itemLevel>0)
+    if (itemLevel.intValue()>0)
     {
       ItemIconController ctrl=(ItemIconController)ret.getIconController();
       PageIdentifier pageID=ctrl.getPageIdentifier();
