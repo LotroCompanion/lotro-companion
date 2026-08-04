@@ -29,6 +29,7 @@ import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.items.ItemIconController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
@@ -72,7 +73,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Recipe: "+_recipe.getName(); // I18n
+    return Labels.getLabel("recipe.window.title",new Object[]{_recipe.getName()});
   }
 
   /**
@@ -107,7 +108,8 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       for(RecipeVersion version : _recipe.getVersions())
       {
         JPanel versionPanel=buildVersionPanel(version);
-        tabbedPane.add("Output #"+index,versionPanel); // I18n
+        String tabName=Labels.getLabel("recipe.window.output.tab",new Object[]{Integer.valueOf(index)});
+        tabbedPane.add(tabName,versionPanel);
         index++;
       }
       versionsComponent=tabbedPane;
@@ -145,7 +147,9 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       y++;
     }
     // Profession and tier
-    String professionAndTier=_recipe.getProfession()+", tier "+_recipe.getTier(); // I18n
+    String profession=_recipe.getProfession().getName();
+    Integer tier=Integer.valueOf(_recipe.getTier());
+    String professionAndTier=Labels.getLabel("recipe.window.attributes.professionAndtier",new Object[]{profession,tier});
     JLabel professionAndTierLabel=GuiFactory.buildLabel(professionAndTier);
     c=new GridBagConstraints(0,y,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(professionAndTierLabel,c);
@@ -177,7 +181,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       _recipeItemLabel=ItemUiTools.buildItemLink(_parent,recipeItem);
       c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       scrollPanel.add(_recipeItemLabel.getLabel(),c);
-      scrollPanel.setBorder(GuiFactory.buildTitledBorder("Scroll")); // I18n
+      scrollPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("recipe.window.scroll.border")));
       c=new GridBagConstraints(0,y,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(scrollPanel,c);
       y++;
@@ -197,7 +201,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       _ingredientPackLabel=ItemUiTools.buildItemLink(_parent,ingredientPackItem);
       c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       ingredientPackPanel.add(_ingredientPackLabel.getLabel(),c);
-      ingredientPackPanel.setBorder(GuiFactory.buildTitledBorder("Ingredient Pack")); // I18n
+      ingredientPackPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("recipe.window.ingredientPack.border")));
       c=new GridBagConstraints(0,y,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(ingredientPackPanel,c);
       y++;
@@ -211,7 +215,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     CraftingUICategory category=_recipe.getCategory();
     if (category!=null)
     {
-      sb.append("Category: "); // I18n
+      sb.append(Labels.getFieldLabel("recipe.window.attributes.category"));
       sb.append(category.getLabel());
     }
     int xp=_recipe.getXP();
@@ -221,7 +225,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("XP: "); // I18n
+      sb.append(Labels.getFieldLabel("recipe.window.attributes.xp"));
       sb.append(xp);
     }
     return sb.toString();
@@ -233,7 +237,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     boolean singleUse=_recipe.isOneTimeUse();
     if (singleUse)
     {
-      sb.append("Single Use"); // I18n
+      sb.append(Labels.getLabel("recipe.window.attributes.singleUse"));
     }
     boolean autoBestowed=isAutobestowed(_recipe);
     if (autoBestowed)
@@ -242,7 +246,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Auto-bestowed"); // I18n
+      sb.append(Labels.getLabel("recipe.window.attributes.autoBestowed"));
     }
     boolean guildRequired=_recipe.isGuildRequired();
     if (guildRequired)
@@ -251,7 +255,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Guild recipe"); // I18n
+      sb.append(Labels.getLabel("recipe.window.attributes.guildRecipe"));
     }
     int cooldown=_recipe.getCooldown();
     if (cooldown>0)
@@ -260,7 +264,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Cooldown: "); // I18n
+      sb.append(Labels.getFieldLabel("recipe.window.attributes.cooldown"));
       String cooldownStr=Duration.getDurationString(cooldown);
       sb.append(cooldownStr);
     }
@@ -293,12 +297,12 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     }
     // Ingredients
     JPanel ingredientsPanel=buildIngredientsPanel(version);
-    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder("Ingredients")); // I18n
+    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("recipe.window.ingredients.border")));
     c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     versionPanel.add(ingredientsPanel,c);
     // Results
     JPanel resultsPanel=buildResultsPanel(version);
-    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results")); // I18n
+    resultsPanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("recipe.window.results.border")));
     c=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     versionPanel.add(resultsPanel,c);
     return versionPanel;
@@ -312,7 +316,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       return null;
     }
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    String attributesStr="Base critical chance: "+baseCriticalChance+"%";
+    String attributesStr=Labels.getLabel("recipe.window.attributes.baseCriticalChance",new Object[]{baseCriticalChance});
     JLabel attributesLabel=GuiFactory.buildLabel(attributesStr);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(attributesLabel,c);
@@ -359,12 +363,12 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       boolean optional=ingredient.isOptional();
       if (optional)
       {
-        comment="Optional"; // I18n
         Integer critBonus=ingredient.getCriticalChanceBonus();
-        if (critBonus!=null)
+        if (critBonus==null)
         {
-          comment=comment+", gives +"+critBonus.toString()+"% critical chance"; // I18n
+          critBonus=Integer.valueOf(0);
         }
+        comment=Labels.getLabel("recipe.window.attributes.optionalCrit",new Object[]{critBonus});
       }
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,quantity,comment);
       ret.add(gadgets);
@@ -415,7 +419,9 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     Item item=result.getItem();
     int itemId=item.getIdentifier();
     int count=result.getQuantity();
-    String comment=result.isCriticalResult()?"Critical result":"Regular result"; // I18n
+    boolean isCrit=result.isCriticalResult();
+    String key="recipe.window.attributes."+(isCrit?"criticalResult":"regularResult");
+    String comment=Labels.getLabel(key);
     int itemLevel=result.getItemLevel();
     if (itemLevel>0)
     {

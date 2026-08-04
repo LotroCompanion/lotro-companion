@@ -178,7 +178,7 @@ public class RecipeFilterController implements ActionListener
 
     // Recipe attributes
     JPanel recipePanel=buildRecipePanel();
-    Border border=GuiFactory.buildTitledBorder("Recipe"); // 18n
+    Border border=GuiFactory.buildTitledBorder(Labels.getLabel("recipes.filter.recipe.border"));
     recipePanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(recipePanel,c);
@@ -210,13 +210,13 @@ public class RecipeFilterController implements ActionListener
     int y=0;
     // Label filter
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    line1Panel.add(GuiFactory.buildLabel("Name filter:")); // 18n
+    line1Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.name")));
     line1Panel.add(_contains);
     // Profession
-    line1Panel.add(GuiFactory.buildLabel("Profession:")); // 18n
+    line1Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.profession")));
     line1Panel.add(_profession.getComboBox());
     // Tier
-    line1Panel.add(GuiFactory.buildLabel("Tier:")); // 18n
+    line1Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.tier")));
     line1Panel.add(_tier.getComboBox());
 
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
@@ -225,10 +225,10 @@ public class RecipeFilterController implements ActionListener
 
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Category
-    line2Panel.add(GuiFactory.buildLabel("Category:")); // 18n
+    line2Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.category")));
     line2Panel.add(_category.getComboBox());
     // Ingredient
-    line2Panel.add(GuiFactory.buildLabel("Ingredient:")); // 18n
+    line2Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.ingredient")));
     line2Panel.add(_ingredient.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
@@ -236,16 +236,16 @@ public class RecipeFilterController implements ActionListener
 
     JPanel line3Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Single Use
-    line3Panel.add(GuiFactory.buildLabel("Single Use:")); // 18n
+    line3Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.singleUse")));
     line3Panel.add(_singleUse.getComboBox());
     // Cooldown
-    line3Panel.add(GuiFactory.buildLabel("Cooldown:")); // 18n
+    line3Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.cooldown")));
     line3Panel.add(_cooldown.getComboBox());
     // Guild
-    line3Panel.add(GuiFactory.buildLabel("Guild:")); // 18n
+    line3Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.guild")));
     line3Panel.add(_guild.getComboBox());
     // Use Ingredient Pack
-    line3Panel.add(GuiFactory.buildLabel("Use Ingredient Pack:")); // 18n
+    line3Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.useIngredientPack")));
     line3Panel.add(_useIngredientPack.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line3Panel,c);
@@ -253,7 +253,7 @@ public class RecipeFilterController implements ActionListener
 
     JPanel line4Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Result
-    line4Panel.add(GuiFactory.buildLabel("Result:")); // 18n
+    line4Panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("recipes.filter.result")));
     line4Panel.add(_result.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line4Panel,c);
