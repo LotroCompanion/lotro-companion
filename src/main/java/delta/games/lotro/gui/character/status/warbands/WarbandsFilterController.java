@@ -16,6 +16,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
@@ -152,10 +154,10 @@ public class WarbandsFilterController implements ActionListener
     panel.add(GuiFactory.buildLabel("Region:")); // I18n
     panel.add(_region.getComboBox());
     // Sizes
-    Size[] sizes={Size.SOLO,Size.SMALL_FELLOWSHIP,Size.FELLOWSHIP,Size.RAID};
     _size=new ComboBoxController<Size>();
     _size.addEmptyItem(" ");
-    for(Size size : sizes)
+    LotroEnum<Size> sizeEnum=LotroEnumsRegistry.getInstance().get(Size.class);
+    for(Size size : sizeEnum.getAll())
     {
       _size.addItem(size,size.toString());
     }

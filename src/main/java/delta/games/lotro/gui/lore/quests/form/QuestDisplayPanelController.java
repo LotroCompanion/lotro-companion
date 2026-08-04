@@ -40,6 +40,7 @@ import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.Sizes;
 import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
@@ -529,7 +530,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     StringBuilder sb=new StringBuilder();
     // Size
     Size size=_quest.getSize();
-    if ((size!=null) && (size!=Size.SOLO))
+    if ((size!=null) && (size!=Sizes.SOLO))
     {
       sb.append(size);
     }

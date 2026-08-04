@@ -6,6 +6,8 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
@@ -58,7 +60,8 @@ public class QuestsUiUtils
   {
     ComboBoxController<Size> ctrl=new ComboBoxController<Size>();
     ctrl.addEmptyItem("");
-    for(Size size : Size.values())
+    LotroEnum<Size> sizeEnum=LotroEnumsRegistry.getInstance().get(Size.class);
+    for(Size size : sizeEnum.getAll())
     {
       ctrl.addItem(size,size.toString());
     }
