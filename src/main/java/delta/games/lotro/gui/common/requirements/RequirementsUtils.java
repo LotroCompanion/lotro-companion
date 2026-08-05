@@ -198,6 +198,10 @@ public class RequirementsUtils
       if (level!=null)
       {
         String rawTierName=level.getName();
+        if (rawTierName==null)
+        {
+          rawTierName=String.valueOf(level.getTier());
+        }
         String tierName=ContextRendering.render(controller,rawTierName);
         String rawFactionName=faction.getName();
         String factionName=ContextRendering.render(controller,rawFactionName);
