@@ -6,6 +6,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.deeds.DeedUtils;
 
 /**
  * Utility methods for deed-related UIs.

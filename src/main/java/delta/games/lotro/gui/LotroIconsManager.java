@@ -18,10 +18,12 @@ import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.gui.utils.icons.SocketIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.deeds.DeedUtils;
 import delta.games.lotro.utils.IconsUtils;
 
 /**
@@ -291,8 +293,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getDeedTypeIcon(DeedType type)
   {
-    String filename=type.getKey().toLowerCase();
-    String path="/resources/gui/deeds/"+filename+".png";
+    String path=DeedUtils.getDeedTypeIconPath(type);
     ImageIcon ret=IconsManager.getIcon(path);
     return ret;
   }
