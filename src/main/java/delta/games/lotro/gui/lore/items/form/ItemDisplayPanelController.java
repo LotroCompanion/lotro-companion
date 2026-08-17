@@ -624,7 +624,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         int amount=reputation.getAmount();
         String rawFactionName=faction.getName();
         String factionName=ContextRendering.render(this,rawFactionName);
-        String label=Labels.getLabel("item.form.givesReputation",new Object[]{Integer.valueOf(amount),factionName});
+        String label=Labels.getLabel("item.form.givesReputation",new Object[]{Integer.valueOf(amount),Integer.valueOf(Math.abs(amount)),factionName});
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
