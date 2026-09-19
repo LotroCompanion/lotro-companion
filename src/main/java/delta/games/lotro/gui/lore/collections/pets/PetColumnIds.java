@@ -31,6 +31,10 @@ public enum PetColumnIds
    */
   SOURCE,
   /**
+   * Hidden.
+   */
+  HIDDEN,
+  /**
    * Genus.
    */
   GENUS,

@@ -201,6 +201,20 @@ public class PetsTableController
       sourceColumn.setWidthSpecs(100,-1,200);
       ret.add(sourceColumn);
     }
+    // Hidden column
+    {
+      CellDataProvider<CosmeticPetDescription,Boolean> hiddenCell=new CellDataProvider<CosmeticPetDescription,Boolean>()
+      {
+        @Override
+        public Boolean getData(CosmeticPetDescription pet)
+        {
+          return Boolean.valueOf(pet.isHidden());
+        }
+      };
+      DefaultTableColumnController<CosmeticPetDescription,Boolean> hiddenColumn=new DefaultTableColumnController<CosmeticPetDescription,Boolean>(PetColumnIds.HIDDEN.name(),"Hidden",Boolean.class,hiddenCell); // 18n
+      hiddenColumn.setWidthSpecs(30,30,30);
+      ret.add(hiddenColumn);
+    }
     return ret;
   }
 
