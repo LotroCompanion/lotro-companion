@@ -18,7 +18,6 @@ import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.config.LotroCoreConfig;
-import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.gui.utils.icons.SocketIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;

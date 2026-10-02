@@ -100,7 +100,7 @@ public class ImportCharacterSelectionController extends AbstractPanelController
     }
     else
     {
-      LotroProcess oldSelected = _processComboBoxCtrl.getSelectedItem();
+      LotroProcess oldSelected = _processComboBoxCtrl.getSelectedItem(); // NPE!
       _processComboBoxCtrl.removeAllItems();
       _processComboBoxCtrl.addItems(processes);
       _processComboBoxCtrl.selectItem(oldSelected);
