@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.misc.Disposable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DataProvider;
@@ -38,8 +39,12 @@ import delta.games.lotro.utils.ContextPropertyNames;
  * Controller for a table that shows house items.
  * @author DAM
  */
-public class HouseItemsTableController
+public class HouseItemsTableController implements Disposable
 {
+  /**
+   * Identifier of the "Item IID" column.
+   */
+  public static final String ITEM_IID="ITEM_IID";
   /**
    * Identifier of the "Hook" column.
    */
@@ -145,6 +150,8 @@ public class HouseItemsTableController
       TableColumnController<HousingItem,Object> proxiedColumn=new ProxiedTableColumnController<HousingItem,Item,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
+    // Item IID
+    ret.add(buildItemIIdColumn());
     // Hook column
     ret.add(buildHookColumn());
     // Position column
@@ -259,6 +266,22 @@ public class HouseItemsTableController
     return column;
   }
 
+  private TableColumnController<HousingItem,?> buildItemIIdColumn()
+  {
+    CellDataProvider<HousingItem,String> cell=new CellDataProvider<HousingItem,String>()
+    {
+      @Override
+      public String getData(HousingItem item)
+      {
+        InternalGameId itemIID=item.getIID();
+        return (itemIID!=null)?itemIID.asDisplayableString():null;
+      }
+    };
+    DefaultTableColumnController<HousingItem,String> column=new DefaultTableColumnController<HousingItem,String>(ITEM_IID,"Item IID",String.class,cell); // I18n
+    column.setWidthSpecs(130,-1,130);
+    return column;
+  }
+
   protected List<String> getColumnsId()
   {
     List<String> columnsIds=null;
@@ -333,9 +356,7 @@ public class HouseItemsTableController
     return _tableController.getTable();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Parent controller

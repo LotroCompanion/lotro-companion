@@ -74,7 +74,8 @@ public class HouseContentsDisplayPanelController extends AbstractPanelController
     // Table
     List<HousingItem> items=_houseContents.getItems();
     WindowController parent=getWindowController();
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("HouseContents");
+    String prefID="HouseContents"+_houseContents.getContentsType().name();
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties(prefID);
     _tableController=new HouseItemsTableController(parent,prefs,items,_filter);
     _panelController=new GenericTablePanelController<HousingItem>(parent,_tableController.getTableController());
     _panelController.getConfiguration().setBorderTitle("Items"); // I18n
