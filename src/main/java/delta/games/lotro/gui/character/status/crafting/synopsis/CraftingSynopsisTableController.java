@@ -32,6 +32,7 @@ import delta.games.lotro.character.status.crafting.GuildStatus;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.common.comparators.TypedNamedComparator;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisTableController;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
@@ -130,8 +131,12 @@ public class CraftingSynopsisTableController
     DefaultTableColumnController<CraftingSynopsisItem,String> professionNameColumn=buildProfessionNameColumn();
     table.addColumnController(professionNameColumn);
     // Vocation name
-    DefaultTableColumnController<CraftingSynopsisItem,String> vocationNameColumn=buildVocationColumn();
-    table.addColumnController(vocationNameColumn);
+    boolean live=LotroCoreConfig.isLive();
+    if (!live)
+    {
+      DefaultTableColumnController<CraftingSynopsisItem,String> vocationNameColumn=buildVocationColumn();
+      table.addColumnController(vocationNameColumn);
+    }
     // Proficiency
     DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(table,false);
     table.addColumnController(proficiencyColumn);
