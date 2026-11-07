@@ -40,6 +40,7 @@ import delta.games.lotro.gui.character.status.emotes.synopsis.EmotesSynopsisWind
 import delta.games.lotro.gui.character.status.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.character.status.warbands.WarbandsWindowController;
+import delta.games.lotro.gui.character.storage.synopsis.GlobalStorageDisplayWindowController;
 import delta.games.lotro.gui.clientImport.ClientImportDialogController;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.house.HousesManagementController;
@@ -75,6 +76,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String CRAFTING_SYNOPSIS_COMMAND="craftingSynopsisCommand";
   private static final String CURRENCIES_SYNOPSIS_COMMAND="currenciesCommand";
   private static final String EMOTES_SYNOPSIS_COMMAND="emotesSynopsisCommand";
+  private static final String STORAGE_SYNOPSIS_COMMAND="storageSynopsisCommand";
   private static final String MAP_COMMAND="mapCommand";
   private static final String CLIENT_SYNCHRO_COMMAND="clientSynchroCommand";
   private static final String SETTINGS_COMMAND="settingsCommand";
@@ -232,6 +234,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     emotesSynopsis.setActionCommand(EMOTES_SYNOPSIS_COMMAND);
     emotesSynopsis.addActionListener(this);
     statsMenu.add(emotesSynopsis);
+    // - storage
+    JMenuItem storageSynopsis=GuiFactory.buildMenuItem(Labels.getLabel("main.window.menuitem.storageSynopsis"));
+    storageSynopsis.setActionCommand(STORAGE_SYNOPSIS_COMMAND);
+    storageSynopsis.addActionListener(this);
+    statsMenu.add(storageSynopsis);
     return statsMenu;
   }
 
@@ -486,6 +493,19 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doStorageSynopsis()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(GlobalStorageDisplayWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new GlobalStorageDisplayWindowController(this);
+      windowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
   private void doMap()
   {
     WindowsManager windowsManager=getWindowsManager();
@@ -571,6 +591,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (EMOTES_SYNOPSIS_COMMAND.equals(cmd))
     {
       doEmotesSynopsis();
+    }
+    else if (STORAGE_SYNOPSIS_COMMAND.equals(cmd))
+    {
+      doStorageSynopsis();
     }
     else if (MAP_COMMAND.equals(cmd))
     {
