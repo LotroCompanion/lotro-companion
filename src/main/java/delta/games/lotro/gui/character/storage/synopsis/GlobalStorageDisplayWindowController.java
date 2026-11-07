@@ -21,7 +21,6 @@ import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
 import delta.games.lotro.gui.character.storage.own.StorageButtonsPanelController;
@@ -44,7 +43,7 @@ public class GlobalStorageDisplayWindowController extends DefaultDialogControlle
   private StorageFilter _filter;
   private List<StoredItem> _items;
   // Controllers
-  private StorageDisplayPanelController _panelController;
+  private GlobalStorageDisplayPanelController _panelController;
   private StorageFilterController _filterController;
   private StorageButtonsPanelController _buttonsController;
   // Listeners
@@ -81,7 +80,7 @@ public class GlobalStorageDisplayWindowController extends DefaultDialogControlle
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Display
-    _panelController=new StorageDisplayPanelController(this,_filter);
+    _panelController=new GlobalStorageDisplayPanelController(this,_filter);
     // Table
     JPanel tablePanel=_panelController.getPanel();
     // Buttons

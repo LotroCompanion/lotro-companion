@@ -22,6 +22,9 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.character.storage.location.comparators.LocationComparator;
+import delta.games.lotro.common.owner.AccountOwner;
+import delta.games.lotro.common.owner.AccountServerOwner;
+import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.common.owner.comparators.OwnerComparator;
 import delta.games.lotro.gui.lore.items.CountedItemsTableController;
@@ -39,6 +42,10 @@ import delta.games.lotro.lore.items.ItemProvider;
  */
 public class StoredItemsTableController
 {
+  /**
+   * Identifier of the "Account" column.
+   */
+  public static final String ACCOUNT_COLUMN="ACCOUNT";
   /**
    * Identifier of the "Owner" column.
    */
@@ -124,11 +131,55 @@ public class StoredItemsTableController
       TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,CountedItem<ItemProvider>,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
+    // Account column
+    ret.add(buildAccountColumn());
     // Owner column
     ret.add(buildOwnerColumn());
     // Location column
     ret.add(buildLocationColumn());
     return ret;
+  }
+
+  /**
+   * Get the account name for a stored item owner.
+   * @param owner Owner to use.
+   * @return An account name or an empty string.
+   */
+  public static String getAccountName(Owner owner)
+  {
+    if (owner instanceof CharacterOwner)
+    {
+      return ((CharacterOwner)owner).getAccountName();
+    }
+    if (owner instanceof AccountServerOwner)
+    {
+      return ((AccountServerOwner)owner).getAccountName();
+    }
+    if (owner instanceof AccountOwner)
+    {
+      return ((AccountOwner)owner).getAccountName();
+    }
+    return "";
+  }
+
+  /**
+   * Build an "account" column.
+   * @return the new column.
+   */
+  public static TableColumnController<StoredItem,String> buildAccountColumn()
+  {
+    CellDataProvider<StoredItem,String> accountCell=new CellDataProvider<StoredItem,String>()
+    {
+      @Override
+      public String getData(StoredItem countedItem)
+      {
+        return getAccountName(countedItem.getOwner());
+      }
+    };
+    String title=Labels.getLabel("storedItems.table.column.account");
+    DefaultTableColumnController<StoredItem,String> accountColumn=new DefaultTableColumnController<StoredItem,String>(ACCOUNT_COLUMN,title,String.class,accountCell);
+    accountColumn.setWidthSpecs(120,-1,120);
+    return accountColumn;
   }
 
   /**

@@ -282,11 +282,13 @@ public class StorageFilterController extends AbstractPanelController implements 
   {
     if (owner instanceof AccountServerOwner)
     {
-      return "Account";
+      AccountServerOwner accountServer=(AccountServerOwner)owner;
+      return accountServer.getAccountName()+"@"+accountServer.getServerName();
     }
     if (owner instanceof CharacterOwner)
     {
-      return ((CharacterOwner)owner).getCharacterName();
+      CharacterOwner characterOwner=(CharacterOwner)owner;
+      return characterOwner.getCharacterName()+"@"+characterOwner.getServerName();
     }
     // Default case (not used)
     return owner.getLabel();
