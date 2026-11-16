@@ -112,8 +112,8 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(800,350));
-    dialog.setSize(800,700);
+    dialog.setMinimumSize(new Dimension(900,350));
+    dialog.setSize(900,700);
     dialog.setResizable(true);
     return dialog;
   }

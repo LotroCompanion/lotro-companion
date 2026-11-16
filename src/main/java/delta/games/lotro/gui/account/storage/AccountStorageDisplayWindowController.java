@@ -138,8 +138,8 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(850,350));
-    dialog.setSize(850,700);
+    dialog.setMinimumSize(new Dimension(950,350));
+    dialog.setSize(950,700);
     dialog.setResizable(true);
     return dialog;
   }
