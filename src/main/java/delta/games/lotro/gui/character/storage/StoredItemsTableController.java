@@ -30,8 +30,8 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.tables.renderers.OwnerRenderer;
+import delta.games.lotro.lore.items.BaseItem;
 import delta.games.lotro.lore.items.CountedItem;
-import delta.games.lotro.lore.items.ItemProvider;
 
 /**
  * Controller for a table that shows stored items.
@@ -108,20 +108,20 @@ public class StoredItemsTableController
   {
     List<TableColumnController<StoredItem,?>> ret=new ArrayList<TableColumnController<StoredItem,?>>();
 
-    List<TableColumnController<CountedItem<ItemProvider>,?>> columns=CountedItemsTableController.initColumns();
-    for(TableColumnController<CountedItem<ItemProvider>,?> column : columns)
+    List<TableColumnController<CountedItem<BaseItem>,?>> columns=CountedItemsTableController.initColumns();
+    for(TableColumnController<CountedItem<BaseItem>,?> column : columns)
     {
-      CellDataProvider<StoredItem,CountedItem<ItemProvider>> dataProvider=new CellDataProvider<StoredItem,CountedItem<ItemProvider>>()
+      CellDataProvider<StoredItem,CountedItem<BaseItem>> dataProvider=new CellDataProvider<StoredItem,CountedItem<BaseItem>>()
       {
         @Override
-        public CountedItem<ItemProvider> getData(StoredItem p)
+        public CountedItem<BaseItem> getData(StoredItem p)
         {
           return p.getItem();
         }
       };
       @SuppressWarnings("unchecked")
-      TableColumnController<CountedItem<ItemProvider>,Object> c=(TableColumnController<CountedItem<ItemProvider>,Object>)column;
-      TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,CountedItem<ItemProvider>,Object>(c,dataProvider);
+      TableColumnController<CountedItem<BaseItem>,Object> c=(TableColumnController<CountedItem<BaseItem>,Object>)column;
+      TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,CountedItem<BaseItem>,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
     // Owner column

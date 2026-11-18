@@ -40,6 +40,7 @@ import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.BaseItem;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -164,14 +165,7 @@ public class ItemsTableBuilder
     // Binding
     columns.add(buildBindingColumn());
     // Stat columns
-    StatsRegistry registry=StatsRegistry.getInstance();
-    for(StatDescription stat : registry.getAll())
-    {
-      if (stat.isPremium())
-      {
-        columns.add(buildStatColumn(stat));
-      }
-    }
+    columns.addAll(buildStatColumns());
     return columns;
   }
 
@@ -272,18 +266,18 @@ public class ItemsTableBuilder
    * Build a column for the item level of an item.
    * @return a column.
    */
-  public static DefaultTableColumnController<Item,Integer> buildItemLevelColumn()
+  public static <T extends BaseItem> TableColumnController<T,Integer> buildItemLevelColumn()
   {
-    CellDataProvider<Item,Integer> levelCell=new CellDataProvider<Item,Integer>()
+    CellDataProvider<T,Integer> levelCell=new CellDataProvider<T,Integer>()
     {
       @Override
-      public Integer getData(Item item)
+      public Integer getData(T item)
       {
-        return item.getItemLevel();
+        return item.getEffectiveItemLevel();
       }
     };
     String columnName=Labels.getLabel("items.table.itemLevel");
-    DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),columnName,Integer.class,levelCell);
+    DefaultTableColumnController<T,Integer> levelColumn=new DefaultTableColumnController<T,Integer>(ItemColumnIds.ITEM_LEVEL.name(),columnName,Integer.class,levelCell);
     levelColumn.setWidthSpecs(55,55,50);
     return levelColumn;
   }
@@ -427,19 +421,19 @@ public class ItemsTableBuilder
    * Build a column for the value of an item.
    * @return a column.
    */
-  public static DefaultTableColumnController<Item,Money> buildValueColumn()
+  public static <T extends BaseItem> DefaultTableColumnController<T,Money> buildValueColumn()
   {
-    CellDataProvider<Item,Money> valueCell=new CellDataProvider<Item,Money>()
+    CellDataProvider<T,Money> valueCell=new CellDataProvider<T,Money>()
     {
       @Override
-      public Money getData(Item item)
+      public Money getData(T item)
       {
-        Money money=item.getValueAsMoney();
+        Money money=item.getEffectiveValue();
         return money;
       }
     };
     String columnName=Labels.getLabel("items.table.value");
-    DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),columnName,Money.class,valueCell);
+    DefaultTableColumnController<T,Money> valueColumn=new DefaultTableColumnController<T,Money>(ItemColumnIds.VALUE.name(),columnName,Money.class,valueCell);
     MoneyCellRenderer.configureColumn(valueColumn);
     return valueColumn;
   }
@@ -628,12 +622,31 @@ public class ItemsTableBuilder
     return column;
   }
 
-  private static DefaultTableColumnController<Item,Number> buildStatColumn(final StatDescription stat)
+  /**
+   * Build stat columns.
+   * @param <T> Item class.
+   * @return A list of columns.
+   */
+  public static <T extends BaseItem> List<TableColumnController<T,Number>> buildStatColumns()
   {
-    CellDataProvider<Item,Number> statCell=new CellDataProvider<Item,Number>()
+    List<TableColumnController<T,Number>> columns=new ArrayList<TableColumnController<T,Number>>();
+    StatsRegistry registry=StatsRegistry.getInstance();
+    for(StatDescription stat : registry.getAll())
+    {
+      if (stat.isPremium())
+      {
+        columns.add(buildStatColumn(stat));
+      }
+    }
+    return columns;
+  }
+
+  private static <T extends BaseItem> DefaultTableColumnController<T,Number> buildStatColumn(final StatDescription stat)
+  {
+    CellDataProvider<T,Number> statCell=new CellDataProvider<T,Number>()
     {
       @Override
-      public Number getData(Item item)
+      public Number getData(T item)
       {
         BasicStatsSet stats=item.getStats();
         Number value=stats.getStat(stat);
@@ -657,7 +670,7 @@ public class ItemsTableBuilder
       valueClass=Integer.class;
       LOGGER.warn("Unmanaged stat type: {}",type);
     }
-    DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,valueClass,statCell);
+    DefaultTableColumnController<T,Number> statColumn=new DefaultTableColumnController<T,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);
     StatColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;

@@ -75,7 +75,7 @@ public class SellItemsTableController
   public static List<TableColumnController<ValuedItem,?>> buildColumns()
   {
     List<TableColumnController<ValuedItem,?>> ret=new ArrayList<TableColumnController<ValuedItem,?>>();
-    List<DefaultTableColumnController<Item,?>> itemColumns=new ArrayList<DefaultTableColumnController<Item,?>>();
+    List<TableColumnController<Item,?>> itemColumns=new ArrayList<TableColumnController<Item,?>>();
     // Icon column
     itemColumns.add(ItemsTableBuilder.buildIconColumn());
     // Identifier column
@@ -90,7 +90,7 @@ public class SellItemsTableController
     // Category column
     itemColumns.add(ItemsTableBuilder.buildCategoryColumn());
     // Build result
-    for(DefaultTableColumnController<Item,?> itemColumn : itemColumns)
+    for(TableColumnController<Item,?> itemColumn : itemColumns)
     {
       CellDataProvider<ValuedItem,Item> provider=new CellDataProvider<ValuedItem,Item>()
       {
