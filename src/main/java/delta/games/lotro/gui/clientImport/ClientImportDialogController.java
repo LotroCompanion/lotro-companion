@@ -24,7 +24,6 @@ import delta.games.lotro.memory.extraction.session.ImportSession;
 import delta.games.lotro.memory.extraction.session.status.ImportStatus;
 import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
 import delta.games.lotro.memory.extraction.session.status.ImportStatusListener;
-import delta.games.lotro.memory.io.MemoryAccess;
 import delta.games.lotro.memory.io.jna.LotroProcess;
 import delta.games.lotro.memory.io.jna.WinInterface;
 import delta.games.lotro.utils.dat.DatInterface;
@@ -153,7 +152,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     {
       return;
     }
-    final MemoryAccess memoryAccess=buildMemoryAccess(selected);
+    final WinInterface memoryAccess=buildMemoryAccess(selected);
     final ImportConfiguration config=_configCtrl.getConfig();
     DatInterface datInterface=DatInterface.getInstance();
     DataFacade dataFacade=datInterface.getFacade();
@@ -166,19 +165,32 @@ public class ClientImportDialogController extends DefaultDialogController implem
       @Override
       public void run()
       {
-        extractor.doIt();
+        try
+        {
+          extractor.doIt();
+        }
+        finally
+        {
+          // Release the handle on the client process
+          if (memoryAccess!=null)
+          {
+            memoryAccess.dispose();
+          }
+        }
       }
     };
     Thread t=new Thread(r,"Import worker");
     t.start();
   }
 
-  private MemoryAccess buildMemoryAccess(LotroProcess selected)
+  private WinInterface buildMemoryAccess(LotroProcess selected)
   {
     WinInterface win=new WinInterface();
     boolean ok=win.start(selected);
     if (!ok)
     {
+      // start() may fail after the process was opened
+      win.dispose();
       return null;
     }
     return win;
